@@ -1,0 +1,154 @@
+﻿namespace CMPE2300KurtisBridgemanLab1
+{
+    partial class FormImageSecrets
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormImageSecrets));
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+            this.toolStripButtonLoadImage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDecode = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButtonDecodeImage = new System.Windows.Forms.ToolStripButton();
+            this.toolStripComboBox1 = new System.Windows.Forms.ToolStripComboBox();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.labelResults = new System.Windows.Forms.Label();
+            this.toolStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.SuspendLayout();
+            // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButtonLoadImage,
+            this.toolStripButtonDecode,
+            this.toolStripButtonDecodeImage,
+            this.toolStripComboBox1});
+            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(485, 25);
+            this.toolStrip1.TabIndex = 0;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButtonLoadImage
+            // 
+            this.toolStripButtonLoadImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonLoadImage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonLoadImage.Image")));
+            this.toolStripButtonLoadImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonLoadImage.Name = "toolStripButtonLoadImage";
+            this.toolStripButtonLoadImage.Size = new System.Drawing.Size(73, 22);
+            this.toolStripButtonLoadImage.Text = "Load Image";
+            this.toolStripButtonLoadImage.Click += new System.EventHandler(this.toolStripButtonLoadImage_Click);
+            // 
+            // toolStripButtonDecode
+            // 
+            this.toolStripButtonDecode.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDecode.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDecode.Image")));
+            this.toolStripButtonDecode.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDecode.Name = "toolStripButtonDecode";
+            this.toolStripButtonDecode.Size = new System.Drawing.Size(51, 22);
+            this.toolStripButtonDecode.Text = "Decode";
+            this.toolStripButtonDecode.Click += new System.EventHandler(this.toolStripButtonDecode_Click);
+            // 
+            // toolStripButtonDecodeImage
+            // 
+            this.toolStripButtonDecodeImage.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+            this.toolStripButtonDecodeImage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDecodeImage.Image")));
+            this.toolStripButtonDecodeImage.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButtonDecodeImage.Name = "toolStripButtonDecodeImage";
+            this.toolStripButtonDecodeImage.Size = new System.Drawing.Size(87, 22);
+            this.toolStripButtonDecodeImage.Text = "Decode Image";
+            // 
+            // toolStripComboBox1
+            // 
+            this.toolStripComboBox1.Items.AddRange(new object[] {
+            "Red",
+            "Green",
+            "Blue",
+            "All"});
+            this.toolStripComboBox1.Name = "toolStripComboBox1";
+            this.toolStripComboBox1.Size = new System.Drawing.Size(121, 25);
+            this.toolStripComboBox1.Text = "Color";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox1.Location = new System.Drawing.Point(12, 28);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(461, 214);
+            this.pictureBox1.TabIndex = 1;
+            this.pictureBox1.TabStop = false;
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // labelResults
+            // 
+            this.labelResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.labelResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
+            this.labelResults.Location = new System.Drawing.Point(13, 249);
+            this.labelResults.Name = "labelResults";
+            this.labelResults.Size = new System.Drawing.Size(460, 54);
+            this.labelResults.TabIndex = 2;
+            this.labelResults.Text = "Decoded Text";
+            // 
+            // FormImageSecrets
+            // 
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.ClientSize = new System.Drawing.Size(485, 312);
+            this.Controls.Add(this.labelResults);
+            this.Controls.Add(this.pictureBox1);
+            this.Controls.Add(this.toolStrip1);
+            this.Name = "FormImageSecrets";
+            this.Text = "Image Secrets";
+            this.toolStrip1.ResumeLayout(false);
+            this.toolStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.ResumeLayout(false);
+            this.PerformLayout();
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.ToolStrip toolStrip1;
+        private System.Windows.Forms.ToolStripButton toolStripButtonLoadImage;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDecode;
+        private System.Windows.Forms.ToolStripButton toolStripButtonDecodeImage;
+        private System.Windows.Forms.ToolStripComboBox toolStripComboBox1;
+        private System.Windows.Forms.PictureBox pictureBox1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.Label labelResults;
+
+    }
+}
+
