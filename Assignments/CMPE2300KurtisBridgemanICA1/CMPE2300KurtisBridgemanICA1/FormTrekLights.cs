@@ -15,7 +15,6 @@ namespace CMPE2300KurtisBridgemanICA1
     {
         CDrawer canvas;
         List<TrekLight> trekLightList;
-        Random gen = new Random();
 
         public FormTrekLights()
         {
@@ -62,7 +61,7 @@ namespace CMPE2300KurtisBridgemanICA1
 
                 case 'g':
                     if (trekLightList.Count < 192)
-                    trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)gen.Next(40, 201), 5));
+                        trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)new Random().Next(40, 201), 5));
                     break;
 
                 case 'c':

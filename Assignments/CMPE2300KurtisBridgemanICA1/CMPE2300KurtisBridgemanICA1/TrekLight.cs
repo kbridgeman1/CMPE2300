@@ -21,7 +21,7 @@ namespace CMPE2300KurtisBridgemanICA1
             _LightColor = color;
             _byThreshold = threshold;
             _Border = border;
-            _byTick = (byte)new Random().Next(_byThreshold,201);
+            _byTick = (byte)new Random().Next(0,201);
         }
 
         //default contructor
