@@ -56,12 +56,12 @@ namespace CMPE2300KurtisBridgemanICA1
 
                 case 'f':
                     if (trekLightList.Count < 192)
-                    trekLightList.Add(new TrekLight(Color.Red, (byte)127, 5));
+                    trekLightList.Add(new TrekLight(Color.Red, (byte)127));
                     break;
 
                 case 'g':
                     if (trekLightList.Count < 192)
-                        trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)new Random().Next(40, 201), 5));
+                        trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)new Random().Next(40, 201), 4));
                     break;
 
                 case 'c':
