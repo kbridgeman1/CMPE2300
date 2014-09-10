@@ -74,7 +74,7 @@
             this.toolStripButtonDecode.Name = "toolStripButtonDecode";
             this.toolStripButtonDecode.Size = new System.Drawing.Size(87, 22);
             this.toolStripButtonDecode.Text = "Decode Image";
-            this.toolStripButtonDecode.Click += new System.EventHandler(this.toolStripButtonDecode_Click);
+            this.toolStripButtonDecode.Click += new System.EventHandler(this.toolStripButtonDecodeImage_Click);
             // 
             // toolStripButtonDecodeImage
             // 
@@ -85,7 +85,7 @@
             this.toolStripButtonDecodeImage.Name = "toolStripButtonDecodeImage";
             this.toolStripButtonDecodeImage.Size = new System.Drawing.Size(76, 22);
             this.toolStripButtonDecodeImage.Text = "Decode Text";
-            this.toolStripButtonDecodeImage.Click += new System.EventHandler(this.toolStripButtonDecodeImage_Click);
+            this.toolStripButtonDecodeImage.Click += new System.EventHandler(this.toolStripButtonDecodeText_Click);
             // 
             // toolStripComboBox1
             // 

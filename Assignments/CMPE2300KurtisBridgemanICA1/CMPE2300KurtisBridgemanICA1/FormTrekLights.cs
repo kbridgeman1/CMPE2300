@@ -50,18 +50,18 @@ namespace CMPE2300KurtisBridgemanICA1
             switch (e.KeyChar)
             {
                 case 'd':
-                    if(trekLightList.Count <192)
+                    if(trekLightList.Count < canvas.ScaledWidth*canvas.ScaledHeight)
                     trekLightList.Add(new TrekLight());
                     break;
 
                 case 'f':
-                    if (trekLightList.Count < 192)
-                    trekLightList.Add(new TrekLight(Color.Red, (byte)127));
+                    if (trekLightList.Count < canvas.ScaledWidth*canvas.ScaledHeight)
+                    trekLightList.Add(new TrekLight(Color.Red, (byte)127, 5));
                     break;
 
                 case 'g':
-                    if (trekLightList.Count < 192)
-                        trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)new Random().Next(40, 201), 4));
+                        if (trekLightList.Count < canvas.ScaledWidth*canvas.ScaledHeight)
+                        trekLightList.Add(new TrekLight(RandColor.GetColor(), (byte)new Random().Next(40, 256), 4));
                     break;
 
                 case 'c':

@@ -1,4 +1,10 @@
-﻿using System;
+﻿//*****************************************************************************************************
+//Program:  Lab 01 - Decodatron.cs
+//Author:   Kurtis Bridgeman
+//Class:    CMPE2300
+//*****************************************************************************************************
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -21,12 +27,14 @@ namespace CMPE2300KurtisBridgemanLab1
             InitializeComponent();
         }
 
+        //Occurs when the user presses the "Load Image" tooltip button. Provides the user with a
+        //open file dialog to select a image. The user selected image is assiged to bMapOrig.
         private void toolStripButtonLoadImage_Click(object sender, EventArgs e)
         {
-            openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "All Files|*.*|Jpeg Files|*.jpeg|Png Files|*.png|Bmp Files|*.bmp|Gif Files|*.gif";
 
-            toolStrip1.Enabled = false;
+            openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "All Files|*.*|Bmp Files|*.bmp";
+       //     System.Environment.GetFolderPath(Environment.SpecialFolder.)
 
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -42,19 +50,13 @@ namespace CMPE2300KurtisBridgemanLab1
                 toolStripButtonDecodeImage.Enabled = true;
             }
 
-            toolStrip1.Enabled = true;
         }
 
-        private void toolStripButtonDecode_Click(object sender, EventArgs e)
+        private void toolStripButtonDecodeImage_Click(object sender, EventArgs e)
         {
             if (bMapOrig != null)
             {
                 bMapDecode = new Bitmap(bMapOrig.Width, bMapOrig.Height);
-
-         //       for (int iirow = 0; iirow < bMapDecode.Width; iirow++)
-           //         for (int iicol = 0; iicol < bMapDecode.Height; iicol++)
-             //           bMapDecode.SetPixel(iirow, iicol, Color.Black);
-
 
                 for (int irow = 0; irow < bMapOrig.Width; irow++)
                 {
@@ -64,7 +66,6 @@ namespace CMPE2300KurtisBridgemanLab1
                         byte drawColorR=0;
                         byte drawColorG=0;
                         byte drawColorB=0;
-
 
                         switch (toolStripComboBox1.Text)
                         {
@@ -105,13 +106,13 @@ namespace CMPE2300KurtisBridgemanLab1
             }
         }
 
-        private void toolStripButtonDecodeImage_Click(object sender, EventArgs e)
+        private void toolStripButtonDecodeText_Click(object sender, EventArgs e)
         {
             if (bMapOrig != null)
             {
-                int bitCounter = 0;
                 bool[] bits = new bool[bMapOrig.Width*bMapOrig.Height];
                 byte[] bytArr = new byte[bMapOrig.Width * bMapOrig.Height/8];
+                int bitCounter = 0;
 
                 for (int irow = 0; irow < bMapOrig.Height; irow++)
                 {
@@ -122,11 +123,9 @@ namespace CMPE2300KurtisBridgemanLab1
                         if (((byte)tmpColor.B & (1 << 0)) != 0)
                             bits[bitCounter] = true;
 
-                        else
-                            bits[bitCounter] = false;
-
                         bitCounter++;
                     }
+
                     progressBar1.Value = irow;
                 }
 
@@ -135,12 +134,11 @@ namespace CMPE2300KurtisBridgemanLab1
 
                 foreach (byte b in bytArr)
                 {
-                    if(b != 0xFF )
+                    if(b != 255)
                         labelResults.Text += (char)b;
                 }
 
             }
-
 
         }
 
@@ -167,9 +165,6 @@ namespace CMPE2300KurtisBridgemanLab1
             int bytes = bArray.Length / 8;
             int bitIndex = 7;
             int byteIndex = 0;
-
-           // if ((bArray.Length % 8) != 0)
-            //    bytes++;
 
             byte[] bytArray = new byte[bytes];
 

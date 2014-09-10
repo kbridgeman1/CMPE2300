@@ -21,7 +21,7 @@ namespace CMPE2300KurtisBridgemanICA1
             _LightColor = color;
             _byThreshold = threshold;
             _Border = border;
-            _byTick = (byte)new Random().Next(0,201);
+            _byTick = (byte)new Random().Next(_byThreshold,256);
         }
 
         //default contructor
@@ -30,10 +30,6 @@ namespace CMPE2300KurtisBridgemanICA1
         //tick method
         public void Tick()
         {
-            if (_byTick > 200)
-                _byTick -= 200;
-
-
             _byTick += 3;
 
         }
@@ -47,14 +43,9 @@ namespace CMPE2300KurtisBridgemanICA1
             x = lightNum % canvas.ScaledWidth;
             y = lightNum / canvas.ScaledWidth;
 
-            if ((_byTick >= _byThreshold)&&(x<16)&&(y<12))
+            if ((_byTick >= _byThreshold)&&(y<canvas.ScaledHeight))
             {
                 canvas.AddRectangle(x, y, 1, 1, _LightColor, _Border, Color.Black);
-            }
-
-            if ((_byTick < _byThreshold)&&(x<16)&&(y<12))
-            {
-                canvas.AddRectangle(x, y, 1, 1, Color.Black, _Border, Color.Black);
             }
 
         }
