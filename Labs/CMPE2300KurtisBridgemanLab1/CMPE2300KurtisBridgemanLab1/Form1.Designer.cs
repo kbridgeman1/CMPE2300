@@ -72,8 +72,8 @@
             this.toolStripButtonDecode.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDecode.Image")));
             this.toolStripButtonDecode.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDecode.Name = "toolStripButtonDecode";
-            this.toolStripButtonDecode.Size = new System.Drawing.Size(51, 22);
-            this.toolStripButtonDecode.Text = "Decode";
+            this.toolStripButtonDecode.Size = new System.Drawing.Size(87, 22);
+            this.toolStripButtonDecode.Text = "Decode Image";
             this.toolStripButtonDecode.Click += new System.EventHandler(this.toolStripButtonDecode_Click);
             // 
             // toolStripButtonDecodeImage
@@ -83,8 +83,9 @@
             this.toolStripButtonDecodeImage.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButtonDecodeImage.Image")));
             this.toolStripButtonDecodeImage.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButtonDecodeImage.Name = "toolStripButtonDecodeImage";
-            this.toolStripButtonDecodeImage.Size = new System.Drawing.Size(87, 22);
-            this.toolStripButtonDecodeImage.Text = "Decode Image";
+            this.toolStripButtonDecodeImage.Size = new System.Drawing.Size(76, 22);
+            this.toolStripButtonDecodeImage.Text = "Decode Text";
+            this.toolStripButtonDecodeImage.Click += new System.EventHandler(this.toolStripButtonDecodeImage_Click);
             // 
             // toolStripComboBox1
             // 
@@ -116,6 +117,7 @@
             // 
             // labelResults
             // 
+            this.labelResults.AllowDrop = true;
             this.labelResults.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.labelResults.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
@@ -123,7 +125,6 @@
             this.labelResults.Name = "labelResults";
             this.labelResults.Size = new System.Drawing.Size(498, 54);
             this.labelResults.TabIndex = 2;
-            this.labelResults.Text = "Decoded Text";
             // 
             // progressBar1
             // 
