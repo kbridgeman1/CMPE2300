@@ -56,7 +56,7 @@ namespace CMPE2300KurtisBridgemanICA1
 
                 case 'f':
                     if (trekLightList.Count < canvas.ScaledWidth*canvas.ScaledHeight)
-                    trekLightList.Add(new TrekLight(Color.Red, (byte)127, 5));
+                    trekLightList.Add(new TrekLight(Color.Red, 127, 5));
                     break;
 
                 case 'g':

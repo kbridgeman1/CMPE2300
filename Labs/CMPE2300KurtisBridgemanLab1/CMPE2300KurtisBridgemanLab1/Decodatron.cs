@@ -19,35 +19,29 @@ namespace CMPE2300KurtisBridgemanLab1
 {
     public partial class FormImageSecrets : Form
     {
-        Bitmap bMapOrig;
-        Bitmap bMapDecode;
+        private Bitmap bMapOrig;
+        private Bitmap bMapDecode;
 
         public FormImageSecrets()
         {
             InitializeComponent();
         }
 
-        //Occurs when the user presses the "Load Image" tooltip button. Provides the user with a
+        //Occurs when the user presses the "Load Image" tooltip button. Provides the user with an
         //open file dialog to select a image. The user selected image is assiged to bMapOrig.
         private void toolStripButtonLoadImage_Click(object sender, EventArgs e)
         {
+            bMapOrig = OpenFileDialogToBitMap();
 
-            openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "All Files|*.*|Bmp Files|*.bmp";
-       //     System.Environment.GetFolderPath(Environment.SpecialFolder.)
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            if (bMapOrig != null)
             {
-                bMapOrig = new Bitmap(openFileDialog1.FileName);
-                pictureBox1.Image = bMapOrig;
-
                 if (toolStripComboBox1.Text != "Color")
-                {
                     toolStripButtonDecode.Enabled = true;
-                }
 
+                pictureBox1.Image = bMapOrig;
                 progressBar1.Maximum = bMapOrig.Width;
                 toolStripButtonDecodeImage.Enabled = true;
+                labelResults.Text = "";
             }
 
         }
@@ -58,41 +52,41 @@ namespace CMPE2300KurtisBridgemanLab1
             {
                 bMapDecode = new Bitmap(bMapOrig.Width, bMapOrig.Height);
 
-                for (int irow = 0; irow < bMapOrig.Width; irow++)
+                for (int irow = 0; irow < bMapOrig.Height; irow++)
                 {
-                    for (int icol = 0; icol < bMapOrig.Height; icol++)
+                    for (int icol = 0; icol < bMapOrig.Width; icol++)
                     {
-                        Color tmpColor = bMapOrig.GetPixel(irow, icol);
-                        byte drawColorR=0;
-                        byte drawColorG=0;
-                        byte drawColorB=0;
+                        Color tmpColor = bMapOrig.GetPixel(icol, irow);
+                        byte drawColorR = 0;
+                        byte drawColorG = 0;
+                        byte drawColorB = 0;
 
                         switch (toolStripComboBox1.Text)
                         {
                             case "Red":
-                                if (((byte)tmpColor.R & (1 << 0)) != 0)
-                                    bMapDecode.SetPixel(irow, icol, Color.Red);
+                                if (((byte)tmpColor.R & 1) != 0)
+                                    bMapDecode.SetPixel(icol, irow, Color.Red);
                                 break;
 
                             case "Green":
-                                if (((byte)tmpColor.G & (1 << 0)) != 0)
-                                    bMapDecode.SetPixel(irow, icol, Color.Green);
+                                if (((byte)tmpColor.G & 1) != 0)
+                                    bMapDecode.SetPixel(icol, irow, Color.Green);
                                 break;
 
                             case "Blue":
                                 if (((byte)tmpColor.B & (1 << 0)) != 0)
-                                    bMapDecode.SetPixel(irow, icol, Color.Blue);
+                                    bMapDecode.SetPixel(icol, irow, Color.Blue);
                                 break;
 
                             case "All":
-                                if (((byte)tmpColor.R & (1 << 0)) != 0)
+                                if (((byte)tmpColor.R & 1) != 0)
                                     drawColorR = 255;
-                                if (((byte)tmpColor.G & (1 << 0)) != 0)
+                                if (((byte)tmpColor.G & 1) != 0)
                                     drawColorG = 255;
-                                if (((byte)tmpColor.B & (1 << 0)) != 0)
+                                if (((byte)tmpColor.B & 1) != 0)
                                     drawColorB = 255;
 
-                                bMapDecode.SetPixel(irow,icol,Color.FromArgb(drawColorR,drawColorG,drawColorB));
+                                bMapDecode.SetPixel(icol, irow, Color.FromArgb(drawColorR, drawColorG, drawColorB));
                                 break;
 
                         }
@@ -101,7 +95,7 @@ namespace CMPE2300KurtisBridgemanLab1
                 }
 
                 pictureBox1.Image = bMapDecode;
-                progressBar1.Value = 0;
+                progressBar1.Value = progressBar1.Minimum;
 
             }
         }
@@ -110,17 +104,16 @@ namespace CMPE2300KurtisBridgemanLab1
         {
             if (bMapOrig != null)
             {
-                bool[] bits = new bool[bMapOrig.Width*bMapOrig.Height];
-                byte[] bytArr = new byte[bMapOrig.Width * bMapOrig.Height/8];
+                bool[] bits = new bool[bMapOrig.Width * bMapOrig.Height];
                 int bitCounter = 0;
 
                 for (int irow = 0; irow < bMapOrig.Height; irow++)
                 {
                     for (int icol = 0; icol < bMapOrig.Width; icol++)
                     {
-                        Color tmpColor = bMapOrig.GetPixel(icol,irow);
+                        Color tmpColor = bMapOrig.GetPixel(icol, irow);
 
-                        if (((byte)tmpColor.B & (1 << 0)) != 0)
+                        if (((byte)tmpColor.B & 1) != 0)
                             bits[bitCounter] = true;
 
                         bitCounter++;
@@ -130,11 +123,10 @@ namespace CMPE2300KurtisBridgemanLab1
                 }
 
                 progressBar1.Value = 0;
-                bytArr = BoolArrayToByteArray(bits);
-
-                foreach (byte b in bytArr)
+                
+                foreach (byte b in BoolArrayToByteArray(bits))
                 {
-                    if(b != 255)
+                    if (b != byte.MaxValue)
                         labelResults.Text += (char)b;
                 }
 
@@ -144,23 +136,16 @@ namespace CMPE2300KurtisBridgemanLab1
 
         private void toolStripComboBox1_TextChanged(object sender, EventArgs e)
         {
-            if (bMapOrig == null)
-            {
+            if (toolStripComboBox1.Text == "Color" || bMapOrig == null)
                 toolStripButtonDecode.Enabled = false;
-            }
-
-            if (toolStripComboBox1.Text == "Color")
-            {
-                toolStripButtonDecode.Enabled = false;
-            }
 
             else
-            {
                 toolStripButtonDecode.Enabled = true;
-            }
         }
 
-        private byte[] BoolArrayToByteArray(bool[] bArray)
+        //Methods*******************************************************************************************
+
+        public byte[] BoolArrayToByteArray(bool[] bArray)
         {
             int bytes = bArray.Length / 8;
             int bitIndex = 7;
@@ -185,6 +170,24 @@ namespace CMPE2300KurtisBridgemanLab1
             }
 
             return bytArray;
+        }
+
+        private Bitmap OpenFileDialogToBitMap()
+        {
+            Bitmap bmap;
+
+            openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+            openFileDialog1.Filter = "Bmp Files|*.bmp|All Files|*.*";
+
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                bmap = new Bitmap(openFileDialog1.FileName);
+                return bmap;
+            }
+
+            else
+                return null;
         }
 
     }
