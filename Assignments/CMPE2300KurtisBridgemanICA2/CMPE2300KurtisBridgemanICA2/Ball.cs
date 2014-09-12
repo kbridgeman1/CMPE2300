@@ -15,14 +15,13 @@ namespace CMPE2300KurtisBridgemanICA2
         private int _xVelocity;
         private int _yVelocity;
         private Color _ballColor;
-        public int _ballRadius = 40;
+        public const int _ballRadius = 40;
 
 
         //properties
         public Point Location
         {
             get { return _point; }
-            //private set { _point = value; }
         }
 
         public int xVelocity
@@ -35,6 +34,9 @@ namespace CMPE2300KurtisBridgemanICA2
             set
             {
                 if (value > 10)
+                    value = 10;
+
+                if (value < -10)
                     value = 10;
 
                 _yVelocity = value;
@@ -56,28 +58,27 @@ namespace CMPE2300KurtisBridgemanICA2
         //methods
         public void MoveBall(CDrawer GDI_canvas)
         {
-            if (_point.X + _xVelocity >= GDI_canvas.ScaledWidth - _ballRadius / 2)
+            if (_point.X + _xVelocity >= GDI_canvas.ScaledWidth - _ballRadius)
             {
-                _point.X = GDI_canvas.ScaledWidth - _ballRadius / 2;
+                _point.X = GDI_canvas.ScaledWidth - _ballRadius;
+                _xVelocity *= -1;
+            }
+
+            if (_point.X + _xVelocity <= _ballRadius)
+            {
+                _point.X = _ballRadius;
                 _xVelocity *= -1;
             }
 
 
-            if (_point.X + _xVelocity <= _ballRadius / 2)
+            if (_point.Y + _yVelocity >= GDI_canvas.ScaledHeight - _ballRadius)
             {
-                _point.X = _ballRadius / 2;
-                _xVelocity *= -1;
-            }
-
-
-            if (_point.Y + _yVelocity >= GDI_canvas.ScaledHeight - _ballRadius / 2)
-            {
-                _point.Y = GDI_canvas.ScaledHeight - _ballRadius / 2;
+                _point.Y = GDI_canvas.ScaledHeight - _ballRadius;
                 _yVelocity *= -1;
             }
-            if (_point.Y <= _ballRadius / 2)
+            if (_point.Y <= _ballRadius)
             {
-                _point.Y = _ballRadius / 2;
+                _point.Y = _ballRadius;
                 _yVelocity *= -1;
             }
 
@@ -86,14 +87,13 @@ namespace CMPE2300KurtisBridgemanICA2
             _point.Y += _yVelocity;
         }
 
-        public void ShowBall(CDrawer GDI_canvas, List<Ball> ballList)
+        public void ShowBall(CDrawer GDI_canvas)
         {
-                GDI_canvas.AddCenteredEllipse(_point.X, _point.Y, _ballRadius, _ballRadius, Color.FromArgb(BallOpacity, _ballColor));
+                GDI_canvas.AddCenteredEllipse(_point.X, _point.Y, _ballRadius*2, _ballRadius*2, Color.FromArgb(BallOpacity, _ballColor));
         }
 
         public override string ToString()
         {
-            _point.ToString();
             return _point.ToString() + " - Vel: " + _xVelocity.ToString() + ", " + _yVelocity.ToString() + ", Opacity: ";
         }
 

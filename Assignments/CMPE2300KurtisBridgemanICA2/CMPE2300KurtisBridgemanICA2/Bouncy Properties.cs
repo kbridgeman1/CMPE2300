@@ -32,25 +32,26 @@ namespace CMPE2300KurtisBridgemanICA2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            Point mouseLocationL;
-            Point tmpPoint;
+            Point mouseLocation;
 
-            bool bLMouseClick = canvas.GetLastMouseLeftClick(out mouseLocationL);
-            bool bRMouseClick = canvas.GetLastMouseRightClick(out tmpPoint);
-
+            bool bLMouseClick = canvas.GetLastMouseLeftClick(out mouseLocation);
+            
             if (bLMouseClick)
             {
-                ballsList.Add(new Ball(mouseLocationL));
+                ballsList.Add(new Ball(mouseLocation));
             }
+
+            bool bRMouseClick = canvas.GetLastMouseRightClick(out mouseLocation);
 
             if (bRMouseClick)
                 ballsList.Clear();
 
             canvas.Clear();
+
             foreach (Ball b in ballsList)
             {
                 b.MoveBall(canvas);
-                b.ShowBall(canvas, ballsList);
+                b.ShowBall(canvas);
             }
 
             if (ballsList.Count > 0)
