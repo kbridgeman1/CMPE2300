@@ -42,7 +42,7 @@ namespace CMPE2300KurtisBridgemanICA1
                 i++;
             }
 
-          //  canvas.Render();
+            canvas.Render();
         }
 
         private void FormTrekLights_KeyPress(object sender, KeyPressEventArgs e)

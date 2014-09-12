@@ -43,8 +43,10 @@ namespace CMPE2300KurtisBridgemanICA2
 
         public int BallOpacity { private get; set; }
 
+        //constructors
         public Ball(Point drawPoint)
         {
+            _point = drawPoint;
             _ballColor = RandColor.GetColor();
             _xVelocity = _rndGen.Next(-10, 11);
             _yVelocity = _rndGen.Next(-10, 11);
@@ -54,17 +56,31 @@ namespace CMPE2300KurtisBridgemanICA2
         //methods
         public void MoveBall(CDrawer GDI_canvas)
         {
-            if (_point.X + _xVelocity >= GDI_canvas.ScaledWidth)
+            if (_point.X + _xVelocity >= GDI_canvas.ScaledWidth - _ballRadius / 2)
             {
-                _point.X = GDI_canvas.ScaledWidth - 1;
+                _point.X = GDI_canvas.ScaledWidth - _ballRadius / 2;
                 _xVelocity *= -1;
             }
 
-            if (_point.Y + _yVelocity >= GDI_canvas.ScaledHeight)
+
+            if (_point.X + _xVelocity <= _ballRadius / 2)
             {
-                _point.Y = GDI_canvas.ScaledHeight - 1;
+                _point.X = _ballRadius / 2;
+                _xVelocity *= -1;
+            }
+
+
+            if (_point.Y + _yVelocity >= GDI_canvas.ScaledHeight - _ballRadius / 2)
+            {
+                _point.Y = GDI_canvas.ScaledHeight - _ballRadius / 2;
                 _yVelocity *= -1;
             }
+            if (_point.Y <= _ballRadius / 2)
+            {
+                _point.Y = _ballRadius / 2;
+                _yVelocity *= -1;
+            }
+
 
             _point.X += _xVelocity;
             _point.Y += _yVelocity;
@@ -72,18 +88,13 @@ namespace CMPE2300KurtisBridgemanICA2
 
         public void ShowBall(CDrawer GDI_canvas, List<Ball> ballList)
         {
-            GDI_canvas.Clear();
-
-            foreach (Ball b in ballList)
-            {
-                GDI_canvas.AddCenteredEllipse(_xVelocity, _yVelocity, _ballRadius, _ballRadius, _ballColor);
-            }
+                GDI_canvas.AddCenteredEllipse(_point.X, _point.Y, _ballRadius, _ballRadius, Color.FromArgb(BallOpacity, _ballColor));
         }
 
         public override string ToString()
         {
             _point.ToString();
-            return _point.ToString() + " - Vel: " + _xVelocity.ToString()+", "+_yVelocity.ToString()+", Opacity: ";
+            return _point.ToString() + " - Vel: " + _xVelocity.ToString() + ", " + _yVelocity.ToString() + ", Opacity: ";
         }
 
 
