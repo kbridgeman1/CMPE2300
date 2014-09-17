@@ -19,8 +19,9 @@ namespace CMPE2300KurtisBridgemanLab1
 {
     public partial class FormImageSecrets : Form
     {
-        private Bitmap bMapOrig;            //BitMap used to store the user selected image
-        private Bitmap bMapDecode;          //BitMap used to store the decoded image
+        private Bitmap bMapOrig;                                //BitMap used to store the user selected image
+        private Bitmap bMapDecode;                              //BitMap used to store the decoded image
+        private DecodatronMethods dm = new DecodatronMethods(); //DecodatronMethods object used to call methods from seperate class
 
         public FormImageSecrets()
         {
@@ -31,8 +32,8 @@ namespace CMPE2300KurtisBridgemanLab1
         //open file dialog to select a image. The user selected image is assiged to bMapOrig.
         private void toolStripButtonLoadImage_Click(object sender, EventArgs e)
         {
-            //creates a new OpenFileDialog and returns a BitMap
-            bMapOrig = OpenFileDialogToBitMap();
+            //creates a new OpenFileDialog and returns a user selected BitMap
+            bMapOrig = dm.OpenFileDialogToBitMap();
 
             //checks if bMapOrig has been initialized
             if (bMapOrig != null)
@@ -182,7 +183,7 @@ namespace CMPE2300KurtisBridgemanLab1
                 progressBar1.Value = progressBar1.Minimum;
                 
                 //iterates through each byte in a byte array returned by BoolArrayToByteArray()
-                foreach (byte b in BoolArrayToByteArray(bits))
+                foreach (byte b in dm.BoolArrayToByteArray(bits))
                 {
                     //checks if the value of the byte is 0xFF
                     if (b != byte.MaxValue)
@@ -207,53 +208,5 @@ namespace CMPE2300KurtisBridgemanLab1
                 //sets the "Decode Image" button to be enabled
                 toolStripButtonDecode.Enabled = true;
         }
-
-        //Methods*******************************************************************************************
-
-        public byte[] BoolArrayToByteArray(bool[] bArray)
-        {
-            int bytes = bArray.Length / 8;
-            int bitIndex = 7;
-            int byteIndex = 0;
-
-            byte[] bytArray = new byte[bytes];
-
-            for (int i = 0; i < bArray.Length; i++)
-            {
-                if (bArray[i])
-                {
-                    bytArray[byteIndex] |= (byte)(1 << bitIndex);
-                }
-
-                bitIndex--;
-
-                if (bitIndex == -1)
-                {
-                    bitIndex = 7;
-                    byteIndex++;
-                }
-            }
-
-            return bytArray;
-        }
-
-        private Bitmap OpenFileDialogToBitMap()
-        {
-            Bitmap bmap;
-
-            openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.InitialDirectory = System.Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            openFileDialog1.Filter = "Bmp Files|*.bmp|All Files|*.*";
-
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                bmap = new Bitmap(openFileDialog1.FileName);
-                return bmap;
-            }
-
-            else
-                return null;
-        }
-
     }
 }

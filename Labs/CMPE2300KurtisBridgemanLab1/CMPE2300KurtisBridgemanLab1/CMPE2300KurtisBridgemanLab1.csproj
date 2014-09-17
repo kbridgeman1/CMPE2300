@@ -54,6 +54,7 @@
     <Compile Include="Decodatron.Designer.cs">
       <DependentUpon>Decodatron.cs</DependentUpon>
     </Compile>
+    <Compile Include="DecodatronMethods.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Decodatron.resx">
