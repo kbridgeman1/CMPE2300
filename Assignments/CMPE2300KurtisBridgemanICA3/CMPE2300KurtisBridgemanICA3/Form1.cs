@@ -24,6 +24,7 @@ namespace CMPE2300KurtisBridgemanICA3
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            Ball.Radius = trackBar1.Value;
             this.KeyPreview = true;
             AddBalls = new Thread(new ThreadStart(ThreadAddBalls));
             AddBalls.IsBackground = true;
@@ -38,12 +39,13 @@ namespace CMPE2300KurtisBridgemanICA3
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-
             if (e.KeyData == Keys.Add)
                 for (int i = 0; i < 5; i++)
+                    lock(ballList)
                     ballList.Add(new Ball());
 
             if (e.KeyData == Keys.Escape)
+                lock(ballList)
                 ballList.Clear();
         }
 
@@ -53,10 +55,11 @@ namespace CMPE2300KurtisBridgemanICA3
             {
                 Ball.Loading = true;
                 
+                lock(ballList)
                 foreach (Ball b in ballList)
                 {
-                    b.MoveBall();
-                    b.ShowBall();
+                        b.MoveBall();
+                        b.ShowBall();
                 }
 
                 Ball.Loading = false;

@@ -20,9 +20,9 @@ namespace CMPE2300KurtisBridgemanICA3
         private Point _ballLocation;
         private int _xVel;
         private int _yVel;
-        private int _iAlive = rnd.Next(50, 128);
+        private int _iAlive;
 
-        //properties
+        //static properties
         public static int Radius
         {
             set { ballRadius = Math.Abs(value); }
@@ -60,7 +60,7 @@ namespace CMPE2300KurtisBridgemanICA3
             _ballLocation = new Point(rnd.Next(ballRadius*2, canvas.ScaledWidth-ballRadius*2), rnd.Next(ballRadius*2, canvas.ScaledHeight-ballRadius*2));
         }
 
-        //methods
+        //instance methods
         public void ShowBall()
         {
             canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, ballRadius * 2, ballRadius * 2, Color.FromArgb(_iAlive,_ballColor));
