@@ -76,7 +76,8 @@ namespace CMPE2300KurtisBridgemanICA2
                 _point.Y = GDI_canvas.ScaledHeight - _ballRadius;
                 _yVelocity *= -1;
             }
-            if (_point.Y <= _ballRadius)
+
+            if (_point.Y + _yVelocity <= _ballRadius)
             {
                 _point.Y = _ballRadius;
                 _yVelocity *= -1;

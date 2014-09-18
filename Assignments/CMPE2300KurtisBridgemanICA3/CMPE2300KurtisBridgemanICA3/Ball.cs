@@ -15,20 +15,26 @@ namespace CMPE2300KurtisBridgemanICA3
         static CDrawer canvas = null;
         static int ballRadius;
 
+        //member variables
+        private Color _ballColor;
+        private Point _ballLocation;
+        private int _xVel;
+        private int _yVel;
+        private int _iAlive = rnd.Next(50, 128);
+
         //properties
-        public int Radius
+        public static int Radius
         {
             set { ballRadius = Math.Abs(value); }
         }
 
-        static public bool Loading
+        public static bool Loading
         {
             set
             {
                 if (value == true)
                 {
                     canvas.Clear();
-                    
                 }
 
                 if (value == false)
@@ -38,14 +44,6 @@ namespace CMPE2300KurtisBridgemanICA3
             }
         }
 
-
-        //member variables
-        private Color _ballColor;
-        private Point _ballLocation;
-        private int _xVel;
-        private int _yVel;
-        private int _iAlive;
-
         //static constructor
         static Ball()
         {
@@ -54,7 +52,7 @@ namespace CMPE2300KurtisBridgemanICA3
         }
 
         //constructor
-        Ball()
+        public Ball()
         {
             _ballColor = RandColor.GetColor();
             _xVel = rnd.Next(-10, 11);
@@ -65,7 +63,7 @@ namespace CMPE2300KurtisBridgemanICA3
         //methods
         public void ShowBall()
         {
-            canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, ballRadius * 2, ballRadius * 2, _ballColor);
+            canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, ballRadius * 2, ballRadius * 2, Color.FromArgb(_iAlive,_ballColor));
         }
 
         public void MoveBall()
