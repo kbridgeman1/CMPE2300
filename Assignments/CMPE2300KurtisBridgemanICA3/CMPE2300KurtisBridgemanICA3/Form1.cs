@@ -24,7 +24,6 @@ namespace CMPE2300KurtisBridgemanICA3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            Ball.Radius = trackBar1.Value;
             this.KeyPreview = true;
             AddBalls = new Thread(new ThreadStart(ThreadAddBalls));
             AddBalls.IsBackground = true;
@@ -51,7 +50,7 @@ namespace CMPE2300KurtisBridgemanICA3
 
         private void ThreadAddBalls()
         {
-            do
+            while (true)
             {
                 Ball.Loading = true;
                 
@@ -66,7 +65,7 @@ namespace CMPE2300KurtisBridgemanICA3
 
                 Thread.Sleep(25);
 
-            } while (true);
+            }
         }
 
     }
