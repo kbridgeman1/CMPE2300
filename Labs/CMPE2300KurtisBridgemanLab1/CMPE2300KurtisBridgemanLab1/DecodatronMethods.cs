@@ -1,5 +1,5 @@
 ﻿//*****************************************************************************************************
-//Program:    Lab 01 - Decodatron.cs
+//Program:    Lab 01 - Decodatron
 //Author:     Kurtis Bridgeman
 //Class:      CMPE2300
 //*****************************************************************************************************
@@ -16,10 +16,12 @@ using GDIDrawer;
 
 namespace CMPE2300KurtisBridgemanLab1
 {
+    //declares a new delegate that returns nothing, and accepts an int
     public delegate void delVoidInt(int rowNum);
 
     class DecodatronMethods
     {
+        //creates a new delegate of delVoidInt
         public delVoidInt _dCallBackGetInt;
 
         //Function:     BoolArrayToByteArray
@@ -59,10 +61,11 @@ namespace CMPE2300KurtisBridgemanLab1
             return bytArray;
         }
 
+
         //Function:     OpenFileDialogToBitMap
         //Description:  Opens a new OpenFileDialog and stores the users selection as a bitmap.
         //Return:       Bitmap bMap - a Bitmap for containing the users selected pixel data
-        //parameters:   null
+        //Parameters:   null
         public Bitmap OpenFileDialogToBitMap()
         {
             Bitmap bMap;                                        //Bitmap for storing the openFileDlg result
@@ -89,13 +92,22 @@ namespace CMPE2300KurtisBridgemanLab1
                 return null;
         }
 
+
+        //Function:     DecodeImage
+        //Description:  Iterates through each pixel in bMapOrig inspecting the color specified by the comboBoxColor.
+        //              Sets each pixel in bMapDecoded based on the LSB of the specified color.
+        //Return:       Bitmap bMapDecoded   - a Bitmap for new decoded Bitmap
+        //Parameters:   Bitmap bMapOriginal  - original Bitmap to be decoded
+        //              string comboBoxColor - string containing the user selected color to decode
         public Bitmap DecodeImage(Bitmap bMapOriginal, string comboBoxColor)
         {
+            //creates a new Bitmap with the same dimensions as bMapOrig
+            Bitmap bMapDecoded = new Bitmap(bMapOriginal.Width, bMapOriginal.Height);
+
             //checks if bMapOrig has been initialized
             if (bMapOriginal != null)
             {
-                //creates a new Bitmap with the same dimensions as bMapOrig
-                Bitmap bMapDecoded = new Bitmap(bMapOriginal.Width, bMapOriginal.Height);
+                
 
                 //iterates through each pixel in bMapOrig
                 for (int irow = 0; irow < bMapOriginal.Height; irow++)
@@ -104,9 +116,9 @@ namespace CMPE2300KurtisBridgemanLab1
                     {
                         Color tmpColor = bMapOriginal.GetPixel(icol, irow);     //Color for storing the coloe of the current pixel
 
-                        byte drawColorR = 0;                                //byte for storing the Red value of a pixel
-                        byte drawColorG = 0;                                //byte for storing the Green value of a pixel
-                        byte drawColorB = 0;                                //byte for storing the Blue value of a pixel
+                        byte drawColorR = 0;                                    //byte for storing the Red value of a pixel
+                        byte drawColorG = 0;                                    //byte for storing the Green value of a pixel
+                        byte drawColorB = 0;                                    //byte for storing the Blue value of a pixel
 
                         //checks the comboBox for the users color choice
                         switch (comboBoxColor)
@@ -167,10 +179,56 @@ namespace CMPE2300KurtisBridgemanLab1
                             _dCallBackGetInt.Invoke(irow);
                     }
                 }
-                return bMapDecoded;
 
             }
-            return null;
+
+            //returns the new Bitmap containing the decoded original image
+            return bMapDecoded;
+        }
+
+
+        //Function:     DecodeText
+        //Description:  Iterates through each pixel in bMapOrig inspecting the blue color.
+        //              Stores the LSB of each byte in a boolean array.
+        //Return:       bool[] bits         - bool array containing the blue LSB of each pixel 
+        //Parameters:   Bitmap bMapOriginal - original Bitmap to be decoded
+        public bool[] DecodeText(Bitmap bMapOriginal)
+        {
+            //a new bool[] for storing the blue LSB of each pixel 
+            bool[] bits = new bool[bMapOriginal.Width * bMapOriginal.Height];
+
+            //checks if bMapOrig has been initialized
+            if (bMapOriginal != null)
+            {
+                //int used to index the bits array
+                int bitIndex = 0;           
+
+                //iterates though each pixel in bMapOrig
+                for (int irow = 0; irow < bMapOriginal.Height; irow++)
+                {
+                    for (int icol = 0; icol < bMapOriginal.Width; icol++)
+                    {
+                        //Color for storing the coloe of the current pixel
+                        Color tmpColor = bMapOriginal.GetPixel(icol, irow);     
+
+                        //checks if the LSB of the blue byte is equal to 1
+                        if (((byte)tmpColor.B & 1) == 1)
+                            //assigns true to the bool indexed at bitIndex
+                            bits[bitIndex] = true;
+
+                        //add one to the number of bits in the array
+                        bitIndex++;
+                    }
+
+                    //updates the forms progress bar after iterating through each row
+                    if (_dCallBackGetInt != null)
+                        _dCallBackGetInt.Invoke(irow);
+                }
+
+            }
+
+            //returns the bool[] containing the blue LSB of each pixel
+            return bits;
         }
     }
 }

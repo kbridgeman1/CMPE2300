@@ -1,9 +1,8 @@
 ﻿//*****************************************************************************************************
-//Program:    Lab 01 - Decodatron.cs
+//Program:    Lab 01 - Decodatron
 //Author:     Kurtis Bridgeman
 //Class:      CMPE2300
 //*****************************************************************************************************
-
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -30,7 +29,7 @@ namespace CMPE2300KurtisBridgemanLab1
         }
 
         //Occurs when the user presses the "Load Image" toolstrip button. Provides the user with an
-        //open file dialog to select a image. The user selected image is assiged to bMapOrig.
+        //open file dialog to select an image. The user selected image is assiged to bMapOrig.
         private void toolStripButtonLoadImage_Click(object sender, EventArgs e)
         {
             //creates a new OpenFileDialog and returns a user selected BitMap
@@ -44,7 +43,7 @@ namespace CMPE2300KurtisBridgemanLab1
                     //enables the "Decode Image" button
                     toolStripButtonDecode.Enabled = true;
 
-                //displays BMapOrig in the forms picturebox
+                //displays bMapOrig in the forms picturebox
                 pictureBox1.Image = bMapOrig;
 
                 //sets the max progressbar value to with width of bMapOrig
@@ -59,58 +58,38 @@ namespace CMPE2300KurtisBridgemanLab1
 
         }
 
-        //Occurs when the user presses the "Decode Image" toolstrip button. Iterates through each
-        //pixel in bMapOrig inspecting the color specified by the comboBox. Sets each pixel in bMapDecode
-        //based on the LSB of the specified color.
+        //Occurs when the user presses the "Decode Image" toolstrip button. 
+        //Calls DecodeImage and displays the returned Bitmap in pictureBox1.
         private void toolStripButtonDecodeImage_Click(object sender, EventArgs e)
         {
+            //assigns the CallBackGetInt method to the _dCallBackGetInt delegate
             dm._dCallBackGetInt = CallBackGetInt;
+
+            //calls DecodeImage and assigns the returned value to bMapDecode
             bMapDecode = dm.DecodeImage(bMapOrig, toolStripComboBox1.Text);
 
             //displays bMapDecode in the forms picturebox
             pictureBox1.Image = bMapDecode;
 
-            //resets the progress bar
+            //resets the progress bar's value
             progressBar1.Value = progressBar1.Minimum;
 
         }
 
-
-        //Occurs when the usesr presses the "Decode Text" toolstrip button. Iterates through each
-        //pixel in bMapOrig inspecting the blue color. Stores the LSB of each byte in a boolean array.
+        //Occurs when the usesr presses the "Decode Text" toolstrip button. 
         //Casts each byte from a byte array as a char and adds it the forms label.
         private void toolStripButtonDecodeText_Click(object sender, EventArgs e)
         {
-            //checks if bMapOrig has been initialized
-            if (bMapOrig != null)
-            {
-                bool[] bits = new bool[bMapOrig.Width * bMapOrig.Height];   //bool array for storing bits
-                int bitIndex = 0;                                           //int used to index the bits array
+            //assigns the CallBackGetInt method to the _dCallBackGetInt delegate
+            dm._dCallBackGetInt = CallBackGetInt;
 
-                //iterates though each pixel in bMapOrig
-                for (int irow = 0; irow < bMapOrig.Height; irow++)
-                {
-                    for (int icol = 0; icol < bMapOrig.Width; icol++)
-                    {
-                        Color tmpColor = bMapOrig.GetPixel(icol, irow);     //Color for storing the coloe of the current pixel
+            //creates a new bool array with the same dimensions as bMapOrig
+            bool[] bits = new bool[bMapOrig.Width* bMapOrig.Height];
 
-                        //checks if the LSB of the blue byte is equal to 1
-                        if (((byte)tmpColor.B & 1) == 1)
-                            //assigns true to the bool indexed at bitIndex
-                            bits[bitIndex] = true;
+            //calls DecodeText and assigns the returned value to bits
+            bits = dm.DecodeText(bMapOrig);
 
-                        //add one to the number of bits in the array
-                        bitIndex++;
-                    }
-
-                    //updates the forms progress bar after iterating through each row
-                    progressBar1.Value = irow;
-                }
-
-                //resets the progress bar
-                progressBar1.Value = progressBar1.Minimum;
-
-                //iterates through each byte in a byte array returned by BoolArrayToByteArray()
+            //calls BoolArrayToByteArray then iterates through each byte in the returned byte array
                 foreach (byte b in dm.BoolArrayToByteArray(bits))
                 {
                     //checks if the value of the byte is 0xFF
@@ -119,12 +98,13 @@ namespace CMPE2300KurtisBridgemanLab1
                         labelResults.Text += (char)b;
                 }
 
+                //resets the progress bar's value
+                progressBar1.Value = progressBar1.Minimum;
+
             }
 
-        }
-
         //Occurs when the forms comboBox has it's text changed. Enables/disables form controls based
-        //on whether a color or image have been selected.
+        //on whether or not a color or image have been selected.
         private void toolStripComboBox1_DropDownClosed(object sender, EventArgs e)
         {
             //checks if toolStripComboBox1 has it's defualt text or bMapOrig is uninitialized
@@ -137,8 +117,10 @@ namespace CMPE2300KurtisBridgemanLab1
                 toolStripButtonDecode.Enabled = true;
         }
 
+        //Callback method for setting the progress bar's value through a delegate
         private void CallBackGetInt(int _rowNum)
         {
+            //sets progressBar1's value to the int passed in from the delegate 
             progressBar1.Value = _rowNum;
         }
 

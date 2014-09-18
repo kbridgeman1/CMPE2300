@@ -11,9 +11,9 @@ namespace CMPE2300KurtisBridgemanICA3
     class Ball
     {
         //static variables
-        static Random rnd = new Random();
-        static CDrawer canvas = null;
-        static int ballRadius;
+        static private Random rnd = new Random();
+        static private CDrawer canvas = null;
+        static private int ballRadius;
 
         //member variables
         private Color _ballColor;

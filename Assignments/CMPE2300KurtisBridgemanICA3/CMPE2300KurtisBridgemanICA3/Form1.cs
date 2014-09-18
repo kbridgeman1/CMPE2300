@@ -40,12 +40,12 @@ namespace CMPE2300KurtisBridgemanICA3
         {
             if (e.KeyData == Keys.Add)
                 for (int i = 0; i < 5; i++)
-                    lock(ballList)
-                    ballList.Add(new Ball());
+                    lock (ballList)
+                        ballList.Add(new Ball());
 
             if (e.KeyData == Keys.Escape)
-                lock(ballList)
-                ballList.Clear();
+                lock (ballList)
+                    ballList.Clear();
         }
 
         private void ThreadAddBalls()
@@ -53,13 +53,13 @@ namespace CMPE2300KurtisBridgemanICA3
             while (true)
             {
                 Ball.Loading = true;
-                
-                lock(ballList)
-                foreach (Ball b in ballList)
-                {
+
+                lock (ballList)
+                    foreach (Ball b in ballList)
+                    {
                         b.MoveBall();
                         b.ShowBall();
-                }
+                    }
 
                 Ball.Loading = false;
 
