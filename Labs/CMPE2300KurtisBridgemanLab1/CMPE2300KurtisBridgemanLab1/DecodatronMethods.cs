@@ -107,7 +107,7 @@ namespace CMPE2300KurtisBridgemanLab1
             //checks if bMapOrig has been initialized
             if (bMapOriginal != null)
             {
-                
+
 
                 //iterates through each pixel in bMapOrig
                 for (int irow = 0; irow < bMapOriginal.Height; irow++)
@@ -201,7 +201,7 @@ namespace CMPE2300KurtisBridgemanLab1
             if (bMapOriginal != null)
             {
                 //int used to index the bits array
-                int bitIndex = 0;           
+                int bitIndex = 0;
 
                 //iterates though each pixel in bMapOrig
                 for (int irow = 0; irow < bMapOriginal.Height; irow++)
@@ -209,7 +209,7 @@ namespace CMPE2300KurtisBridgemanLab1
                     for (int icol = 0; icol < bMapOriginal.Width; icol++)
                     {
                         //Color for storing the color of the current pixel
-                        Color tmpColor = bMapOriginal.GetPixel(icol, irow);     
+                        Color tmpColor = bMapOriginal.GetPixel(icol, irow);
 
                         //checks if the LSB of the blue byte is equal to 1
                         if (((byte)tmpColor.B & 1) == 1)
@@ -231,47 +231,58 @@ namespace CMPE2300KurtisBridgemanLab1
             return bits;
         }
 
-
+        //Function:     DecodeTextModified
+        //Description:  Iterates through each pixel in bMapOrig inspecting the blue color.
+        //              Stores the LSB of each byte in a boolean array.
+        //Return:       bool[] bits         - bool array containing the blue LSB of each pixel 
+        //Parameters:   Bitmap bMapOriginal - original Bitmap to be decoded
         public bool[] DecodeTextModified(Bitmap bMapOriginal)
         {
-            List<bool> listBits = new List<bool>();
-            bool[] bits = null;
+            List<bool> listBits = new List<bool>();     //a new list of bool to store each pixel's blue LSB
+            bool[] bits = null;                         //a bool array of unknown size, will be assigned the data contained in ListBits
 
+            //checks if bMapOriginal has been initialized
             if (bMapOriginal != null)
             {
+                //int used to index the listBits list
                 int bitIndex = 0;
 
+                //iterates though each pixel in bMapOriginal
                 for (int irow = 0; irow < bMapOriginal.Height; irow++)
                 {
                     for (int icol = 0; icol < bMapOriginal.Width; icol++)
                     {
+                        //Color for storing the color of the current pixel
                         Color tempColor = bMapOriginal.GetPixel(icol, irow);
 
+                        //checks if the LSB of the blue byte is equal to 1
                         if (((byte)tempColor.B & 1) == 1)
+                            //assigns true to the bool indexed at bitIndex
                             listBits.Add(true);
 
+                        //checks if the LSB of the blue byte is not equal to 1
                         else if (((byte)tempColor.B & 1) != 1)
+                            //assigns flase to the bool indexed at bitIndex
                             listBits.Add(false);
 
+                        //add one to the number of bits in the array
                         bitIndex++;
-                        
+
+                        //checks if the current bitIndex is divisable by 8 (each new byte formed)
                         if (bitIndex % 8 == 0)
                         {
-                            byte b = 0;
-                            int listIndex = bitIndex - 8;
+                            byte b = 0;                         //temporary byte used to check the character formed from each set of 8 bits
+                            int listIndex = bitIndex - 8;       //temporary int used to index listBits
 
                             for (int i = 7; i > -1; i--)
                             {
                                 if (listBits[listIndex])
                                     b |= (byte)(1 << i);
 
-                                else
-                                    b |= (byte)(0<<i);
-
                                 listIndex++;
                             }
 
-                            if (((char)b == byte.MaxValue)||b<32||b>90&&b<97||b>122)
+                            if (((char)b == byte.MaxValue) || b < 32|| b > 122)
                             {
                                 bits = listBits.ToArray();
                                 return bits;

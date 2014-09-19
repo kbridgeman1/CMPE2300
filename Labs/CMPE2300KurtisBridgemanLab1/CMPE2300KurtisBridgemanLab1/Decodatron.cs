@@ -80,19 +80,22 @@ namespace CMPE2300KurtisBridgemanLab1
         //Casts each byte from a byte array as a char and adds it the forms label.
         private void toolStripButtonDecodeText_Click(object sender, EventArgs e)
         {
-            labelResults.Text = "";
+            bool[] bits = null;     //bit array used to store blue LSB of each pixel
+            byte[] bytes = null;    //byte array where each byte will be the data of a character
+
             //assigns the CallBackGetInt method to the _dCallBackGetInt delegate
             dm._dCallBackGetInt = CallBackGetInt;
 
-            //creates a new bool array
-            bool[] bits = null;
-            byte[] bytes = null;
+            //clears LabelResults text property when the DecodeText tooltip button is pressed
+            labelResults.Text = "";
 
-            //calls DecodeText and assigns the returned value to bits
+            //calls DecodeText and assigns the returned bool array to bits
             bits = dm.DecodeTextModified(bMapOrig);
+
+            //calls BoolArrayToByteArray and assigns the returned byte array to bytes
             bytes = dm.BoolArrayToByteArray(bits);
 
-            //calls BoolArrayToByteArray then iterates through each byte in the returned byte array
+            //iterates through each byte in bytes
             foreach (byte b in bytes)
             {
                 //checks if the value of the byte is 0xFF
@@ -101,7 +104,9 @@ namespace CMPE2300KurtisBridgemanLab1
                     labelResults.Text += (char)b;
             }
 
+            //occurs if the first character added to bytes was not an english ascii character 
             if (bytes.Length <= 1)
+                //sets the labelResults text property to reflect this
                 labelResults.Text += "There is no text encoded in this image.";
 
             //resets the progress bar's value
