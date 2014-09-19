@@ -208,7 +208,7 @@ namespace CMPE2300KurtisBridgemanLab1
                 {
                     for (int icol = 0; icol < bMapOriginal.Width; icol++)
                     {
-                        //Color for storing the coloe of the current pixel
+                        //Color for storing the color of the current pixel
                         Color tmpColor = bMapOriginal.GetPixel(icol, irow);     
 
                         //checks if the LSB of the blue byte is equal to 1
@@ -230,5 +230,65 @@ namespace CMPE2300KurtisBridgemanLab1
             //returns the bool[] containing the blue LSB of each pixel
             return bits;
         }
+
+
+        public bool[] DecodeTextModified(Bitmap bMapOriginal)
+        {
+            List<bool> listBits = new List<bool>();
+            bool[] bits = null;
+
+            if (bMapOriginal != null)
+            {
+                int bitIndex = 0;
+
+                for (int irow = 0; irow < bMapOriginal.Height; irow++)
+                {
+                    for (int icol = 0; icol < bMapOriginal.Width; icol++)
+                    {
+                        Color tempColor = bMapOriginal.GetPixel(icol, irow);
+
+                        if (((byte)tempColor.B & 1) == 1)
+                            listBits.Add(true);
+
+                        else if (((byte)tempColor.B & 1) != 1)
+                            listBits.Add(false);
+
+                        bitIndex++;
+                        
+                        if (bitIndex % 8 == 0)
+                        {
+                            byte b = 0;
+                            int listIndex = bitIndex - 8;
+
+                            for (int i = 7; i > -1; i--)
+                            {
+                                if (listBits[listIndex])
+                                    b |= (byte)(1 << i);
+
+                                else
+                                    b |= (byte)(0<<i);
+
+                                listIndex++;
+                            }
+
+                            if (((char)b == byte.MaxValue)||b<32||b>90&&b<97||b>122)
+                            {
+                                bits = listBits.ToArray();
+                                return bits;
+                            }
+                        }
+
+                    }
+
+                    //updates the forms progress bar after iterating through each row
+                    if (_dCallBackGetInt != null)
+                        _dCallBackGetInt.Invoke(irow);
+                }
+
+            }
+            bits = listBits.ToArray();
+            return bits;
+        }
+
     }
 }

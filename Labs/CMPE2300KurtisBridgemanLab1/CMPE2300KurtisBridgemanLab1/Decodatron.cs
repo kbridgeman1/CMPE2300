@@ -80,28 +80,34 @@ namespace CMPE2300KurtisBridgemanLab1
         //Casts each byte from a byte array as a char and adds it the forms label.
         private void toolStripButtonDecodeText_Click(object sender, EventArgs e)
         {
+            labelResults.Text = "";
             //assigns the CallBackGetInt method to the _dCallBackGetInt delegate
             dm._dCallBackGetInt = CallBackGetInt;
 
-            //creates a new bool array with the same dimensions as bMapOrig
-            bool[] bits = new bool[bMapOrig.Width* bMapOrig.Height];
+            //creates a new bool array
+            bool[] bits = null;
+            byte[] bytes = null;
 
             //calls DecodeText and assigns the returned value to bits
-            bits = dm.DecodeText(bMapOrig);
+            bits = dm.DecodeTextModified(bMapOrig);
+            bytes = dm.BoolArrayToByteArray(bits);
 
             //calls BoolArrayToByteArray then iterates through each byte in the returned byte array
-                foreach (byte b in dm.BoolArrayToByteArray(bits))
-                {
-                    //checks if the value of the byte is 0xFF
-                    if (b != byte.MaxValue)
-                        //cast the byte as char and add it to the forms label
-                        labelResults.Text += (char)b;
-                }
-
-                //resets the progress bar's value
-                progressBar1.Value = progressBar1.Minimum;
-
+            foreach (byte b in bytes)
+            {
+                //checks if the value of the byte is 0xFF
+                if (b != byte.MaxValue)
+                    //cast the byte as char and add it to the forms label
+                    labelResults.Text += (char)b;
             }
+
+            if (bytes.Length <= 1)
+                labelResults.Text += "There is no text encoded in this image.";
+
+            //resets the progress bar's value
+            progressBar1.Value = progressBar1.Minimum;
+
+        }
 
         //Occurs when the forms comboBox has it's text changed. Enables/disables form controls based
         //on whether or not a color or image have been selected.
@@ -124,6 +130,6 @@ namespace CMPE2300KurtisBridgemanLab1
             progressBar1.Value = _rowNum;
         }
 
-        
+
     }
 }
