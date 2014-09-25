@@ -28,7 +28,7 @@ namespace CMPE2300KurtisBridgemanICA04
                 if (value)
                     canvas.Clear();
 
-                if (!value)
+                else
                     canvas.Render();
             }
         }
@@ -43,7 +43,7 @@ namespace CMPE2300KurtisBridgemanICA04
         //static constructors
         static Ball()
         {
-            canvas = new CDrawer(800, 600, false, false);
+            canvas = new CDrawer(rnd.Next(600,901), rnd.Next(500,801), false, false);
         }
 
         //instance constructor

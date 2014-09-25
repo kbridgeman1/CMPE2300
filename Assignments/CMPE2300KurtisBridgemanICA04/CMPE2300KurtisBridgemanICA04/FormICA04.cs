@@ -40,7 +40,6 @@ namespace CMPE2300KurtisBridgemanICA04
                     if (ballList.IndexOf(tempBall) == -1)
                     {
                         ballList.Add(tempBall);
-
                         iCount++;
                     }
 
