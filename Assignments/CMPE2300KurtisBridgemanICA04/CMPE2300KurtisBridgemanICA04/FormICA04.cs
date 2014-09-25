@@ -21,36 +21,45 @@ namespace CMPE2300KurtisBridgemanICA04
 
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            if (ballList.Count > 0)
-                ballList[ballList.Count - 1].Radius = trackBar1.Value;
+            labelSizeValue.Text = trackBar1.Value.ToString();
         }
 
         private void bttnAddBalls_Click(object sender, EventArgs e)
         {
-            int iCount = 0;
-            int iDiscard = 0;
-
-            Ball.Loading = true;
-
-            do
+            if (trackBar1.Value != 0)
             {
-                Ball tempBall = new Ball(trackBar1.Value);
+                int iCount = 0;
+                int iDiscard = 0;
 
+                Ball.Loading = true;
 
-                if (ballList.IndexOf(tempBall) == -1)
+                while (iCount < 25 && iDiscard < 1000)
                 {
-                    ballList.Add(tempBall);
-                    iCount++;
+                    Ball tempBall = new Ball(trackBar1.Value);
+
+                    if (ballList.IndexOf(tempBall) == -1)
+                    {
+                        ballList.Add(tempBall);
+
+                        iCount++;
+                    }
+
+                    else
+                        iDiscard++;
                 }
 
-                else
-                    iDiscard++;
+                foreach (Ball b in ballList)
+                    b.AddBall();
 
+                Ball.Loading = false;
 
-            } while (iCount < 25 && iDiscard < 1000);
+                progressBar1.Value = iDiscard;
 
-            Ball.Loading = false;
+                this.Text = String.Format("Loaded {0} distinct balls with {1} discards", iCount, iDiscard);
+            }
 
+            else
+                this.Text = String.Format("Loaded {0} distinct balls with {1} discards", 0, 0);
         }
 
 

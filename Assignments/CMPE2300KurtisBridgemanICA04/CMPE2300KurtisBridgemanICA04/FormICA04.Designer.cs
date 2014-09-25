@@ -32,6 +32,7 @@
             this.labelSize = new System.Windows.Forms.Label();
             this.labelSizeValue = new System.Windows.Forms.Label();
             this.bttnAddBalls = new System.Windows.Forms.Button();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.SuspendLayout();
             // 
@@ -60,9 +61,9 @@
             this.labelSizeValue.AutoSize = true;
             this.labelSizeValue.Location = new System.Drawing.Point(221, 78);
             this.labelSizeValue.Name = "labelSizeValue";
-            this.labelSizeValue.Size = new System.Drawing.Size(19, 13);
+            this.labelSizeValue.Size = new System.Drawing.Size(13, 13);
             this.labelSizeValue.TabIndex = 2;
-            this.labelSizeValue.Text = "50";
+            this.labelSizeValue.Text = "0";
             // 
             // bttnAddBalls
             // 
@@ -74,17 +75,28 @@
             this.bttnAddBalls.UseVisualStyleBackColor = true;
             this.bttnAddBalls.Click += new System.EventHandler(this.bttnAddBalls_Click);
             // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(1, 139);
+            this.progressBar1.Maximum = 1000;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(417, 23);
+            this.progressBar1.TabIndex = 4;
+            // 
             // FormICA04
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(419, 157);
+            this.Controls.Add(this.progressBar1);
             this.Controls.Add(this.bttnAddBalls);
             this.Controls.Add(this.labelSizeValue);
             this.Controls.Add(this.labelSize);
             this.Controls.Add(this.trackBar1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "FormICA04";
-            this.Text = "Form1";
+            this.Text = "CMPE2300 - ICA04";
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -97,6 +109,7 @@
         private System.Windows.Forms.Label labelSize;
         private System.Windows.Forms.Label labelSizeValue;
         private System.Windows.Forms.Button bttnAddBalls;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

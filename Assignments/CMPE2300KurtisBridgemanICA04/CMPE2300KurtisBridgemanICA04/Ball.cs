@@ -12,8 +12,7 @@ namespace CMPE2300KurtisBridgemanICA04
     {
         //static variables
         static private CDrawer canvas = null;
-        static private Random rnd =  new Random();
-      //  static private int _ballRadius;
+        static private Random rnd = new Random();
 
         //instance variables
         private Color _ballColor;
@@ -50,18 +49,18 @@ namespace CMPE2300KurtisBridgemanICA04
         //instance constructor
         public Ball(int ballRad)
         {
-            _ballColor = RandColor.GetColor();
             Radius = ballRad;
-            _ballLocation = new Point(rnd.Next(ballRad * 2, canvas.ScaledWidth - ballRad * 2), rnd.Next(ballRad * 2, canvas.ScaledHeight - ballRad * 2));
+            _ballColor = RandColor.GetColor();
+            _ballLocation = new Point(rnd.Next(_ballRadius, canvas.ScaledWidth - _ballRadius), rnd.Next(_ballRadius, canvas.ScaledHeight - _ballRadius));
+
         }
 
-
-        //static methods
 
         //instance methods
         public void AddBall()
         {
-            canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, _ballRadius / 2, _ballRadius / 2, _ballColor);
+            if (_ballRadius > 0)
+                canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, _ballRadius * 2, _ballRadius * 2, _ballColor, _ballRadius / 10, Color.White);
         }
 
         //override functions
@@ -72,11 +71,17 @@ namespace CMPE2300KurtisBridgemanICA04
 
             Ball testBall = (Ball)obj;
 
-            if ((Math.Pow((_ballLocation.X - testBall._ballLocation.X), 2)) + (Math.Pow((_ballLocation.Y - testBall._ballLocation.Y), 2)) <= Math.Pow((_ballRadius + testBall._ballRadius), 2))
+            if (Math.Sqrt((Math.Pow((_ballLocation.X - testBall._ballLocation.X), 2)) + (Math.Pow((_ballLocation.Y - testBall._ballLocation.Y), 2))) <= _ballRadius + testBall._ballRadius)
                 return true;
 
             else
                 return false;
+        }
+
+
+        public override int GetHashCode()
+        {
+            return 1;
         }
 
     }
