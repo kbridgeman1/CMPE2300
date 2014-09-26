@@ -66,7 +66,7 @@ namespace CMPE2300KurtisBridgemanLab1
         //Description:  Opens a new OpenFileDialog and stores the users selection as a bitmap.
         //Return:       Bitmap bMap - a Bitmap for containing the users selected pixel data
         //Parameters:   null
-        public Bitmap OpenFileDialogToBitMap()
+        public Bitmap OpenFileDialogToBitMap(Bitmap bMapOriginal)
         {
             Bitmap bMap;                                        //Bitmap for storing the openFileDlg result
             OpenFileDialog openFileDlg = new OpenFileDialog();  //OpenFileDialog for providing the user friendly file selection
@@ -88,8 +88,7 @@ namespace CMPE2300KurtisBridgemanLab1
 
             //occurs when no picture was selected from the dialog
             else
-                //returns null in this case
-                return null;
+                return bMapOriginal;
         }
 
 
@@ -187,56 +186,12 @@ namespace CMPE2300KurtisBridgemanLab1
         }
 
 
-        //Function:     DecodeText
-        //Description:  Iterates through each pixel in bMapOrig inspecting the blue color.
-        //              Stores the LSB of each byte in a boolean array.
-        //Return:       bool[] bits         - bool array containing the blue LSB of each pixel 
-        //Parameters:   Bitmap bMapOriginal - original Bitmap to be decoded
-        public bool[] DecodeText(Bitmap bMapOriginal)
-        {
-            //a new bool[] for storing the blue LSB of each pixel 
-            bool[] bits = new bool[bMapOriginal.Width * bMapOriginal.Height];
-
-            //checks if bMapOrig has been initialized
-            if (bMapOriginal != null)
-            {
-                //int used to index the bits array
-                int bitIndex = 0;
-
-                //iterates though each pixel in bMapOrig
-                for (int irow = 0; irow < bMapOriginal.Height; irow++)
-                {
-                    for (int icol = 0; icol < bMapOriginal.Width; icol++)
-                    {
-                        //Color for storing the color of the current pixel
-                        Color tmpColor = bMapOriginal.GetPixel(icol, irow);
-
-                        //checks if the LSB of the blue byte is equal to 1
-                        if (((byte)tmpColor.B & 1) == 1)
-                            //assigns true to the bool indexed at bitIndex
-                            bits[bitIndex] = true;
-
-                        //add one to the number of bits in the array
-                        bitIndex++;
-                    }
-
-                    //updates the forms progress bar after iterating through each row
-                    if (_dCallBackGetInt != null)
-                        _dCallBackGetInt.Invoke(irow);
-                }
-
-            }
-
-            //returns the bool[] containing the blue LSB of each pixel
-            return bits;
-        }
-
         //Function:     DecodeTextModified
         //Description:  Iterates through each pixel in bMapOrig inspecting the blue color.
         //              Stores the LSB of each byte in a boolean array.
         //Return:       bool[] bits         - bool array containing the blue LSB of each pixel 
         //Parameters:   Bitmap bMapOriginal - original Bitmap to be decoded
-        public bool[] DecodeTextModified(Bitmap bMapOriginal)
+        public bool[] DecodeText(Bitmap bMapOriginal)
         {
             List<bool> listBits = new List<bool>();     //a new list of bool to store each pixel's blue LSB
             bool[] bits = null;                         //a bool array of unknown size, will be assigned the data contained in ListBits
@@ -274,6 +229,7 @@ namespace CMPE2300KurtisBridgemanLab1
                             byte b = 0;                         //temporary byte used to check the character formed from each set of 8 bits
                             int listIndex = bitIndex - 8;       //temporary int used to index listBits
 
+                            //forms a byte from MSB to LSB
                             for (int i = 7; i > -1; i--)
                             {
                                 if (listBits[listIndex])
@@ -282,7 +238,8 @@ namespace CMPE2300KurtisBridgemanLab1
                                 listIndex++;
                             }
 
-                            if (((char)b == byte.MaxValue) || b < 32|| b > 122)
+                            //checks the byte to make sure it is a english character (no accents and symbols)
+                            if ((b == byte.MaxValue) || b < 32 || b > 122)
                             {
                                 bits = listBits.ToArray();
                                 return bits;
@@ -297,6 +254,8 @@ namespace CMPE2300KurtisBridgemanLab1
                 }
 
             }
+
+            //if all bytes were accepted as english characters, return the list as a 
             bits = listBits.ToArray();
             return bits;
         }

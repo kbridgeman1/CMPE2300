@@ -26,11 +26,11 @@ namespace CMPE2300KurtisBridgemanICA04
 
         private void bttnAddBalls_Click(object sender, EventArgs e)
         {
+            int iCount = 0;
+            int iDiscard = 0;
+
             if (trackBar1.Value != 0)
             {
-                int iCount = 0;
-                int iDiscard = 0;
-
                 Ball.Loading = true;
 
                 while (iCount < 25 && iDiscard < 1000)
@@ -52,13 +52,13 @@ namespace CMPE2300KurtisBridgemanICA04
 
                 Ball.Loading = false;
 
-                progressBar1.Value = iDiscard;
-
                 this.Text = String.Format("Loaded {0} distinct balls with {1} discards", iCount, iDiscard);
             }
 
             else
                 this.Text = String.Format("Loaded {0} distinct balls with {1} discards", 0, 0);
+
+            progressBar1.Value = iDiscard;
         }
 
 

@@ -19,7 +19,6 @@ namespace CMPE2300KurtisBridgemanICA05
             InitializeComponent();
         }
 
-
         private void trackBar1_Scroll_1(object sender, EventArgs e)
         {
             labelSizeValue.Text = trackBar1.Value.ToString();
@@ -94,7 +93,7 @@ namespace CMPE2300KurtisBridgemanICA05
             {
                 b.AddBall();
                 Ball.Loading = false;
-                System.Threading.Thread.Sleep(50);
+                System.Threading.Thread.Sleep(5);
             }
         }
 

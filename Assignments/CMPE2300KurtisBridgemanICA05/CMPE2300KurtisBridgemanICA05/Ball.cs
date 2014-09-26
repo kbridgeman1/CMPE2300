@@ -15,7 +15,7 @@ namespace CMPE2300KurtisBridgemanICA05
     {
         //enums
         public enum ESortType { eRadius, eDistance, eColor }
-        static private ESortType eSort;
+        //static private ESortType eSort;
 
 
         //static variables

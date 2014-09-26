@@ -18,9 +18,14 @@ namespace CMPE2300KurtisBridgemanLab1
 {
     public partial class FormImageSecrets : Form
     {
-        private Bitmap bMapOrig;                                //BitMap used to store the user selected image
-        private Bitmap bMapDecode;                              //BitMap used to store the decoded image
-        private DecodatronMethods dm = new DecodatronMethods(); //DecodatronMethods object used to call methods from seperate class
+        //BitMap used to store the user selected image
+        private Bitmap bMapOrig;
+
+        //BitMap used to store the decoded image
+        private Bitmap bMapDecode;
+
+        //DecodatronMethods object used to call methods from seperate class
+        private DecodatronMethods dm = new DecodatronMethods();
 
 
         public FormImageSecrets()
@@ -32,8 +37,8 @@ namespace CMPE2300KurtisBridgemanLab1
         //open file dialog to select an image. The user selected image is assiged to bMapOrig.
         private void toolStripButtonLoadImage_Click(object sender, EventArgs e)
         {
-            //creates a new OpenFileDialog and returns a user selected BitMap
-            bMapOrig = dm.OpenFileDialogToBitMap();
+            //opens a new file dialog and assigns the result to bMapOrig
+            bMapOrig = dm.OpenFileDialogToBitMap(bMapOrig);
 
             //checks if bMapOrig has been initialized
             if (bMapOrig != null)
@@ -90,7 +95,7 @@ namespace CMPE2300KurtisBridgemanLab1
             labelResults.Text = "";
 
             //calls DecodeText and assigns the returned bool array to bits
-            bits = dm.DecodeTextModified(bMapOrig);
+            bits = dm.DecodeText(bMapOrig);
 
             //calls BoolArrayToByteArray and assigns the returned byte array to bytes
             bytes = dm.BoolArrayToByteArray(bits);
