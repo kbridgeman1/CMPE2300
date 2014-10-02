@@ -13,8 +13,8 @@ namespace CMPE2300KurtisBridgemanICA06
 {
     public partial class Form1 : Form
     {
-        CDrawer canvasA = new CDrawer(800, 300, false, false);
-        CDrawer canvasB = new CDrawer(800, 300, false, false);
+        CDrawer canvasA = new CDrawer(800, 500, false, false);
+        CDrawer canvasB = new CDrawer(800, 500, false, false);
 
         List<Ball> bBalls = new List<Ball>();
         List<Ball> gBalls = new List<Ball>();
@@ -57,7 +57,8 @@ namespace CMPE2300KurtisBridgemanICA06
                 Ball tBall = new Ball(mouseLocation, Color.Blue);
 
                 if (-1 == bBalls.IndexOf(tBall))
-                    bBalls.Add(tBall);
+                    bBalls.Insert(0, tBall);
+                    //bBalls.Add(tBall);
             }
 
             foreach (Ball b in bBalls)
