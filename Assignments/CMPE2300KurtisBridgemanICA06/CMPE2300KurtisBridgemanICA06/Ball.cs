@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using GDIDrawer;
 
-namespace CMPE2300KurtisBridgemanICA04
+namespace CMPE2300KurtisBridgemanICA06
 {
     class Ball
     {
@@ -18,24 +18,20 @@ namespace CMPE2300KurtisBridgemanICA04
 
         private int _ballRadius;
         private int _ballXVelocity;
-        private int _ballYVelocity;
-
-
-        //static properties
-        
+        private int _ballYVelocity;   
 
         //instance properties
         public Color BallColor { get; set; }
 
-        //static constructors
-
-
         //instance constructor
         public Ball(Point location, Color color)
         {
+            _ballLocation.X = location.X;
+            _ballLocation.Y = location.Y;
             _ballXVelocity = rnd.Next(-5, 6);
             _ballYVelocity = rnd.Next(-5, 6);
             _ballRadius = rnd.Next(20, 51);
+            BallColor = color;
         }
 
 
@@ -72,10 +68,10 @@ namespace CMPE2300KurtisBridgemanICA04
 
         public void Show(CDrawer canvas, int ballCount)
         {
-            Color complimentColor = Color.FromArgb(BallColor.ToArgb()^0x00FFFFFF);
-
+            Color complimentColor = Color.FromArgb(BallColor.ToArgb() ^ 0x00FFFFFF);
+            
             canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, _ballRadius * 2, _ballRadius * 2, BallColor);
-            canvas.AddText(ballCount.ToString(), 14, complimentColor);
+            canvas.AddText(ballCount.ToString(), 14, _ballLocation.X - _ballRadius, _ballLocation.Y - _ballRadius, _ballRadius*2, _ballRadius*2, complimentColor);
         }
 
         //override functions
