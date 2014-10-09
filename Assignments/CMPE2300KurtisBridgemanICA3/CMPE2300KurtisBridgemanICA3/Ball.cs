@@ -33,14 +33,10 @@ namespace CMPE2300KurtisBridgemanICA3
             set
             {
                 if (value == true)
-                {
                     canvas.Clear();
-                }
-
+                
                 if (value == false)
-                {
                     canvas.Render();
-                }
             }
         }
 
@@ -57,13 +53,17 @@ namespace CMPE2300KurtisBridgemanICA3
             _ballColor = RandColor.GetColor();
             _xVel = rnd.Next(-10, 11);
             _yVel = rnd.Next(-10, 11);
-            _ballLocation = new Point(rnd.Next(ballRadius*2, canvas.ScaledWidth-ballRadius*2), rnd.Next(ballRadius*2, canvas.ScaledHeight-ballRadius*2));
+            _ballLocation =
+                new Point(rnd.Next(ballRadius*2, canvas.ScaledWidth-ballRadius*2),
+                    rnd.Next(ballRadius*2, canvas.ScaledHeight-ballRadius*2));
         }
 
         //instance methods
         public void ShowBall()
         {
-            canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, ballRadius * 2, ballRadius * 2, Color.FromArgb(_iAlive,_ballColor));
+            canvas.AddCenteredEllipse
+                (_ballLocation.X, _ballLocation.Y, ballRadius * 2, ballRadius * 2,
+                Color.FromArgb(_iAlive,_ballColor));
         }
 
         public void MoveBall()

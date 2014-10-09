@@ -51,8 +51,8 @@ namespace CMPE2300KurtisBridgemanICA04
         {
             Radius = ballRad;
             _ballColor = RandColor.GetColor();
-            _ballLocation = new Point(rnd.Next(_ballRadius, canvas.ScaledWidth - _ballRadius), rnd.Next(_ballRadius, canvas.ScaledHeight - _ballRadius));
-
+            _ballLocation = new Point(rnd.Next(_ballRadius, canvas.ScaledWidth - _ballRadius),
+                rnd.Next(_ballRadius, canvas.ScaledHeight - _ballRadius));
         }
 
 
@@ -60,7 +60,8 @@ namespace CMPE2300KurtisBridgemanICA04
         public void AddBall()
         {
             if (_ballRadius > 0)
-                canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, _ballRadius * 2, _ballRadius * 2, _ballColor, _ballRadius / 10, Color.White);
+                canvas.AddCenteredEllipse(_ballLocation.X, _ballLocation.Y, _ballRadius * 2,
+                    _ballRadius * 2, _ballColor, _ballRadius / 10, Color.White);
         }
 
         //override functions
@@ -71,13 +72,14 @@ namespace CMPE2300KurtisBridgemanICA04
 
             Ball testBall = (Ball)obj;
 
-            if (Math.Sqrt((Math.Pow((_ballLocation.X - testBall._ballLocation.X), 2)) + (Math.Pow((_ballLocation.Y - testBall._ballLocation.Y), 2))) <= _ballRadius + testBall._ballRadius)
+            if (Math.Sqrt((Math.Pow((_ballLocation.X - testBall._ballLocation.X), 2))
+                + (Math.Pow((_ballLocation.Y - testBall._ballLocation.Y), 2)))
+                <= _ballRadius + testBall._ballRadius)
                 return true;
 
             else
                 return false;
         }
-
 
         public override int GetHashCode()
         {

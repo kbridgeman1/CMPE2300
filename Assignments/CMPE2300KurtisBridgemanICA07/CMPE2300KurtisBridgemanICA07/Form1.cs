@@ -36,9 +36,9 @@ namespace CMPE2300KurtisBridgemanICA07
                 bl.ShowBlock(p);
 
                 p.X += bl.Width;
-            }
 
-            Block.Canvas.Render();
+                Block.Canvas.Render();
+            }
         }
 
 
@@ -60,16 +60,13 @@ namespace CMPE2300KurtisBridgemanICA07
             }
 
             ShowBlocks();
-
         }
 
 
         private void btnColor_Click(object sender, EventArgs e)
         {
-
             blocksList.Sort();
             ShowBlocks();
-
         }
 
         private void btnWidth_Click(object sender, EventArgs e)
@@ -78,10 +75,14 @@ namespace CMPE2300KurtisBridgemanICA07
             ShowBlocks();
         }
 
-        private void btnWidthColor_Click(object sender, EventArgs e)
+        private void btnWidthDesc_Click(object sender, EventArgs e)
         {
 
+        }
 
+        private void btnWidthColor_Click(object sender, EventArgs e)
+        {
+            blocksList.Sort(Block.CompareWidthThenCol);
             ShowBlocks();
         }
 
@@ -111,7 +112,6 @@ namespace CMPE2300KurtisBridgemanICA07
                 bl.Highlight = true;
 
             ShowBlocks();
-
         }
 
         private void Form1_KeyPress(object sender, KeyPressEventArgs e)
@@ -122,9 +122,9 @@ namespace CMPE2300KurtisBridgemanICA07
             }
 
             ShowBlocks();
-
-
         }
+
+        
 
         
 

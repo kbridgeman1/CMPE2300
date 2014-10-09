@@ -84,10 +84,20 @@ namespace CMPE2300KurtisBridgemanICA07
             return arg1.Width.CompareTo(arg2.Width);
         }
 
- //       public static int CompareColThenWidth(Block arg1, Block arg2)
-  //      {
+        public static int CompareWidthThenCol(Block arg1, Block arg2)
+        {
+            int compI = 0;
 
-  //      }
+            compI = arg1.Width - arg2.Width;
+
+            if (compI != 0)
+                return compI;
+            
+            else
+                compI = arg1._color.ToArgb() - arg2._color.ToArgb();
+
+            return compI;
+        }
 
         //predicates
         public static bool BrightEnough(Block arg)
@@ -109,7 +119,6 @@ namespace CMPE2300KurtisBridgemanICA07
 
             else
                 return false;
-
         }
 
 

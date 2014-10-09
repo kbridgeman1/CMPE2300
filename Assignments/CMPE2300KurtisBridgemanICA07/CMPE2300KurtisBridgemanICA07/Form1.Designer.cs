@@ -34,6 +34,7 @@
             this.btnWidthColor = new System.Windows.Forms.Button();
             this.btnBright = new System.Windows.Forms.Button();
             this.btnLonger = new System.Windows.Forms.Button();
+            this.btnWidthDesc = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnPopulate
@@ -68,7 +69,7 @@
             // 
             // btnWidthColor
             // 
-            this.btnWidthColor.Location = new System.Drawing.Point(12, 161);
+            this.btnWidthColor.Location = new System.Drawing.Point(14, 211);
             this.btnWidthColor.Name = "btnWidthColor";
             this.btnWidthColor.Size = new System.Drawing.Size(259, 44);
             this.btnWidthColor.TabIndex = 3;
@@ -78,7 +79,7 @@
             // 
             // btnBright
             // 
-            this.btnBright.Location = new System.Drawing.Point(13, 211);
+            this.btnBright.Location = new System.Drawing.Point(14, 261);
             this.btnBright.Name = "btnBright";
             this.btnBright.Size = new System.Drawing.Size(259, 44);
             this.btnBright.TabIndex = 4;
@@ -88,7 +89,7 @@
             // 
             // btnLonger
             // 
-            this.btnLonger.Location = new System.Drawing.Point(12, 261);
+            this.btnLonger.Location = new System.Drawing.Point(14, 311);
             this.btnLonger.Name = "btnLonger";
             this.btnLonger.Size = new System.Drawing.Size(259, 44);
             this.btnLonger.TabIndex = 5;
@@ -96,11 +97,22 @@
             this.btnLonger.UseVisualStyleBackColor = true;
             this.btnLonger.Click += new System.EventHandler(this.btnLonger_Click);
             // 
+            // btnWidthDesc
+            // 
+            this.btnWidthDesc.Location = new System.Drawing.Point(14, 161);
+            this.btnWidthDesc.Name = "btnWidthDesc";
+            this.btnWidthDesc.Size = new System.Drawing.Size(259, 44);
+            this.btnWidthDesc.TabIndex = 6;
+            this.btnWidthDesc.Text = "Width Desc";
+            this.btnWidthDesc.UseVisualStyleBackColor = true;
+            this.btnWidthDesc.Click += new System.EventHandler(this.btnWidthDesc_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 317);
+            this.ClientSize = new System.Drawing.Size(284, 419);
+            this.Controls.Add(this.btnWidthDesc);
             this.Controls.Add(this.btnLonger);
             this.Controls.Add(this.btnBright);
             this.Controls.Add(this.btnWidthColor);
@@ -123,6 +135,7 @@
         private System.Windows.Forms.Button btnWidthColor;
         private System.Windows.Forms.Button btnBright;
         private System.Windows.Forms.Button btnLonger;
+        private System.Windows.Forms.Button btnWidthDesc;
     }
 }
 
