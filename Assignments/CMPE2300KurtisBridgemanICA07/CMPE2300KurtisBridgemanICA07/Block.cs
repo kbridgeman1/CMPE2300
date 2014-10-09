@@ -8,7 +8,7 @@ using GDIDrawer;
 
 namespace CMPE2300KurtisBridgemanICA07
 {
-    class Block
+    class Block : IComparable
     {
         //static variables
         private static Random _Random = new Random(1);
@@ -16,24 +16,25 @@ namespace CMPE2300KurtisBridgemanICA07
         //static properties
         public static CDrawer Canvas { get; private set; }
         public static int Height { get; private set; }
-        public static int HighlightWith { get; set; }
-        
+        public static int HighlightWidth { get; set; }
+
+
         //instance properties
         public int Width { get; set; }
         public bool Highlight { get; set; }
 
         //instance variables
         private Color _color;
-        
+
         //static constructor
-        public static Block()
+        static Block()
         {
             Height = 20;
-            HighlightWith = 0;
+            HighlightWidth = 0;
             Canvas = new CDrawer(bContinuousUpdate: false);
             Canvas.BBColour = Color.White;
         }
-        
+
         //instance constructor
         public Block()
         {
@@ -57,14 +58,69 @@ namespace CMPE2300KurtisBridgemanICA07
                 return false;
         }
 
+        public override int GetHashCode()
+        {
+            return 1;
+        }
+
+        //extension methods
+        public int CompareTo(object obj)
+        {
+            if (!(obj is Block))
+                throw new Exception("not is block");
+
+            Block tBlock = obj as Block;
+
+            int compI = 0;
+
+            compI = _color.ToArgb() - tBlock._color.ToArgb();
+
+            return compI;
+
+        }
+
+        public static int CompareWidth(Block arg1, Block arg2)
+        {
+            return arg1.Width.CompareTo(arg2.Width);
+        }
+
+ //       public static int CompareColThenWidth(Block arg1, Block arg2)
+  //      {
+
+  //      }
+
+        //predicates
+        public static bool BrightEnough(Block arg)
+        {
+            return arg._color.GetBrightness() > 0.5;
+        }
+
+        public static bool LongEnough(Block arg)
+        {
+            return arg.Width > 100;
+        }
+
+        public static bool CloseEnough(Block arg)
+        {
+            if (arg.Width > HighlightWidth - 10 && arg.Width < HighlightWidth + 10)
+            {
+                return true;
+            }
+
+            else
+                return false;
+
+        }
+
+
         //public methods
         public void ShowBlock(Point startPoint)
         {
-            if(Highlight == false)
-                Canvas.AddRectangle(startPoint.X, startPoint.Y, Width, Height, _color, 1, Color.Black);
+            if(Highlight==true)
+                Canvas.AddRectangle(startPoint.X, startPoint.Y, Width, Height, _color, 2, Color.Yellow);
 
             else
-                Canvas.AddRectangle(startPoint.X, startPoint.Y, Width, Height, _color, 2, Color.Yellow);
+                Canvas.AddRectangle(startPoint.X, startPoint.Y, Width, Height, _color, 1, Color.Black);
         }
 
 
