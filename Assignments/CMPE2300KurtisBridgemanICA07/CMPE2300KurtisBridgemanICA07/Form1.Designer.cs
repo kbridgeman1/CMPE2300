@@ -81,6 +81,7 @@
             // 
             // btnBright
             // 
+            this.btnBright.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnBright.Location = new System.Drawing.Point(14, 261);
             this.btnBright.Name = "btnBright";
             this.btnBright.Size = new System.Drawing.Size(259, 44);
@@ -91,6 +92,7 @@
             // 
             // btnLonger
             // 
+            this.btnLonger.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Strikeout, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLonger.Location = new System.Drawing.Point(14, 311);
             this.btnLonger.Name = "btnLonger";
             this.btnLonger.Size = new System.Drawing.Size(259, 44);
@@ -115,6 +117,7 @@
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(259, 45);
             this.trackBar1.TabIndex = 7;
+            this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // Form1
             // 
@@ -131,7 +134,6 @@
             this.Controls.Add(this.btnPopulate);
             this.Name = "Form1";
             this.Text = "Form1";
-            this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.Form1_KeyPress);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);

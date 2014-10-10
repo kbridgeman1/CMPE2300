@@ -39,8 +39,21 @@ namespace CMPE2300KurtisBridgemanICA07
 
                 Block.Canvas.Render();
             }
+
         }
 
+        public void UpdateTrackBar()
+        {
+            if (blocksList.Count != 0)
+            {
+                trackBar1.Minimum = blocksList.Min(tBlock => tBlock.Width);
+                trackBar1.Maximum = blocksList.Max(tBlock => tBlock.Width);
+
+                trackBar1.Value = (trackBar1.Maximum + trackBar1.Minimum) / 2;
+            }
+
+            btnLonger.Text = "Longer than: " + trackBar1.Value.ToString();
+        }
 
         private void btnPopulate_Click(object sender, EventArgs e)
         {
@@ -59,9 +72,9 @@ namespace CMPE2300KurtisBridgemanICA07
                 }
             }
 
+            UpdateTrackBar();
             ShowBlocks();
         }
-
 
         private void btnColor_Click(object sender, EventArgs e)
         {
@@ -90,47 +103,39 @@ namespace CMPE2300KurtisBridgemanICA07
         private void btnBright_Click(object sender, EventArgs e)
         {
             this.Text = "Blocks Removed: " + blocksList.RemoveAll(Block.BrightEnough).ToString();
+            UpdateTrackBar();
             ShowBlocks();
         }
 
         private void btnLonger_Click(object sender, EventArgs e)
         {
-            this.Text = "Blocks Removed: " + blocksList.RemoveAll(Block.LongEnough).ToString();
+            this.Text = "Blocks Removed: " + blocksList.RemoveAll(tBlock => tBlock.Width > trackBar1.Value).ToString();
+            UpdateTrackBar();
             ShowBlocks();
         }
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-
-
-
-
-
-
-
-            //foreach (Block bl in blocksList)
-            //    bl.Highlight = false;
-
+            //sets the static Block property to match the mouse X coords 
             //Block.HighlightWidth = e.X;
 
+            //iterates through blocksList setting each Block's Highlight bool to false, using a lambda expression
+            blocksList.ForEach(tBlock => tBlock.Highlight = false);
 
-            //List<Block> tempblList = blocksList.FindAll(Block.CloseEnough);
+            //finds all blocks that at close the the width provided by Highlight width using a predicate
+            //iterates through the Blocks finding remaining Blocks with Highlight == true
+            blocksList.FindAll(tBlock => tBlock.Width > e.X - 10 && tBlock.Width < e.X + 10).ForEach(tBlock => tBlock.Highlight = true);
 
-            //foreach (Block bl in tempblList)
-            //    bl.Highlight = true;
+            //blocksList.FindAll(Block.CloseEnough).ForEach(tBlock => tBlock.Highlight = true);
 
             ShowBlocks();
         }
 
-        private void Form1_KeyPress(object sender, KeyPressEventArgs e)
+        private void trackBar1_Scroll(object sender, EventArgs e)
         {
-            for (int i = 0; i < 50; i++)
-            {
-                blocksList.Add(new Block());
-            }
-
-            ShowBlocks();
+            btnLonger.Text = "Longer than: " + trackBar1.Value.ToString();
         }
+
 
 
 

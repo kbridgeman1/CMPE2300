@@ -16,8 +16,9 @@ namespace CMPE2300KurtisBridgemanICA07
         //static properties
         public static CDrawer Canvas { get; private set; }
         public static int Height { get; private set; }
-        public static int HighlightWidth { get; set; }
-
+        
+        //used for the predicate LongEnough to compare with the mouse x location
+        //public static int HighLightWidth { get; set; }
 
         //instance properties
         public int Width { get; set; }
@@ -30,7 +31,6 @@ namespace CMPE2300KurtisBridgemanICA07
         static Block()
         {
             Height = 20;
-            HighlightWidth = 0;
             Canvas = new CDrawer(bContinuousUpdate: false);
             Canvas.BBColour = Color.White;
         }
@@ -38,7 +38,7 @@ namespace CMPE2300KurtisBridgemanICA07
         //instance constructor
         public Block()
         {
-            Width = _Random.Next(1, 19) * 10;
+            Width = _Random.Next(1, 20) * 10;
             Highlight = false;
             _color = Color.FromArgb(_Random.Next(2, 8) * 32, _Random.Next(2, 8) * 16, _Random.Next(2, 8) * 16);
         }
@@ -115,16 +115,20 @@ namespace CMPE2300KurtisBridgemanICA07
             return arg.Width > 100;
         }
 
-        public static bool CloseEnough(Block arg)
-        {
-            if (arg.Width > HighlightWidth - 10 && arg.Width < HighlightWidth + 10)
-            {
-                return true;
-            }
 
-            else
-                return false;
-        }
+
+        // a predicate that does the same as the lambda expression used in the main form, btnLonger_Click handler
+        // but needs a value to be passed into the class to compare with 
+        //public static bool CloseEnough(Block arg)
+        //{
+        //    if (arg.Width > HighlightWidth - 10 && arg.Width < HighlightWidth + 10)
+        //    {
+        //        return true;
+        //    }
+
+        //    else
+        //        return false;
+        //}
 
 
         //public methods
