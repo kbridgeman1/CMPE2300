@@ -84,6 +84,11 @@ namespace CMPE2300KurtisBridgemanICA07
             return arg1.Width.CompareTo(arg2.Width);
         }
 
+        public static int CompareWidthDesc(Block arg1, Block arg2)
+        {
+            return arg2.Width.CompareTo(arg1.Width);
+        }
+
         public static int CompareWidthThenCol(Block arg1, Block arg2)
         {
             int compI = 0;

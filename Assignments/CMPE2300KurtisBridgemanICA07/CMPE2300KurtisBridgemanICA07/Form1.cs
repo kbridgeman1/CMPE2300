@@ -77,7 +77,8 @@ namespace CMPE2300KurtisBridgemanICA07
 
         private void btnWidthDesc_Click(object sender, EventArgs e)
         {
-
+            blocksList.Sort(Block.CompareWidthDesc);
+            ShowBlocks();
         }
 
         private void btnWidthColor_Click(object sender, EventArgs e)
@@ -100,16 +101,23 @@ namespace CMPE2300KurtisBridgemanICA07
 
         private void Form1_MouseMove(object sender, MouseEventArgs e)
         {
-            foreach (Block bl in blocksList)
-                bl.Highlight = false;
 
-            Block.HighlightWidth = e.X;
-            
 
-            List<Block> tempblList = blocksList.FindAll(Block.CloseEnough);
 
-            foreach (Block bl in tempblList)
-                bl.Highlight = true;
+
+
+
+
+            //foreach (Block bl in blocksList)
+            //    bl.Highlight = false;
+
+            //Block.HighlightWidth = e.X;
+
+
+            //List<Block> tempblList = blocksList.FindAll(Block.CloseEnough);
+
+            //foreach (Block bl in tempblList)
+            //    bl.Highlight = true;
 
             ShowBlocks();
         }
@@ -124,15 +132,15 @@ namespace CMPE2300KurtisBridgemanICA07
             ShowBlocks();
         }
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
 
 
 
