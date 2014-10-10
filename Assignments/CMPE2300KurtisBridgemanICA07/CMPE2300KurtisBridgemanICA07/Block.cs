@@ -84,10 +84,11 @@ namespace CMPE2300KurtisBridgemanICA07
             return arg1.Width.CompareTo(arg2.Width);
         }
 
-        public static int CompareWidthDesc(Block arg1, Block arg2)
-        {
-            return arg2.Width.CompareTo(arg1.Width);
-        }
+        //predicate for sorting the widths in descending order
+        //public static int CompareWidthDesc(Block arg1, Block arg2)
+        //{
+        //    return arg2.Width.CompareTo(arg1.Width);
+        //}
 
         public static int CompareWidthThenCol(Block arg1, Block arg2)
         {
@@ -114,8 +115,6 @@ namespace CMPE2300KurtisBridgemanICA07
         {
             return arg.Width > 100;
         }
-
-
 
         // a predicate that does the same as the lambda expression used in the main form, btnLonger_Click handler
         // but needs a value to be passed into the class to compare with 

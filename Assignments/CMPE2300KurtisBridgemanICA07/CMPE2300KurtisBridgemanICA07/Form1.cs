@@ -90,7 +90,11 @@ namespace CMPE2300KurtisBridgemanICA07
 
         private void btnWidthDesc_Click(object sender, EventArgs e)
         {
-            blocksList.Sort(Block.CompareWidthDesc);
+            //same as below, but with a predicate
+            //blocksList.Sort(Block.CompareWidthDesc);
+
+            blocksList.Sort((tBlockA, tBlockB) => tBlockB.Width - tBlockA.Width);
+
             ShowBlocks();
         }
 
