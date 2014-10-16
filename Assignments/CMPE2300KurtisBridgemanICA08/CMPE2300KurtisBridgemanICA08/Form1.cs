@@ -20,6 +20,7 @@ namespace CMPE2300KurtisBridgemanICA08
 
         int itemsTotal;
         int tickRequired;
+        int itemsPerTick;
 
 
         public Form1()
@@ -40,7 +41,7 @@ namespace CMPE2300KurtisBridgemanICA08
             canvas.Scale = 20;
 
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 200; i++)
                 sheepStack.Push(new Sheeple());
             
             for (int i = 0; i < numericUpDown1.Value; i++)
@@ -51,6 +52,7 @@ namespace CMPE2300KurtisBridgemanICA08
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            itemsPerTick = 0;
 
             if (canvas != null)
             {
@@ -80,6 +82,7 @@ namespace CMPE2300KurtisBridgemanICA08
                         {
                             //process the first item in the current queue
                             q.Peek().Process();
+                            itemsPerTick++;
 
                             //if the first item has items remaining of 0, add items to itemsTotal and remove from the queue
                             if (q.Peek().Done)
@@ -91,7 +94,6 @@ namespace CMPE2300KurtisBridgemanICA08
 
                     tickRequired = 0;
                 }
-
 
 
                 //3rd block
@@ -114,15 +116,10 @@ namespace CMPE2300KurtisBridgemanICA08
                 }
 
                 canvas.Render();
-                this.Text = itemsTotal.ToString();
+                this.Text = String.Format("I: {0}, I/tick: {1}", itemsTotal, itemsPerTick);
                 tickRequired++;
             }
 
-        }
-
-        private void trackBar1_Scroll(object sender, EventArgs e)
-        {
-           // timer1.Interval = -trackBar1.Value;
         }
 
 

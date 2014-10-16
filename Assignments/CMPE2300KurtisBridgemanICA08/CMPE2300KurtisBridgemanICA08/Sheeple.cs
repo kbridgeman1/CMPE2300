@@ -23,11 +23,7 @@ namespace CMPE2300KurtisBridgemanICA08
         {
             get
             {
-                if (ItemsRemain == 0)
-                    return true;
-
-                else
-                    return false;
+                return (ItemsRemain == 0);
             }
         }
 
