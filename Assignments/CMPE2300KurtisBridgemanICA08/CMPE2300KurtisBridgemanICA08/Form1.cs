@@ -25,6 +25,7 @@ namespace CMPE2300KurtisBridgemanICA08
         public Form1()
         {
             InitializeComponent();
+            trackBar1.Value = 3;
         }
 
         private void btnSimulate_Click(object sender, EventArgs e)
@@ -35,30 +36,30 @@ namespace CMPE2300KurtisBridgemanICA08
             if (canvas != null)
                 canvas.Close();
 
-            else
-            {
-                canvas = new CDrawer(1100, 400);
-                canvas.Scale = 20;
-            }
+            canvas = new CDrawer(900, 400, false, false);
+            canvas.Scale = 20;
 
-            for (int i = 0; i < 200; i++)
+
+            for (int i = 0; i < 500; i++)
             {
                 sheepStack.Push(new Sheeple());
             }
+
+            for (int i = 0; i < numericUpDown1.Value; i++)
+                sheepList.Add(new Queue<Sheeple>());
+
+            this.Text = "0";
 
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            tickRequired++;
+
             if (canvas != null)
             {
                 //1st block
                 if (sheepStack.Count != 0)
-                {
-                    for (int i = 0; i < numericUpDown1.Value; i++)
-                        sheepList.Add(new Queue<Sheeple>());
-                        
-
                     foreach (Queue<Sheeple> q in sheepList)
                     {
                         if (q.Count < 10 && sheepStack.Count != 0)
@@ -68,32 +69,45 @@ namespace CMPE2300KurtisBridgemanICA08
                         }
                     }
 
-                    listBox1.Items.Clear();
+                listBox1.Items.Clear();
 
-                    foreach (Sheeple sh in sheepStack)
-                        listBox1.Items.Add(sh.ItemsTotal);
-                }
+                foreach (Sheeple sh in sheepStack)
+                    listBox1.Items.Add(sh.ItemsTotal);
 
-                //2nd block
-                foreach(Queue<Sheeple> q in sheepList)
+
+                if (tickRequired % trackBar1.Value == 0)
                 {
-                    //process the first item in the current queue
-                    q.Peek().Process();
 
-                    //if the first item has items remaining of 0, remove it from the queue
-                    if (q.Peek().Done)
-                    {
-                        itemsTotal += q.Peek().ItemsTotal;
-                        q.Dequeue();
-                    }
+                    //2nd block
+                    foreach (Queue<Sheeple> q in sheepList)
+                        if (q.Count != 0)
+                        {
+                            //process the first item in the current queue
+                            q.Peek().Process();
+
+                            //if the first item has items remaining of 0,add items to itemsTotal and remove from the queue
+                            if (q.Peek().Done)
+                            {
+                                itemsTotal += q.Peek().ItemsTotal;
+                                q.Dequeue();
+                            }
+                        }
+
+
                 }
+
+
 
                 //3rd block
                 int xDims = 0;
                 int queueCount = 0;
 
+                canvas.Clear();
+
                 foreach (Queue<Sheeple> q in sheepList)
                 {
+                    xDims = 0;
+
                     foreach (Sheeple sh in q)
                     {
                         canvas.AddRectangle(xDims, queueCount, sh.ItemsRemain, 1, Color.FromArgb(sh.SheepleColor));
@@ -103,14 +117,17 @@ namespace CMPE2300KurtisBridgemanICA08
                     queueCount++;
                 }
 
+                canvas.Render();
+                this.Text = itemsTotal.ToString();
 
             }
 
         }
 
-
-
-
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+           // timer1.Interval = -trackBar1.Value;
+        }
 
 
     }
