@@ -73,13 +73,13 @@
             // trackBar1
             // 
             this.trackBar1.Location = new System.Drawing.Point(160, 43);
-            this.trackBar1.Maximum = 5;
-            this.trackBar1.Minimum = 1;
+            this.trackBar1.Maximum = -1;
+            this.trackBar1.Minimum = -5;
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Orientation = System.Windows.Forms.Orientation.Vertical;
             this.trackBar1.Size = new System.Drawing.Size(45, 235);
             this.trackBar1.TabIndex = 3;
-            this.trackBar1.Value = 1;
+            this.trackBar1.Value = -3;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // label1

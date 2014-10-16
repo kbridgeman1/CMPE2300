@@ -25,11 +25,11 @@ namespace CMPE2300KurtisBridgemanICA08
         public Form1()
         {
             InitializeComponent();
-            trackBar1.Value = 3;
         }
 
         private void btnSimulate_Click(object sender, EventArgs e)
         {
+            itemsTotal = 0;
             sheepStack.Clear();
             sheepList.Clear();
 
@@ -41,20 +41,16 @@ namespace CMPE2300KurtisBridgemanICA08
 
 
             for (int i = 0; i < 500; i++)
-            {
                 sheepStack.Push(new Sheeple());
-            }
-
+            
             for (int i = 0; i < numericUpDown1.Value; i++)
                 sheepList.Add(new Queue<Sheeple>());
 
-            this.Text = "0";
-
+            this.Text = itemsTotal.ToString();
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            tickRequired++;
 
             if (canvas != null)
             {
@@ -75,7 +71,7 @@ namespace CMPE2300KurtisBridgemanICA08
                     listBox1.Items.Add(sh.ItemsTotal);
 
 
-                if (tickRequired % trackBar1.Value == 0)
+                if (tickRequired % -trackBar1.Value == 0)
                 {
 
                     //2nd block
@@ -85,15 +81,15 @@ namespace CMPE2300KurtisBridgemanICA08
                             //process the first item in the current queue
                             q.Peek().Process();
 
-                            //if the first item has items remaining of 0,add items to itemsTotal and remove from the queue
+                            //if the first item has items remaining of 0, add items to itemsTotal and remove from the queue
                             if (q.Peek().Done)
                             {
-                                itemsTotal += q.Peek().ItemsTotal;
-                                q.Dequeue();
+                                //itemsTotal += q.Peek().ItemsTotal;
+                                itemsTotal += q.Dequeue().ItemsTotal;
                             }
                         }
 
-
+                    tickRequired = 0;
                 }
 
 
@@ -119,7 +115,7 @@ namespace CMPE2300KurtisBridgemanICA08
 
                 canvas.Render();
                 this.Text = itemsTotal.ToString();
-
+                tickRequired++;
             }
 
         }

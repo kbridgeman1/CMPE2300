@@ -13,12 +13,12 @@ namespace CMPE2300KurtisBridgemanICA08
         //static variables
         public static Random Rand = new Random();
 
-        //instance properties auto
+        //instance properties: auto
         public int ItemsTotal { get; set; }
         public int ItemsRemain { get; set; }
         public int SheepleColor { get; set; }
 
-        //instance properties manual
+        //instance properties: manual
         public bool Done
         {
             get
