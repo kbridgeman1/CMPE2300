@@ -50,42 +50,69 @@ namespace CMPE2300KurtisBridgemanICA09
                 canvas.AddLine(liPoint[ii].X, liPoint[ii].Y, liPoint[ii + 1].X, liPoint[ii + 1].Y, Color.Fuchsia, 1);
 
             canvas.Render();
-
             btnMakeList.Text = String.Format("List Contains: {0}", liPoint.Count);
         }
 
         private void btnPopulateList_Click(object sender, EventArgs e)
         {
-            llPoint = new LinkedList<Point>();
-
-            foreach (Point p in liPoint)
+            if (liPoint.Count != 0)
             {
-                if (llPoint.First == null)
-                    llPoint.AddFirst(p);
+                llPoint = new LinkedList<Point>();
 
-                else
+                foreach (Point p in liPoint)
                 {
-                    LinkedListNode<Point> tPNode = llPoint.First;
+                    if (llPoint.First == null)
+                        llPoint.AddFirst(p);
 
-                    while (tPNode != null && tPNode.Next != null && (tPNode.Next.Value.Y * canvas.ScaledWidth + tPNode.Next.Value.X) > (tPNode.Value.Y * canvas.ScaledHeight + tPNode.Value.X))
+                    else if (llPoint.First.Next == null)
                     {
-                        tPNode = tPNode.Next;
-
-
+                        if (llPoint.First.Value.Y * canvas.ScaledWidth + llPoint.First.Value.X < p.Y * canvas.ScaledWidth + p.X)
+                            llPoint.AddLast(p);
+                        else
+                            llPoint.AddFirst(p);
                     }
 
+                    else
+                    {
+                        LinkedListNode<Point> tPNode = llPoint.First;
+
+                        while (tPNode != null && tPNode.Next != null && (tPNode.Value.Y * canvas.ScaledWidth + tPNode.Value.X < p.Y * canvas.ScaledWidth + p.X))
+                            tPNode = tPNode.Next;
+
+                        if (tPNode.Value.Y * canvas.ScaledWidth + tPNode.Value.X > p.Y * canvas.ScaledWidth + p.X)
+                            llPoint.AddBefore(tPNode, p);
+
+                        else
+                            llPoint.AddLast(p);
+
+                        //creates a sorted linked list, same as above using a for loop instead of a while loop to transverse the linked list
+                        //for (LinkedListNode<Point> iPoint = llPoint.First; iPoint != null; iPoint = iPoint.Next)
+                        //{
+                        //    if (iPoint.Value.Y * canvas.ScaledWidth + iPoint.Value.X > p.Y * canvas.ScaledWidth + p.X)
+                        //    {
+                        //        llPoint.AddBefore(iPoint, p);
+                        //        break;
+                        //    }
+
+                        //    else if (iPoint.Next == null)
+                        //    {
+                        //        llPoint.AddLast(p);
+                        //        break;
+                        //    }
+                        //}
+
+                    }
                 }
 
+                canvas.Clear();
 
+                for (LinkedListNode<Point> iPoint = llPoint.First; iPoint.Next != null; iPoint = iPoint.Next)
+                    canvas.AddLine(iPoint.Value.X, iPoint.Value.Y, iPoint.Next.Value.X, iPoint.Next.Value.Y, Color.Yellow, 1);
+
+                canvas.Render();
+                btnPopulateList.Text = String.Format("Linked List Contains: {0}", llPoint.Count);
 
             }
-
         }
-
-
-
-
-
-
     }
 }
