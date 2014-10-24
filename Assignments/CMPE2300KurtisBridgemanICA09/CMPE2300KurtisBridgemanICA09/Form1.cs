@@ -29,7 +29,6 @@ namespace CMPE2300KurtisBridgemanICA09
         {
             liPoint = new List<Point>();
 
-
             int div = (int)numericUpDown1.Value;
             int i = 0;
 
@@ -55,7 +54,8 @@ namespace CMPE2300KurtisBridgemanICA09
 
         private void btnPopulateList_Click(object sender, EventArgs e)
         {
-            if (liPoint.Count != 0)
+
+            if (liPoint != null && liPoint.Count != 0)
             {
                 llPoint = new LinkedList<Point>();
 
@@ -64,26 +64,18 @@ namespace CMPE2300KurtisBridgemanICA09
                     if (llPoint.First == null)
                         llPoint.AddFirst(p);
 
-                    else if (llPoint.First.Next == null)
-                    {
-                        if (llPoint.First.Value.Y * canvas.ScaledWidth + llPoint.First.Value.X < p.Y * canvas.ScaledWidth + p.X)
-                            llPoint.AddLast(p);
-                        else
-                            llPoint.AddFirst(p);
-                    }
-
                     else
                     {
                         LinkedListNode<Point> tPNode = llPoint.First;
 
-                        while (tPNode != null && tPNode.Next != null && (tPNode.Value.Y * canvas.ScaledWidth + tPNode.Value.X < p.Y * canvas.ScaledWidth + p.X))
+                        while (tPNode != null && (tPNode.Value.Y * canvas.ScaledWidth + tPNode.Value.X < p.Y * canvas.ScaledWidth + p.X))
                             tPNode = tPNode.Next;
 
-                        if (tPNode.Value.Y * canvas.ScaledWidth + tPNode.Value.X > p.Y * canvas.ScaledWidth + p.X)
-                            llPoint.AddBefore(tPNode, p);
-
-                        else
+                        if(tPNode == null)
                             llPoint.AddLast(p);
+
+                        else    
+                            llPoint.AddBefore(tPNode, p);
 
                         //creates a sorted linked list, same as above using a for loop instead of a while loop to transverse the linked list
                         //for (LinkedListNode<Point> iPoint = llPoint.First; iPoint != null; iPoint = iPoint.Next)
@@ -106,7 +98,7 @@ namespace CMPE2300KurtisBridgemanICA09
 
                 canvas.Clear();
 
-                for (LinkedListNode<Point> iPoint = llPoint.First; iPoint.Next != null; iPoint = iPoint.Next)
+                for (LinkedListNode<Point> iPoint = llPoint.First;iPoint != null && iPoint.Next != null; iPoint = iPoint.Next)
                     canvas.AddLine(iPoint.Value.X, iPoint.Value.Y, iPoint.Next.Value.X, iPoint.Next.Value.Y, Color.Yellow, 1);
 
                 canvas.Render();

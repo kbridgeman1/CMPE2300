@@ -34,6 +34,7 @@
             this.columnHeaderKeyWord = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeaderFreq = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label1 = new System.Windows.Forms.Label();
+            this.button1 = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarCutoffFreq)).BeginInit();
             this.SuspendLayout();
             // 
@@ -61,9 +62,9 @@
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderKeyWord,
             this.columnHeaderFreq});
-            this.listView1.Location = new System.Drawing.Point(1, 122);
+            this.listView1.Location = new System.Drawing.Point(1, 135);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(477, 404);
+            this.listView1.Size = new System.Drawing.Size(477, 391);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -87,11 +88,22 @@
             this.label1.TabIndex = 3;
             this.label1.Text = "Remove less than:  0 occurences";
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(159, 106);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(163, 23);
+            this.button1.TabIndex = 4;
+            this.button1.Text = "Remove Keywords";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(479, 526);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.listView1);
             this.Controls.Add(this.trackBarCutoffFreq);
@@ -112,6 +124,7 @@
         private System.Windows.Forms.ColumnHeader columnHeaderKeyWord;
         private System.Windows.Forms.ColumnHeader columnHeaderFreq;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button button1;
     }
 }
 

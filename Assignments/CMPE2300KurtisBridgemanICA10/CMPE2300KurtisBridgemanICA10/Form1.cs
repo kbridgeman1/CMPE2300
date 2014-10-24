@@ -16,16 +16,22 @@ namespace CMPE2300KurtisBridgemanICA10
 
         SortedDictionary<string, int> sDicKeyWords = new SortedDictionary<string, int>();
         List<string> lString = new List<string>(System.IO.File.ReadLines(@"..\..\..\KeyWords.txt"));
-        List<string> csString = new List<string>();
+        List<string> tLString = new List<string>();
 
         public Form1()
         {
             InitializeComponent();
+
+            //splits the contents of the keywords.txt file into a list of strings, representing each work (tLString)
+            foreach (string s in lString)
+                foreach (string ss in s.Split(' '))
+                    tLString.Add(ss);
         }
 
         private void buttonLoadFile_Click(object sender, EventArgs e)
         {
-            csString.Clear();
+            List<string> csString = new List<string>();
+            sDicKeyWords.Clear();
 
             //new open file dialog to recieve a .cs file 
             if (opnFileDlg != null)
@@ -49,14 +55,6 @@ namespace CMPE2300KurtisBridgemanICA10
                     }
             }
 
-          
-            List<string> tLString = new List<string>();
-
-            //splits the contents of the keywords.txt file into a list of strings, representing each work (tLString)
-            foreach (string s in lString)
-                foreach (string ss in s.Split(' '))
-                    tLString.Add(ss);
-
             foreach ( string s in csString)
             {
                 if(tLString.Contains(s))
@@ -68,13 +66,6 @@ namespace CMPE2300KurtisBridgemanICA10
                 }
 
             }
-
-            SortedDictionary<string, int> tDic = new SortedDictionary<string, int>(sDicKeyWords);
-            foreach (KeyValuePair<string, int> kvp in tDic.Where(entry => entry.Value < trackBarCutoffFreq.Value))            
-                sDicKeyWords.Remove(kvp.Key);
-            
-
-
 
             ShowDictionary();
         }
@@ -94,6 +85,15 @@ namespace CMPE2300KurtisBridgemanICA10
         private void trackBarCutoffFreq_Scroll(object sender, EventArgs e)
         {
             label1.Text = String.Format("Remove less than: {0} occurences", trackBarCutoffFreq.Value);
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            SortedDictionary<string, int> tDic = new SortedDictionary<string, int>(sDicKeyWords);
+            foreach (KeyValuePair<string, int> kvp in tDic.Where(entry => entry.Value < trackBarCutoffFreq.Value))
+                sDicKeyWords.Remove(kvp.Key);
+
+            ShowDictionary();
         }
 
 
