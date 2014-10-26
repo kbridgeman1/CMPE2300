@@ -15,7 +15,8 @@ namespace CMPE2300KurtisBridgemanLab2
 
         List<Missile> friendsList = new List<Missile>();
         List<Missile> foesList = new List<Missile>();
-        List<Building> bldList = new List<Building>();
+        List<Missile> collided = new List<Missile>();
+        List<Missile> cityList = new List<Missile>();
         Point pollMouseLocation;
         Bitmap bmp = new Bitmap(@"..\..\Background Image\background.jpg");
         int difficualtyCounter = 0;
@@ -32,31 +33,50 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Missile.Canvas = new GDIDrawer.CDrawer(bContinuousUpdate: false);
 
+            Point p = new Point(this.Location.X + this.Width, this.Location.Y);
+            Missile.Canvas.Position = p;
+
+
             for (int row = 500; row < Missile.Canvas.ScaledHeight; row++)
                 for (int col = 0; col < Missile.Canvas.ScaledWidth; col++)
                     Missile.Canvas.SetBBScaledPixel(col, row, bmp.GetPixel(col, row));
-
-            timer1.Enabled = true;
-            Missile.Difficulty = 20;
-
+           
             friendsList.Clear();
             foesList.Clear();
-            bldList.Clear();
+            cityList.Clear();           
+
+            int x = 200;
+            for (int ii = 0; ii < 3; ii++)
+            {
+                for (int i = 0; i < 3; i++)
+                {
+                    cityList.Add(new Missile(new Point(x, Missile.Canvas.ScaledHeight - 40), "city"));
+                    x += 50;
+                }
+                x = 500;
+            }
+            
+            foreach (Missile c in cityList)
+                c.RenderCity();
+
+            Missile.ExplosionRadius = trackBarExplRad.Value;
 
             if (chkBoxEnemysAim.Checked)
                 Missile.EnemysAim = true;
             else
                 Missile.EnemysAim = false;
 
-            bldList = Building.CreateBuildings();
-
-            foreach (Building b in bldList)
-                b.Render();
+            timer1.Enabled = true;
+            Missile.Difficulty = 20;
 
             Missile.Canvas.Render();
+
             btnPause.Enabled = true;
             btnStop.Enabled = true;
             btnNewGame.Enabled = false;
+            labelExpl.Enabled = false;
+            trackBarExplRad.Enabled = false;
+            chkBoxEnemysAim.Enabled = false;
 
         }
 
@@ -81,6 +101,9 @@ namespace CMPE2300KurtisBridgemanLab2
             btnNewGame.Enabled = true;
             btnPause.Enabled = false;
             btnStop.Enabled = false;
+            labelExpl.Enabled = true;
+            trackBarExplRad.Enabled = true;
+            chkBoxEnemysAim.Enabled = true;
 
         }
 
@@ -97,25 +120,30 @@ namespace CMPE2300KurtisBridgemanLab2
 
             bool bLMouseClick = Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation);
 
-            if (bLMouseClick)
-            {
+            if (bLMouseClick)           
                 friendsList.Add(new Missile(pollMouseLocation));
-            }
-
+            
             foreach (Missile msl in friendsList)
                 msl.Move();
 
             foreach (Missile msl in foesList)
                 msl.Move();
 
-            List<Missile> collidedA = foesList.Intersect(friendsList).ToList();
-            List<Missile> collidedB = friendsList.Intersect(foesList).ToList();
+            collided = friendsList.Intersect(foesList).ToList();
 
-            collidedA = collidedA.Concat(collidedB).ToList();
-
-            foreach (Missile msl in collidedA)
+            foreach (Missile msl in collided)
                 msl.exploding = true;
 
+            collided = foesList.Intersect(friendsList).ToList();
+
+            foreach (Missile msl in collided)
+                msl.exploding = true;
+
+            collided = cityList.Intersect(foesList).ToList();
+
+            foreach (Missile msl in collided)
+                while(cityList.Remove(msl));
+            
             friendsList.RemoveAll(Missile.MissileDone);
             friendsList.RemoveAll(Missile.LeavingScreen);
             foesList.RemoveAll(Missile.MissileDone);
@@ -129,10 +157,22 @@ namespace CMPE2300KurtisBridgemanLab2
             foreach (Missile msl in foesList)
                 msl.Render();
 
-            foreach (Building bl in bldList)
-                bl.Render();
+            foreach (Missile c in cityList)
+                c.RenderCity();
 
-            Missile.Canvas.AddText((Missile.Difficulty - 20).ToString(), 100, Color.Red);
+            if (cityList.Count <= 0)
+            {
+                Missile.Canvas.AddText("Game Over", 100, Color.Blue);
+                timer1.Enabled = false;
+                btnNewGame.Enabled = true;
+                btnPause.Enabled = false;
+                btnStop.Enabled = false;
+                labelExpl.Enabled = true;
+                trackBarExplRad.Enabled = true;
+                chkBoxEnemysAim.Enabled = true;
+            }
+                
+            Missile.Canvas.AddText("Diffuculty: "+ Missile.DiffucultyString(), 15, 10, 530,250,100,Color.Black);
 
             Missile.Canvas.Render();
 

@@ -52,7 +52,7 @@ namespace CMPE2300KurtisBridgemanLab2
         //static constructor
         static Missile()
         {
-            ExplosionRadius = 30;
+            ExplosionRadius = 40;
             rnd = new Random();
             Canvas = null;
         }
@@ -61,12 +61,13 @@ namespace CMPE2300KurtisBridgemanLab2
         public Missile()
         {
             _mslLocation = new Point(rnd.Next(0, canvas.ScaledWidth), 0);
-            _mslRadius = 1;
+            _mslRadius = 2;
             _mslVelocity = Difficulty / 20;
             _mslAltitute = canvas.ScaledHeight - 40;
             _mslAlpha = 255;
             _friend = false;
 
+            _explosionColor = Color.Red;
 
             if (EnemysAim)
                 _mslAngle = EnemyTarget();
@@ -83,11 +84,23 @@ namespace CMPE2300KurtisBridgemanLab2
 
 
             _mslAngle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X) / ((double)destination.Y - (double)_mslLocation.Y));
-            _mslRadius = 1;
-            _mslVelocity = 10;
+            _mslRadius = 2;
+            _mslVelocity = 15;
             _mslAltitute = destination.Y;
             _mslAlpha = 255;
             _friend = true;
+
+            _explosionColor = Color.Green;
+
+        }
+
+        //instance city constructor
+        public Missile(Point startPoint, string city)
+        {
+            _mslLocation = startPoint;
+            _mslRadius = 5;
+            _mslVelocity = 0;
+            _mslAlpha = 255;
         }
 
         //instance methods
@@ -109,14 +122,14 @@ namespace CMPE2300KurtisBridgemanLab2
 
                 else if (_mslRadius < explosionRadius && exploding || _mslRadius < explosionRadius)
                 {
-                    _mslRadius += 2;
-                    _explosionColor = Color.FromArgb(255, rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+                    _mslRadius += 1;
+                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
                 }
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
                 {
                     _mslAlpha -= 5;
-                    _explosionColor = Color.FromArgb(255, rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
                 }
             }
 
@@ -128,15 +141,15 @@ namespace CMPE2300KurtisBridgemanLab2
 
                 else if (_mslRadius < explosionRadius && exploding || _mslRadius < explosionRadius)
                 {
-                    _mslRadius += 2;
-                    _explosionColor = Color.FromArgb(255, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
+                    _mslRadius += 1;
+                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
 
                 }
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
                 {
                     _mslAlpha -= 5;
-                    _explosionColor = Color.FromArgb(255, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
                 }
             }
 
@@ -147,25 +160,30 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             if (_friend)
             {
-                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
-                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, _explosionColor));
+                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius || Where().Y <= _mslAltitute)
+                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, _explosionColor);
                 else
                     canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, Color.Green));
 
-                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Green));
+                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Green), 2);
             }
 
             else
             {
-                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
+                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius || Where().Y >= _mslAltitute)
                     canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, _explosionColor));
 
                 else
                     canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, Color.Red));
 
-                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Red));
+                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Red), 2);
             }
 
+        }
+
+        public void RenderCity()
+        {
+            canvas.AddCenteredRectangle(_mslLocation.X, _mslLocation.Y, _mslRadius * 3, _mslRadius, Color.Aqua);
         }
 
         double ClosestCannon(Point destination)
@@ -212,6 +230,21 @@ namespace CMPE2300KurtisBridgemanLab2
             return Math.Atan(-1 * ((double)target - (double)_mslLocation.X) / (((double)canvas.ScaledHeight - 40) - (double)_mslLocation.Y)) + Math.PI;
         }
 
+        public static string DiffucultyString()
+        {
+            if (Difficulty > 80)
+                return "Insane";
+
+            else if (Difficulty > 60)
+                return "Tough";
+
+            else if (Difficulty > 40)
+                return "Moderate";
+
+            else
+                return "Easy";
+        }
+
 
         //predicates
         public static bool MissileDone(Missile msl)
@@ -235,6 +268,9 @@ namespace CMPE2300KurtisBridgemanLab2
                 return false;
 
             Missile tMissile = obj as Missile;
+
+            if (tMissile.exploding)
+                return false;
 
             return (Math.Sqrt(Math.Pow(Where().X - tMissile.Where().X, 2) + Math.Pow(Where().Y - tMissile.Where().Y, 2)) <= _mslRadius + tMissile._mslRadius);
 

@@ -34,6 +34,9 @@
             this.chkBoxEnemysAim = new System.Windows.Forms.CheckBox();
             this.btnPause = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
+            this.trackBarExplRad = new System.Windows.Forms.TrackBar();
+            this.labelExpl = new System.Windows.Forms.Label();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
             this.SuspendLayout();
             // 
             // timer1
@@ -56,9 +59,10 @@
             this.chkBoxEnemysAim.AutoSize = true;
             this.chkBoxEnemysAim.Location = new System.Drawing.Point(12, 51);
             this.chkBoxEnemysAim.Name = "chkBoxEnemysAim";
-            this.chkBoxEnemysAim.Size = new System.Drawing.Size(83, 17);
+            this.chkBoxEnemysAim.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.chkBoxEnemysAim.Size = new System.Drawing.Size(104, 17);
             this.chkBoxEnemysAim.TabIndex = 2;
-            this.chkBoxEnemysAim.Text = "Enemys Aim";
+            this.chkBoxEnemysAim.Text = "      :Enemys Aim";
             this.chkBoxEnemysAim.UseVisualStyleBackColor = true;
             // 
             // btnPause
@@ -83,17 +87,42 @@
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
+            // trackBarExplRad
+            // 
+            this.trackBarExplRad.Location = new System.Drawing.Point(96, 74);
+            this.trackBarExplRad.Maximum = 80;
+            this.trackBarExplRad.Minimum = 5;
+            this.trackBarExplRad.Name = "trackBarExplRad";
+            this.trackBarExplRad.Size = new System.Drawing.Size(176, 45);
+            this.trackBarExplRad.TabIndex = 5;
+            this.trackBarExplRad.TickFrequency = 5;
+            this.trackBarExplRad.Value = 40;
+            // 
+            // labelExpl
+            // 
+            this.labelExpl.AutoSize = true;
+            this.labelExpl.Location = new System.Drawing.Point(13, 75);
+            this.labelExpl.Name = "labelExpl";
+            this.labelExpl.Size = new System.Drawing.Size(78, 13);
+            this.labelExpl.TabIndex = 6;
+            this.labelExpl.Text = "Explosion Size:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 262);
+            this.ClientSize = new System.Drawing.Size(284, 362);
+            this.Controls.Add(this.labelExpl);
+            this.Controls.Add(this.trackBarExplRad);
             this.Controls.Add(this.btnStop);
             this.Controls.Add(this.btnPause);
             this.Controls.Add(this.chkBoxEnemysAim);
             this.Controls.Add(this.btnNewGame);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
             this.Name = "Form1";
             this.Text = "Form1";
+            ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -106,6 +135,8 @@
         private System.Windows.Forms.CheckBox chkBoxEnemysAim;
         private System.Windows.Forms.Button btnPause;
         private System.Windows.Forms.Button btnStop;
+        private System.Windows.Forms.TrackBar trackBarExplRad;
+        private System.Windows.Forms.Label labelExpl;
     }
 }
 
