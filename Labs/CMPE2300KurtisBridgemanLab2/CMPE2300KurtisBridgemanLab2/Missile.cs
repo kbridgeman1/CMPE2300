@@ -14,7 +14,6 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     class Missile
     {
-
         Point _mslLocation;
 
         double _mslAngle;
@@ -42,6 +41,17 @@ namespace CMPE2300KurtisBridgemanLab2
         public static int ExplosionRadius
         {
             set { explosionRadius = value; }
+        }
+
+        public static bool Loading
+        {
+            set
+            {
+                if (value)
+                    canvas.Clear();
+
+                else canvas.Render();
+            }
         }
 
         public static bool EnemysAim { get; set; }

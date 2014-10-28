@@ -19,7 +19,10 @@ namespace CMPE2300KurtisBridgemanLab2
         List<Missile> cityList = new List<Missile>();
         Point pollMouseLocation;
         Bitmap bmp = new Bitmap(@"..\..\Background Image\background.jpg");
+
         int difficualtyCounter = 0;
+        double foesDestroyed;
+        double friendsLaunched;
 
         public Form1()
         {
@@ -35,7 +38,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Point p = new Point(this.Location.X + this.Width, this.Location.Y);
             Missile.Canvas.Position = p;
-
 
             for (int row = 500; row < Missile.Canvas.ScaledHeight; row++)
                 for (int col = 0; col < Missile.Canvas.ScaledWidth; col++)
@@ -69,7 +71,10 @@ namespace CMPE2300KurtisBridgemanLab2
             timer1.Enabled = true;
             Missile.Difficulty = 20;
 
-            Missile.Canvas.Render();
+            foesDestroyed = 0;
+            friendsLaunched = 0;
+
+            Missile.Loading = false;
 
             btnPause.Enabled = true;
             btnStop.Enabled = true;
@@ -104,12 +109,11 @@ namespace CMPE2300KurtisBridgemanLab2
             labelExpl.Enabled = true;
             trackBarExplRad.Enabled = true;
             chkBoxEnemysAim.Enabled = true;
-
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (difficualtyCounter % 100 == 0)
+            if (difficualtyCounter % 50 == 0)
             {
                 Missile.Difficulty++;
                 difficualtyCounter = 0;
@@ -120,9 +124,12 @@ namespace CMPE2300KurtisBridgemanLab2
 
             bool bLMouseClick = Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation);
 
-            if (bLMouseClick)           
+            if (bLMouseClick)
+            {
                 friendsList.Add(new Missile(pollMouseLocation));
-            
+                friendsLaunched++;
+            }
+
             foreach (Missile msl in friendsList)
                 msl.Move();
 
@@ -137,7 +144,10 @@ namespace CMPE2300KurtisBridgemanLab2
             collided = foesList.Intersect(friendsList).ToList();
 
             foreach (Missile msl in collided)
+            {
                 msl.exploding = true;
+                foesDestroyed++;
+            }
 
             collided = cityList.Intersect(foesList).ToList();
 
@@ -149,7 +159,7 @@ namespace CMPE2300KurtisBridgemanLab2
             foesList.RemoveAll(Missile.MissileDone);
             foesList.RemoveAll(Missile.LeavingScreen);
 
-            Missile.Canvas.Clear();
+            Missile.Loading = true;
 
             foreach (Missile msl in friendsList)
                 msl.Render();
@@ -174,7 +184,15 @@ namespace CMPE2300KurtisBridgemanLab2
                 
             Missile.Canvas.AddText("Diffuculty: "+ Missile.DiffucultyString(), 15, 10, 530,250,100,Color.Black);
 
-            Missile.Canvas.Render();
+
+            if (friendsLaunched != 0)
+            {
+                lblTotalEnemies.Text = foesList.Count.ToString();
+                lblEnemiesDestroyed.Text = foesDestroyed.ToString();
+                lblMisslesFired.Text = friendsLaunched.ToString();
+                lblKillPerShot.Text = (foesDestroyed / friendsLaunched).ToString();
+            }
+            Missile.Loading = false;
 
             difficualtyCounter++;
 
