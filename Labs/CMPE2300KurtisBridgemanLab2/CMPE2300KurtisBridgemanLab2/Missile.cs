@@ -286,17 +286,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
         }
 
-        public bool Equal(Building city)
-        {
-            if ((object)city == null)
-                return false;
-
-            return (Math.Sqrt(Math.Pow(Where().X - city.bCenter.X, 2) + Math.Pow(Where().Y - city.bCenter.Y, 2)) <= _mslRadius + Building.bRadius);
-
-        }
-
-
-
         public override int GetHashCode()
         {
             return 1;

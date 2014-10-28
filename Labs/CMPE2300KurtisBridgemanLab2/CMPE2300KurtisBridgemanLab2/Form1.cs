@@ -19,10 +19,13 @@ namespace CMPE2300KurtisBridgemanLab2
         List<Missile> cityList = new List<Missile>();
         Point pollMouseLocation;
         Bitmap bmp = new Bitmap(@"..\..\Background Image\background.jpg");
+        Random rnd = new Random();
 
         int difficualtyCounter = 0;
         double foesDestroyed;
         double friendsLaunched;
+        int cmFoeCount;
+        int cmFoeTotal;
 
         public Form1()
         {
@@ -68,9 +71,6 @@ namespace CMPE2300KurtisBridgemanLab2
             else
                 Missile.EnemysAim = false;
 
-            timer1.Enabled = true;
-            Missile.Difficulty = 20;
-
             foesDestroyed = 0;
             friendsLaunched = 0;
 
@@ -87,6 +87,17 @@ namespace CMPE2300KurtisBridgemanLab2
             trackBarExplRad.Enabled = false;
             chkBoxEnemysAim.Enabled = false;
 
+            timer1.Enabled = true;
+
+            if (radioButtonMarathon.Checked)
+                Missile.Difficulty = 20;
+
+            if (radioButtonClassic.Checked)
+            {
+                Missile.Difficulty = 20;
+                cmFoeCount = 0;
+                cmFoeTotal = 10;
+            }
         }
 
         private void btnPause_Click(object sender, EventArgs e)
@@ -117,14 +128,54 @@ namespace CMPE2300KurtisBridgemanLab2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (difficualtyCounter % 50 == 0)
+            if (radioButtonMarathon.Checked)
             {
-                Missile.Difficulty++;
-                difficualtyCounter = 0;
+                if (difficualtyCounter % 50 == 0)
+                {
+                    Missile.Difficulty++;
+                    difficualtyCounter = 0;
+                }
+
+                if (foesList.Count < Missile.Difficulty / 5)
+                    foesList.Add(new Missile());
             }
 
-            if (foesList.Count < Missile.Difficulty / 5)
-                foesList.Add(new Missile());
+
+            if (radioButtonClassic.Checked)
+            {
+                if (cmFoeCount < cmFoeTotal && rnd.Next(1,30) == 1)
+                {
+                    
+                    foesList.Add(new Missile());
+                    cmFoeCount++;
+                }
+
+                else if( cmFoeCount == cmFoeTotal && foesList.Count == 0)
+                {
+                    if (foesList.Count != 0)
+                    {
+                        if (friendsLaunched != 0)
+                        {
+                            lblMisslesFired.Text = friendsLaunched.ToString();
+                            lblKillPerShot.Text = (Math.Round(foesDestroyed / friendsLaunched, 2)).ToString();
+                        }
+                        else
+                            lblTotalEnemies.Text = "0";
+
+                        lblEnemiesDestroyed.Text = foesDestroyed.ToString();
+                    }
+
+                    Missile.Canvas.AddText("Good Job", 100, Color.Blue);
+                    Missile.Loading = false;
+                    System.Threading.Thread.Sleep(2000);
+                    Missile.Difficulty += 10;
+                    cmFoeTotal += 10;
+                    cmFoeCount = 0;
+                }
+
+            }
+
+
 
             bool bLMouseClick = Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation);
 
@@ -188,7 +239,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Missile.Canvas.AddText("Diffuculty: " + Missile.DiffucultyString(), 15, 10, 530, 250, 100, Color.Black);
 
-
             if (foesList.Count != 0)
             {
                 if (friendsLaunched != 0)
@@ -199,9 +249,15 @@ namespace CMPE2300KurtisBridgemanLab2
                 lblTotalEnemies.Text = foesList.Count.ToString();
                 lblEnemiesDestroyed.Text = foesDestroyed.ToString();
             }
+
             Missile.Loading = false;
 
             difficualtyCounter++;
+
+        }
+
+        private void timer2_Tick(object sender, EventArgs e)
+        {
 
         }
 

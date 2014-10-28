@@ -46,7 +46,10 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.radioButtonClassic = new System.Windows.Forms.RadioButton();
+            this.radioButtonMarathon = new System.Windows.Forms.RadioButton();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
+            this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -126,6 +129,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.radioButtonMarathon);
+            this.groupBox1.Controls.Add(this.radioButtonClassic);
             this.groupBox1.Location = new System.Drawing.Point(17, 134);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.groupBox1.Name = "groupBox1";
@@ -133,7 +138,7 @@
             this.groupBox1.Size = new System.Drawing.Size(254, 107);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "groupBox1";
+            this.groupBox1.Text = "Game Mode";
             // 
             // groupBox2
             // 
@@ -234,6 +239,29 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Enemy Missiles";
             // 
+            // radioButtonClassic
+            // 
+            this.radioButtonClassic.AutoSize = true;
+            this.radioButtonClassic.Checked = true;
+            this.radioButtonClassic.Location = new System.Drawing.Point(5, 32);
+            this.radioButtonClassic.Name = "radioButtonClassic";
+            this.radioButtonClassic.Size = new System.Drawing.Size(60, 18);
+            this.radioButtonClassic.TabIndex = 0;
+            this.radioButtonClassic.TabStop = true;
+            this.radioButtonClassic.Text = "Classic";
+            this.radioButtonClassic.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonMarathon
+            // 
+            this.radioButtonMarathon.AutoSize = true;
+            this.radioButtonMarathon.Location = new System.Drawing.Point(5, 67);
+            this.radioButtonMarathon.Name = "radioButtonMarathon";
+            this.radioButtonMarathon.Size = new System.Drawing.Size(70, 18);
+            this.radioButtonMarathon.TabIndex = 1;
+            this.radioButtonMarathon.TabStop = true;
+            this.radioButtonMarathon.Text = "Marathon";
+            this.radioButtonMarathon.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
@@ -254,6 +282,8 @@
             this.Name = "Form1";
             this.Text = "Missile Command";
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
@@ -280,6 +310,8 @@
         private System.Windows.Forms.Label lblTotalEnemies;
         private System.Windows.Forms.Label lblKillPerShot;
         private System.Windows.Forms.Label lblMisslesFired;
+        private System.Windows.Forms.RadioButton radioButtonMarathon;
+        private System.Windows.Forms.RadioButton radioButtonClassic;
     }
 }
 
