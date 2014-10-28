@@ -218,22 +218,22 @@ namespace CMPE2300KurtisBridgemanLab2
             switch (rnd.Next(1, 7))
             {
                 case 1:
-                    target = 200;
+                    target = canvas.ScaledWidth * 1/4;
                     break;
                 case 2:
-                    target = 250;
+                    target = canvas.ScaledWidth * 2.5 / 8;
                     break;
                 case 3:
-                    target = 300;
+                    target = canvas.ScaledWidth * 3 / 8;
                     break;
                 case 4:
-                    target = 500;
+                    target = canvas.ScaledWidth * 5 / 8;
                     break;
                 case 5:
-                    target = 550;
+                    target = canvas.ScaledWidth * 5.5 / 8;
                     break;
                 case 6:
-                    target = 600;
+                    target = canvas.ScaledWidth * 3 / 4;
                     break;
             }
 

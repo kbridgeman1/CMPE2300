@@ -52,7 +52,7 @@ namespace CMPE2300KurtisBridgemanLab2
             {
                 for (int i = 0; i < 3; i++)
                 {
-                    cityList.Add(new Missile(new Point(x, Missile.Canvas.ScaledHeight - 40), "city"));
+                    cityList.Add(new Missile(new Point(x, Missile.Canvas.ScaledHeight - Missile.Canvas.ScaledHeight * 4 / 60), "city"));
                     x += 50;
                 }
                 x = 500;
@@ -197,7 +197,7 @@ namespace CMPE2300KurtisBridgemanLab2
                     lblKillPerShot.Text = (Math.Round(foesDestroyed / friendsLaunched, 2)).ToString();
                 }
                 lblTotalEnemies.Text = foesList.Count.ToString();
-                lblEnemiesDestroyed.Text = foesDestroyed.ToString();                
+                lblEnemiesDestroyed.Text = foesDestroyed.ToString();
             }
             Missile.Loading = false;
 
