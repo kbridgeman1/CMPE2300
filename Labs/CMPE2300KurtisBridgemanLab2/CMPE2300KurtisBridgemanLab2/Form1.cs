@@ -42,10 +42,10 @@ namespace CMPE2300KurtisBridgemanLab2
             for (int row = 500; row < Missile.Canvas.ScaledHeight; row++)
                 for (int col = 0; col < Missile.Canvas.ScaledWidth; col++)
                     Missile.Canvas.SetBBScaledPixel(col, row, bmp.GetPixel(col, row));
-           
+
             friendsList.Clear();
             foesList.Clear();
-            cityList.Clear();           
+            cityList.Clear();
 
             int x = 200;
             for (int ii = 0; ii < 3; ii++)
@@ -57,7 +57,7 @@ namespace CMPE2300KurtisBridgemanLab2
                 }
                 x = 500;
             }
-            
+
             foreach (Missile c in cityList)
                 c.RenderCity();
 
@@ -76,6 +76,10 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Missile.Loading = false;
 
+            lblTotalEnemies.Text = "0";
+            lblMisslesFired.Text = "0";
+            lblEnemiesDestroyed.Text = "0";
+            lblKillPerShot.Text = "0";
             btnPause.Enabled = true;
             btnStop.Enabled = true;
             btnNewGame.Enabled = false;
@@ -152,8 +156,8 @@ namespace CMPE2300KurtisBridgemanLab2
             collided = cityList.Intersect(foesList).ToList();
 
             foreach (Missile msl in collided)
-                while(cityList.Remove(msl));
-            
+                while (cityList.Remove(msl)) ;
+
             friendsList.RemoveAll(Missile.MissileDone);
             friendsList.RemoveAll(Missile.LeavingScreen);
             foesList.RemoveAll(Missile.MissileDone);
@@ -181,16 +185,19 @@ namespace CMPE2300KurtisBridgemanLab2
                 trackBarExplRad.Enabled = true;
                 chkBoxEnemysAim.Enabled = true;
             }
-                
-            Missile.Canvas.AddText("Diffuculty: "+ Missile.DiffucultyString(), 15, 10, 530,250,100,Color.Black);
+
+            Missile.Canvas.AddText("Diffuculty: " + Missile.DiffucultyString(), 15, 10, 530, 250, 100, Color.Black);
 
 
-            if (friendsLaunched != 0)
+            if (foesList.Count != 0)
             {
+                if (friendsLaunched != 0)
+                {
+                    lblMisslesFired.Text = friendsLaunched.ToString();
+                    lblKillPerShot.Text = (Math.Round(foesDestroyed / friendsLaunched, 2)).ToString();
+                }
                 lblTotalEnemies.Text = foesList.Count.ToString();
-                lblEnemiesDestroyed.Text = foesDestroyed.ToString();
-                lblMisslesFired.Text = friendsLaunched.ToString();
-                lblKillPerShot.Text = (foesDestroyed / friendsLaunched).ToString();
+                lblEnemiesDestroyed.Text = foesDestroyed.ToString();                
             }
             Missile.Loading = false;
 

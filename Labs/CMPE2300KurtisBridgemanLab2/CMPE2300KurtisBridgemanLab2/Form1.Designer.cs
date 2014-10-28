@@ -38,14 +38,14 @@
             this.labelExpl = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lblKillPerShot = new System.Windows.Forms.Label();
+            this.lblMisslesFired = new System.Windows.Forms.Label();
             this.lblEnemiesDestroyed = new System.Windows.Forms.Label();
             this.lblTotalEnemies = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblMisslesFired = new System.Windows.Forms.Label();
-            this.lblKillPerShot = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -144,6 +144,24 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Statistics";
             // 
+            // lblKillPerShot
+            // 
+            this.lblKillPerShot.AutoSize = true;
+            this.lblKillPerShot.Location = new System.Drawing.Point(158, 89);
+            this.lblKillPerShot.Name = "lblKillPerShot";
+            this.lblKillPerShot.Size = new System.Drawing.Size(13, 13);
+            this.lblKillPerShot.TabIndex = 7;
+            this.lblKillPerShot.Text = "0";
+            // 
+            // lblMisslesFired
+            // 
+            this.lblMisslesFired.AutoSize = true;
+            this.lblMisslesFired.Location = new System.Drawing.Point(33, 89);
+            this.lblMisslesFired.Name = "lblMisslesFired";
+            this.lblMisslesFired.Size = new System.Drawing.Size(13, 13);
+            this.lblMisslesFired.TabIndex = 6;
+            this.lblMisslesFired.Text = "0";
+            // 
             // lblEnemiesDestroyed
             // 
             this.lblEnemiesDestroyed.AutoSize = true;
@@ -194,27 +212,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 20);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(74, 13);
+            this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Total Enemies";
-            // 
-            // lblMisslesFired
-            // 
-            this.lblMisslesFired.AutoSize = true;
-            this.lblMisslesFired.Location = new System.Drawing.Point(33, 89);
-            this.lblMisslesFired.Name = "lblMisslesFired";
-            this.lblMisslesFired.Size = new System.Drawing.Size(13, 13);
-            this.lblMisslesFired.TabIndex = 6;
-            this.lblMisslesFired.Text = "0";
-            // 
-            // lblKillPerShot
-            // 
-            this.lblKillPerShot.AutoSize = true;
-            this.lblKillPerShot.Location = new System.Drawing.Point(158, 89);
-            this.lblKillPerShot.Name = "lblKillPerShot";
-            this.lblKillPerShot.Size = new System.Drawing.Size(13, 13);
-            this.lblKillPerShot.TabIndex = 7;
-            this.lblKillPerShot.Text = "0";
+            this.label1.Text = "Enemy Missiles";
             // 
             // Form1
             // 
