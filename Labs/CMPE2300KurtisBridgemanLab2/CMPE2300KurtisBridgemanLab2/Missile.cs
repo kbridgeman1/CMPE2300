@@ -24,6 +24,8 @@ namespace CMPE2300KurtisBridgemanLab2
         int _mslAlpha;
         double _mslVelocity;
 
+        int _cannonAmmo;
+
         bool _friend;
 
         Color _explosionColor;
@@ -83,15 +85,12 @@ namespace CMPE2300KurtisBridgemanLab2
                 _mslAngle = EnemyTarget();
             else
                 _mslAngle = rnd.Next(135, 226) * (Math.PI / 180);
-
-
         }
 
         //instance constructor "Friend"
         public Missile(Point destination)
         {
             _mslLocation = new Point((int)ClosestCannon(destination), canvas.ScaledHeight - 60);
-
 
             _mslAngle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X) / ((double)destination.Y - (double)_mslLocation.Y));
             _mslRadius = 2;
@@ -101,7 +100,6 @@ namespace CMPE2300KurtisBridgemanLab2
             _friend = true;
 
             _explosionColor = Color.Green;
-
         }
 
         //instance city constructor
@@ -111,7 +109,11 @@ namespace CMPE2300KurtisBridgemanLab2
             _mslRadius = 5;
             _mslVelocity = 0;
             _mslAlpha = 255;
+
+            if(city == "cannon")
+                _cannonAmmo = 10;
         }
+
 
         //instance methods
         public Point Where()
@@ -143,7 +145,6 @@ namespace CMPE2300KurtisBridgemanLab2
                 }
             }
 
-
             else
             {
                 if (Where().Y > _mslAltitute && !exploding)
@@ -153,7 +154,6 @@ namespace CMPE2300KurtisBridgemanLab2
                 {
                     _mslRadius += 1;
                     _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
-
                 }
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
@@ -162,8 +162,6 @@ namespace CMPE2300KurtisBridgemanLab2
                     _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
                 }
             }
-
-
         }
 
         public void Render()
@@ -195,6 +193,13 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             canvas.AddCenteredRectangle(_mslLocation.X, _mslLocation.Y, _mslRadius * 3, _mslRadius, Color.Aqua);
         }
+
+        public void RenderCannon(Point mouseLocation)
+        {
+            _mslAngle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X) / ((double)mouseLocation.Y - (double)_mslLocation.Y));
+            canvas.AddLine(_mslLocation, 15, _mslAngle, Color.Blue, 8);
+        }
+
 
         double ClosestCannon(Point destination)
         {
@@ -242,7 +247,10 @@ namespace CMPE2300KurtisBridgemanLab2
 
         public static string DiffucultyString()
         {
-            if (Difficulty > 80)
+            if (Difficulty > 100)
+                return "Unreasonable";
+
+            else if (Difficulty > 80)
                 return "Insane";
 
             else if (Difficulty > 60)
