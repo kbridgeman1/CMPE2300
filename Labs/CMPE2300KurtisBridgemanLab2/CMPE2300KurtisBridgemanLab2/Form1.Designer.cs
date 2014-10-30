@@ -37,6 +37,8 @@
             this.trackBarExplRad = new System.Windows.Forms.TrackBar();
             this.labelExpl = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.radioButtonMarathon = new System.Windows.Forms.RadioButton();
+            this.radioButtonClassic = new System.Windows.Forms.RadioButton();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.lblKillPerShot = new System.Windows.Forms.Label();
             this.lblMisslesFired = new System.Windows.Forms.Label();
@@ -46,8 +48,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.radioButtonClassic = new System.Windows.Forms.RadioButton();
-            this.radioButtonMarathon = new System.Windows.Forms.RadioButton();
+            this.timer2 = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -55,7 +56,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 20;
+            this.timer1.Interval = 18;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // btnNewGame
@@ -139,6 +140,29 @@
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Game Mode";
+            // 
+            // radioButtonMarathon
+            // 
+            this.radioButtonMarathon.AutoSize = true;
+            this.radioButtonMarathon.Location = new System.Drawing.Point(5, 67);
+            this.radioButtonMarathon.Name = "radioButtonMarathon";
+            this.radioButtonMarathon.Size = new System.Drawing.Size(70, 18);
+            this.radioButtonMarathon.TabIndex = 1;
+            this.radioButtonMarathon.TabStop = true;
+            this.radioButtonMarathon.Text = "Marathon";
+            this.radioButtonMarathon.UseVisualStyleBackColor = true;
+            // 
+            // radioButtonClassic
+            // 
+            this.radioButtonClassic.AutoSize = true;
+            this.radioButtonClassic.Checked = true;
+            this.radioButtonClassic.Location = new System.Drawing.Point(5, 32);
+            this.radioButtonClassic.Name = "radioButtonClassic";
+            this.radioButtonClassic.Size = new System.Drawing.Size(60, 18);
+            this.radioButtonClassic.TabIndex = 0;
+            this.radioButtonClassic.TabStop = true;
+            this.radioButtonClassic.Text = "Classic";
+            this.radioButtonClassic.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -239,28 +263,9 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Enemy Missiles";
             // 
-            // radioButtonClassic
+            // timer2
             // 
-            this.radioButtonClassic.AutoSize = true;
-            this.radioButtonClassic.Checked = true;
-            this.radioButtonClassic.Location = new System.Drawing.Point(5, 32);
-            this.radioButtonClassic.Name = "radioButtonClassic";
-            this.radioButtonClassic.Size = new System.Drawing.Size(60, 18);
-            this.radioButtonClassic.TabIndex = 0;
-            this.radioButtonClassic.TabStop = true;
-            this.radioButtonClassic.Text = "Classic";
-            this.radioButtonClassic.UseVisualStyleBackColor = true;
-            // 
-            // radioButtonMarathon
-            // 
-            this.radioButtonMarathon.AutoSize = true;
-            this.radioButtonMarathon.Location = new System.Drawing.Point(5, 67);
-            this.radioButtonMarathon.Name = "radioButtonMarathon";
-            this.radioButtonMarathon.Size = new System.Drawing.Size(70, 18);
-            this.radioButtonMarathon.TabIndex = 1;
-            this.radioButtonMarathon.TabStop = true;
-            this.radioButtonMarathon.Text = "Marathon";
-            this.radioButtonMarathon.UseVisualStyleBackColor = true;
+            this.timer2.Tick += new System.EventHandler(this.timer2_Tick_1);
             // 
             // Form1
             // 
@@ -312,6 +317,7 @@
         private System.Windows.Forms.Label lblMisslesFired;
         private System.Windows.Forms.RadioButton radioButtonMarathon;
         private System.Windows.Forms.RadioButton radioButtonClassic;
+        private System.Windows.Forms.Timer timer2;
     }
 }
 
