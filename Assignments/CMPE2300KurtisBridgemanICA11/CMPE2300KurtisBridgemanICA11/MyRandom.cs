@@ -27,10 +27,19 @@ namespace CMPE2300KurtisBridgemanICA11
     class RectDrawer : GDIDrawer.CDrawer
     {
         MyRandom myRND;
+        List<Rectangle> lRect = new List<Rectangle>();
 
-        public RectDrawer()
+        public RectDrawer() : base(800, 400, false, false)
         {
-            
+            myRND = new MyRandom(base.ScaledWidth / 5);
+            BBColour = Color.White;
+
+            for (int i = 0; i < 1000; i++)
+                lRect.Add(myRND.NextDrawerRect(this));
+
+            foreach (Rectangle rect in lRect)
+                AddRectangle(rect.X, rect.Y, rect.Width, rect.Height, RandColor.GetKnownColor());
+
         }
 
     }
