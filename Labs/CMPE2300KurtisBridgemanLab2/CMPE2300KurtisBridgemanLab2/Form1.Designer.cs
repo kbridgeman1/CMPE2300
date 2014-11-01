@@ -49,6 +49,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
+            this.label5 = new System.Windows.Forms.Label();
+            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -56,7 +58,7 @@
             // 
             // timer1
             // 
-            this.timer1.Interval = 18;
+            this.timer1.Interval = 30;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
             // btnNewGame
@@ -108,20 +110,20 @@
             // 
             // trackBarExplRad
             // 
-            this.trackBarExplRad.Location = new System.Drawing.Point(96, 79);
+            this.trackBarExplRad.Location = new System.Drawing.Point(101, 90);
             this.trackBarExplRad.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.trackBarExplRad.Maximum = 80;
+            this.trackBarExplRad.Maximum = 85;
             this.trackBarExplRad.Minimum = 5;
             this.trackBarExplRad.Name = "trackBarExplRad";
-            this.trackBarExplRad.Size = new System.Drawing.Size(175, 45);
+            this.trackBarExplRad.Size = new System.Drawing.Size(169, 45);
             this.trackBarExplRad.TabIndex = 5;
             this.trackBarExplRad.TickFrequency = 5;
-            this.trackBarExplRad.Value = 40;
+            this.trackBarExplRad.Value = 45;
             // 
             // labelExpl
             // 
             this.labelExpl.AutoSize = true;
-            this.labelExpl.Location = new System.Drawing.Point(13, 80);
+            this.labelExpl.Location = new System.Drawing.Point(13, 90);
             this.labelExpl.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.labelExpl.Name = "labelExpl";
             this.labelExpl.Size = new System.Drawing.Size(80, 14);
@@ -132,11 +134,11 @@
             // 
             this.groupBox1.Controls.Add(this.radioButtonMarathon);
             this.groupBox1.Controls.Add(this.radioButtonClassic);
-            this.groupBox1.Location = new System.Drawing.Point(17, 134);
+            this.groupBox1.Location = new System.Drawing.Point(14, 143);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(2, 4, 2, 4);
-            this.groupBox1.Size = new System.Drawing.Size(254, 107);
+            this.groupBox1.Size = new System.Drawing.Size(254, 53);
             this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Game Mode";
@@ -144,7 +146,7 @@
             // radioButtonMarathon
             // 
             this.radioButtonMarathon.AutoSize = true;
-            this.radioButtonMarathon.Location = new System.Drawing.Point(5, 67);
+            this.radioButtonMarathon.Location = new System.Drawing.Point(100, 20);
             this.radioButtonMarathon.Name = "radioButtonMarathon";
             this.radioButtonMarathon.Size = new System.Drawing.Size(70, 18);
             this.radioButtonMarathon.TabIndex = 1;
@@ -156,7 +158,7 @@
             // 
             this.radioButtonClassic.AutoSize = true;
             this.radioButtonClassic.Checked = true;
-            this.radioButtonClassic.Location = new System.Drawing.Point(5, 32);
+            this.radioButtonClassic.Location = new System.Drawing.Point(9, 20);
             this.radioButtonClassic.Name = "radioButtonClassic";
             this.radioButtonClassic.Size = new System.Drawing.Size(60, 18);
             this.radioButtonClassic.TabIndex = 0;
@@ -174,7 +176,7 @@
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(17, 248);
+            this.groupBox2.Location = new System.Drawing.Point(14, 203);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(2, 4, 2, 4);
@@ -265,13 +267,34 @@
             // 
             // timer2
             // 
+            this.timer2.Interval = 150;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick_1);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(124, 346);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 14);
+            this.label5.TabIndex = 9;
+            this.label5.Text = "Laser";
+            // 
+            // progressBar1
+            // 
+            this.progressBar1.Location = new System.Drawing.Point(1, 363);
+            this.progressBar1.Maximum = 10;
+            this.progressBar1.Name = "progressBar1";
+            this.progressBar1.Size = new System.Drawing.Size(283, 27);
+            this.progressBar1.Step = 1;
+            this.progressBar1.TabIndex = 10;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 390);
+            this.ClientSize = new System.Drawing.Size(283, 391);
+            this.Controls.Add(this.progressBar1);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelExpl);
@@ -318,6 +341,8 @@
         private System.Windows.Forms.RadioButton radioButtonMarathon;
         private System.Windows.Forms.RadioButton radioButtonClassic;
         private System.Windows.Forms.Timer timer2;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 

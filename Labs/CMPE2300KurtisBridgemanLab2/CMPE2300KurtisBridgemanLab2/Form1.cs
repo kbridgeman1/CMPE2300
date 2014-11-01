@@ -22,13 +22,15 @@ namespace CMPE2300KurtisBridgemanLab2
         Point pollMouseLocation;
         Bitmap bmp = new Bitmap(@"..\..\Background Image\background.jpg");
         Random rnd = new Random();
-
-        int difficualtyCounter = 0;
+       
         double foesDestroyed;
         double friendsLaunched;
+        int difficualtyCounter;
         int cmFoeCount;
         int cmFoeTotal;
         int lvlBonus;
+        bool autoFire;
+        int autoFireCount;
 
         public Form1()
         {
@@ -88,6 +90,9 @@ namespace CMPE2300KurtisBridgemanLab2
             foesDestroyed = 0;
             friendsLaunched = 0;
             lvlBonus = 0;
+            difficualtyCounter = 1;
+
+            progressBar1.Value = 0;
 
             Missile.Loading = false;
 
@@ -101,6 +106,7 @@ namespace CMPE2300KurtisBridgemanLab2
             labelExpl.Enabled = false;
             trackBarExplRad.Enabled = false;
             chkBoxEnemysAim.Enabled = false;
+            groupBox1.Enabled = false;
 
             timer1.Enabled = true;
 
@@ -140,10 +146,13 @@ namespace CMPE2300KurtisBridgemanLab2
             labelExpl.Enabled = true;
             trackBarExplRad.Enabled = true;
             chkBoxEnemysAim.Enabled = true;
+            groupBox1.Enabled = true;
         }
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            if (difficualtyCounter % 500 == 0 && progressBar1.Value != progressBar1.Maximum)
+                progressBar1.Value++;
 
             if (radioButtonMarathon.Checked)
             {
@@ -151,8 +160,7 @@ namespace CMPE2300KurtisBridgemanLab2
                 {
                     foreach (Missile msl in cannonList)
                     {
-
-                        msl.Ammo+= Missile.Difficulty/10 -2;
+                        msl.Ammo += (int)(Missile.Difficulty / 10) - 2;
                     }
                     Missile.Difficulty += 2;
                     difficualtyCounter = 0;
@@ -183,11 +191,13 @@ namespace CMPE2300KurtisBridgemanLab2
                     Missile.Loading = true;
                     Missile.Canvas.AddText("Score: " + (foesDestroyed * 100 + lvlBonus), 15, 10, 530, 250, 100, Color.Black);
                     Missile.Canvas.AddText("Good Job", 100, Color.Blue);
-                    Missile.Canvas.AddText(String.Format("Citys: {0} x 100", cityList.Count), 20, 250, 330, 250, 100, Color.Blue);
+                    Missile.Canvas.AddText(String.Format("Citys: 100pts x{0} ", cityList.Count), 20, 250, 330, 350, 100, Color.Blue);
+                    Missile.Canvas.AddText(String.Format("Extra Missiles: 50pts x{0}", cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo), 20, 250, 360, 350, 100, Color.Blue);
                     lvlBonus += 100 * cityList.Count();
+                    lvlBonus += (cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo)*50;
                     Missile.Loading = false;
 
-                    System.Threading.Thread.Sleep(2000);
+                    System.Threading.Thread.Sleep(5000);
 
                     Missile.Difficulty += 20;
                     cmFoeTotal += 10;
@@ -195,7 +205,7 @@ namespace CMPE2300KurtisBridgemanLab2
 
                     foreach (Missile msl in cannonList)
                     {
-                        msl.Ammo = Missile.Difficulty / 10 + 5;
+                        msl.Ammo = (int)(Missile.Difficulty / 10) + 5;
                         msl.exploding = false;
                     }
                 }
@@ -205,7 +215,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
 
             bool bLMouseClick = Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation);
-            //Missile.Canvas.GetLastMousePosition(out pollMouseLocation);
 
             if (bLMouseClick)
             {
@@ -220,13 +229,39 @@ namespace CMPE2300KurtisBridgemanLab2
             bool bRMouseClick = Missile.Canvas.GetLastMouseRightClickScaled(out pollMouseLocation);
 
             if (bRMouseClick)
-                cityList.Clear();
+            {
+                autoFire = true;
+                autoFireCount = 0;
+            }
+
+            if (autoFire)
+            {
+                Missile.Canvas.GetLastMousePositionScaled(out pollMouseLocation);
+                Missile m = new Missile(pollMouseLocation, cannonList);
+                if (m.StartLocation.X != 0 && m.StartLocation.Y != 0)
+                {
+                    friendsList.Add(m);
+                    friendsLaunched++;
+                    autoFireCount++;
+                }
+                
+                if (autoFireCount >= 5)
+                    autoFire = false;
+            }
+
+      //      if (bRMouseClick)
+      //          cityList.Clear();
 
             foreach (Missile msl in friendsList)
                 msl.Move();
 
             foreach (Missile msl in foesList)
                 msl.Move();
+
+            friendsList.RemoveAll(Missile.MissileDone);
+            friendsList.RemoveAll(Missile.LeavingScreen);
+            foesList.RemoveAll(Missile.MissileDone);
+            foesList.RemoveAll(Missile.LeavingScreen);
 
             collided = friendsList.Intersect(foesList).ToList();
 
@@ -253,10 +288,7 @@ namespace CMPE2300KurtisBridgemanLab2
                 msl.exploding = true;
             }
 
-            friendsList.RemoveAll(Missile.MissileDone);
-            friendsList.RemoveAll(Missile.LeavingScreen);
-            foesList.RemoveAll(Missile.MissileDone);
-            foesList.RemoveAll(Missile.LeavingScreen);
+            
 
             Missile.Loading = true;
 
@@ -290,7 +322,7 @@ namespace CMPE2300KurtisBridgemanLab2
 
             if (cityList.Count <= 0)
             {
-                difficualtyCounter = 0;
+                difficualtyCounter = 2;
                 Missile.Canvas.Clear();
                 timer2.Enabled = true;
                 timer1.Enabled = false;
@@ -303,14 +335,15 @@ namespace CMPE2300KurtisBridgemanLab2
             Missile.Loading = true;
 
             if (difficualtyCounter % 2 == 0)
-                Missile.Canvas.BBColour = Color.FromArgb(175, Color.Red);
-
+                Missile.Canvas.BBColour = Color.FromArgb(50, Color.Red);
+            else if (difficualtyCounter % 3 == 0)
+                Missile.Canvas.BBColour = Color.FromArgb(100, Color.Red);
             else
                 Missile.Canvas.BBColour = Color.Black;
 
             difficualtyCounter++;
 
-            if (difficualtyCounter == 15)
+            if (difficualtyCounter == 17)
             {
                 Missile.Canvas.AddText("Game Over", 100, Color.Black);
                 Missile.Canvas.AddText("Score: " + (foesDestroyed * 100 + lvlBonus), 25, 200, 400, 400, 50, Color.Black);
@@ -321,12 +354,16 @@ namespace CMPE2300KurtisBridgemanLab2
                 labelExpl.Enabled = true;
                 trackBarExplRad.Enabled = true;
                 chkBoxEnemysAim.Enabled = true;
+                groupBox1.Enabled = true;
                 timer1.Enabled = false;
                 timer2.Enabled = false;
             }
 
             Missile.Loading = false;
         }
+
+
+
 
 
     }

@@ -22,7 +22,7 @@ namespace CMPE2300KurtisBridgemanLab2
 
         int _mslRadius;
         int _mslAlpha;
-        double _mslVelocity;
+        int _mslVelocity;
 
         bool _friend;
 
@@ -68,17 +68,19 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             set
             {
-                if (value * 180 / Math.PI <= 45 && value * 180 / Math.PI > 270)
-                    _mslAngle = (345 * Math.PI / 180);
+                if (value * 180 / Math.PI >= 60 && value * 180 / Math.PI < 180)
+                    _mslAngle = (60 * Math.PI / 180);
 
-                if (value * 180 / Math.PI >= 135 && value * 180 / Math.PI < 270)
-                    _mslAngle = (135 * Math.PI / 180);
+                else if (value * 180 / Math.PI <= -60 && value * 180 / Math.PI >= -180)
+                    _mslAngle = (-60 * Math.PI / 180);
 
                 else
                     _mslAngle = value;
 
             }
         }
+
+
 
         static Random rnd;
 
@@ -117,11 +119,13 @@ namespace CMPE2300KurtisBridgemanLab2
             _mslRadius = 2;
             _mslVelocity = 18;
             _mslAltitute = destination.Y;
-            _mslAlpha = 250;
+            _mslAlpha = 255;
             _friend = true;
 
             _explosionColor = Color.Green;
         }
+
+        
 
         //instance city/cannon constructor
         public Missile(Point startPoint, string city)
@@ -181,7 +185,7 @@ namespace CMPE2300KurtisBridgemanLab2
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
                 {
-                    _mslAlpha -= 10;
+                    _mslAlpha -= 5;
                     _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
                 }
             }
@@ -238,26 +242,41 @@ namespace CMPE2300KurtisBridgemanLab2
             double c = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 7 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
             double[] d = new double[] { a, b, c };
 
-            if (!cannon[0].exploding && cannon[0].Ammo > 0 && (a == d.Min() || (cannon[1].exploding || cannon[1].Ammo <= 0) && !cannon[2].exploding && a < c || (cannon[2].exploding || cannon[2].Ammo <= 0) && !cannon[1].exploding && a < b || (cannon[1].exploding || cannon[1].Ammo <= 0) && (cannon[2].exploding || cannon[2].Ammo <= 0)))
+            if (!cannon[0].exploding && cannon[0].Ammo > 0 &&
+                (a == d.Min() || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
+                !cannon[2].exploding && a < c || (cannon[2].exploding || cannon[2].Ammo <= 0) &&
+                !cannon[1].exploding && a < b || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
+                (cannon[2].exploding || cannon[2].Ammo <= 0)))
             {
                 cannon[0].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 1 / 8 + ((int)(Math.Sin(cannon[0]._mslAngle) * cannon[0]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[0]._mslAngle) * cannon[0]._mslRadius));
-            }
-            else if (!cannon[1].exploding && cannon[1].Ammo > 0 && (b == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) && !cannon[2].exploding && b < c || (cannon[2].exploding || cannon[2].Ammo <= 0) && !cannon[0].exploding && b < a || (cannon[0].exploding || cannon[0].Ammo <= 0) && (cannon[2].exploding||cannon[2].Ammo<=0)))
-            {
-                cannon[1].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 4 / 8 + ((int)(Math.Sin(cannon[1]._mslAngle) * cannon[1]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[1]._mslAngle) * cannon[1]._mslRadius));
+                return new Point(canvas.ScaledWidth * 1 / 8 + ((int)(Math.Sin(cannon[0]._mslAngle) * cannon[0]._mslRadius)),
+                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[0]._mslAngle) * cannon[0]._mslRadius));
             }
 
-            else if (!cannon[2].exploding && cannon[2].Ammo > 0 && (c == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) && !cannon[2].exploding && c < b || (cannon[1].exploding || cannon[1].Ammo <= 0) && !cannon[0].exploding && c < a || (cannon[0].exploding || cannon[0].Ammo <= 0) && (cannon[1].exploding||cannon[1].Ammo<=0)))
+            else if (!cannon[1].exploding && cannon[1].Ammo > 0 &&
+                (b == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
+                !cannon[2].exploding && b < c || (cannon[2].exploding || cannon[2].Ammo <= 0) &&
+                !cannon[0].exploding && b < a || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
+                (cannon[2].exploding || cannon[2].Ammo <= 0)))
+            {
+                cannon[1].Ammo -= 1;
+                return new Point(canvas.ScaledWidth * 4 / 8 + ((int)(Math.Sin(cannon[1]._mslAngle) * cannon[1]._mslRadius)),
+                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[1]._mslAngle) * cannon[1]._mslRadius));
+            }
+
+            else if (!cannon[2].exploding && cannon[2].Ammo > 0 &&
+                (c == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
+                !cannon[2].exploding && c < b || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
+                !cannon[0].exploding && c < a || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
+                (cannon[1].exploding || cannon[1].Ammo <= 0)))
             {
                 cannon[2].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 7 / 8 + ((int)(Math.Sin(cannon[2]._mslAngle) * cannon[2]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[2]._mslAngle) * cannon[2]._mslRadius));
+                return new Point(canvas.ScaledWidth * 7 / 8 + ((int)(Math.Sin(cannon[2]._mslAngle) * cannon[2]._mslRadius)),
+                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[2]._mslAngle) * cannon[2]._mslRadius));
             }
 
             else
                 return new Point(0, 0); ;
-
         }
 
         double EnemyTarget()
