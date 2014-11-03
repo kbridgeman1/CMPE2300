@@ -13,6 +13,8 @@ namespace CMPE2300KurtisBridgemanICA11
 {
     public partial class Form1 : Form
     {
+        RectDrawer recDraw = new RectDrawer();
+
         public Form1()
         {
             InitializeComponent();
