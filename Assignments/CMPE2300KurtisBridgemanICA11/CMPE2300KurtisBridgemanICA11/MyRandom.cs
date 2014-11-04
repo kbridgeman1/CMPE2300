@@ -12,17 +12,21 @@ namespace CMPE2300KurtisBridgemanICA11
     {
         protected int MaxSize;
 
-        public MyRandom(int maxsize) : base(maxsize) { }
+        public MyRandom() : base() { }
+
+        public MyRandom(int maxsize) : base(maxsize)
+        {
+            MaxSize = maxsize;
+        }
 
         public Rectangle NextDrawerRect(CDrawer canv)
         {
-            int rWidth = Next(10, canv.ScaledWidth);
-            int rHeight = Next(10, canv.ScaledHeight);
+            int rWidth = Next(10, MaxSize);
+            int rHeight = Next(10, MaxSize);
             return new Rectangle(Next(0, canv.ScaledWidth - rWidth), Next(0, canv.ScaledHeight - rHeight), rWidth, rHeight);
         }
 
     }
-
 
     class RectDrawer : GDIDrawer.CDrawer
     {
@@ -32,7 +36,7 @@ namespace CMPE2300KurtisBridgemanICA11
         public RectDrawer()
             : base(800, 400, false, false)
         {
-            myRND = new MyRandom(base.ScaledWidth / 5);
+            myRND = new MyRandom(ScaledWidth / 5);
             BBColour = Color.White;
 
             for (int i = 0; i < 100; i++)
@@ -40,6 +44,8 @@ namespace CMPE2300KurtisBridgemanICA11
 
             foreach (Rectangle rect in lRect)
                 AddRectangle(rect.X, rect.Y, rect.Width, rect.Height, RandColor.GetKnownColor());
+
+            Render();
         }
 
     }
@@ -47,18 +53,24 @@ namespace CMPE2300KurtisBridgemanICA11
     class PicDrawer : GDIDrawer.CDrawer
     {
         public PicDrawer()
-            : base(Properties.Resources.chrysanthemum_koala.Width, Properties.Resources.chrysanthemum_koala.Height, false, false)
+            : base(Properties.Resources.ImageInImageMedium.Width, Properties.Resources.ImageInImageMedium.Height, false, false)
         {
-            Bitmap bMap = Properties.Resources.chrysanthemum_koala;
-
+            Bitmap bMap = Properties.Resources.ImageInImageMedium;
             Color pixelColor;
-            for (int iRow = 0; iRow<bMap.Width;iRow++)
-                for (int iCol = 0; iCol < bMap.Height; iCol++)
+
+            for (int iRow = 0; iRow < bMap.Height; iRow++)
+                for (int iCol = 0; iCol < bMap.Width; iCol++)
                 {
                     pixelColor = bMap.GetPixel(iCol, iRow);
-                    bMap.SetPixel(iCol,iRow, Color.FromArgb(pixelColor.R + pixelColor.G + pixelColor.B / 3));
-                      
+                    double red  = pixelColor.R;
+                    double green = pixelColor.G;
+                    double blue = pixelColor.B;
+                    int rgb = (int)Math.Round(((red + green + blue) / 3), 0);
+
+                    SetBBScaledPixel(iCol, iRow, Color.FromArgb(rgb,rgb,rgb));
                 }
+
+            Render();
         }
 
     }
