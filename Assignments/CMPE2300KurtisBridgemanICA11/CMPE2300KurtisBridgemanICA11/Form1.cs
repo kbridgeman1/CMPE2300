@@ -17,12 +17,11 @@ namespace CMPE2300KurtisBridgemanICA11
         RectDrawer recDraw;
         PicDrawer picDraw;
 
-
         public Form1()
         {
             InitializeComponent();
 
-            rnd = new MyRandom(100);            
+            rnd = new MyRandom(1);            
         }
 
         private void btnNewRectDrawer_Click(object sender, EventArgs e)
@@ -32,7 +31,7 @@ namespace CMPE2300KurtisBridgemanICA11
 
             recDraw = new RectDrawer();
 
-      //      recDraw.Clear();      //clears all shapes on the CDrawer which will not reappear when Render() is called
+       //     recDraw.Clear();      //clears all shapes on the CDrawer which will not reappear when Render() is called
        //     recDraw.Render();
 
         }
@@ -44,12 +43,9 @@ namespace CMPE2300KurtisBridgemanICA11
 
             picDraw = new PicDrawer();
 
-            picDraw.Clear();    //pixels do not get cleared in Clear()
-            picDraw.Render();   //shapes drawns to the Cdrawer will be cleared and wont appear when Render() is called
+        //    picDraw.Clear();    //pixels do not get cleared in Clear()
+        //    picDraw.Render();   //shapes drawns to the CDrawer will be cleared and wont appear when Render() is called
         }
-
-
-
 
     }
 }

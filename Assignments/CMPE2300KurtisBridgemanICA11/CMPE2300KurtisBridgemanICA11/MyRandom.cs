@@ -12,9 +12,8 @@ namespace CMPE2300KurtisBridgemanICA11
     {
         protected int MaxSize;
 
-        public MyRandom() : base() { }
-
-        public MyRandom(int maxsize) : base(maxsize)
+        public MyRandom(int maxsize)
+            : base(maxsize)
         {
             MaxSize = maxsize;
         }
@@ -23,7 +22,9 @@ namespace CMPE2300KurtisBridgemanICA11
         {
             int rWidth = Next(10, MaxSize);
             int rHeight = Next(10, MaxSize);
-            return new Rectangle(Next(0, canv.ScaledWidth - rWidth), Next(0, canv.ScaledHeight - rHeight), rWidth, rHeight);
+
+            return new Rectangle(Next(0, canv.ScaledWidth - rWidth),
+                Next(0, canv.ScaledHeight - rHeight), rWidth, rHeight);
         }
 
     }
@@ -31,7 +32,6 @@ namespace CMPE2300KurtisBridgemanICA11
     class RectDrawer : GDIDrawer.CDrawer
     {
         MyRandom myRND;
-        List<Rectangle> lRect = new List<Rectangle>();
 
         public RectDrawer()
             : base(800, 400, false, false)
@@ -40,10 +40,18 @@ namespace CMPE2300KurtisBridgemanICA11
             BBColour = Color.White;
 
             for (int i = 0; i < 100; i++)
-                lRect.Add(myRND.NextDrawerRect(this));
+            {
+                Rectangle tRect = myRND.NextDrawerRect(this);
+                AddRectangle(tRect.X, tRect.Y, tRect.Width, tRect.Height, RandColor.GetKnownColor());
+            }
 
-            foreach (Rectangle rect in lRect)
-                AddRectangle(rect.X, rect.Y, rect.Width, rect.Height, RandColor.GetKnownColor());
+            //   List<Rectangle> lRect = new List<Rectangle>();
+
+            //     for (int i = 0; i < 100; i++)
+            //         lRect.Add(myRND.NextDrawerRect(this));
+
+            //   foreach (Rectangle rect in lRect)
+            //       AddRectangle(rect.X, rect.Y, rect.Width, rect.Height, RandColor.GetKnownColor());
 
             Render();
         }
@@ -62,12 +70,12 @@ namespace CMPE2300KurtisBridgemanICA11
                 for (int iCol = 0; iCol < bMap.Width; iCol++)
                 {
                     pixelColor = bMap.GetPixel(iCol, iRow);
-                    double red  = pixelColor.R;
+                    double red = pixelColor.R;
                     double green = pixelColor.G;
                     double blue = pixelColor.B;
                     int rgb = (int)Math.Round(((red + green + blue) / 3), 0);
 
-                    SetBBScaledPixel(iCol, iRow, Color.FromArgb(rgb,rgb,rgb));
+                    SetBBScaledPixel(iCol, iRow, Color.FromArgb(rgb, rgb, rgb));
                 }
 
             Render();
