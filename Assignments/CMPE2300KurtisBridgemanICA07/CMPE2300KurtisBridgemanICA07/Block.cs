@@ -116,8 +116,8 @@ namespace CMPE2300KurtisBridgemanICA07
             return arg.Width > 100;
         }
 
-        // a predicate that does the same as the lambda expression used in the main form, btnLonger_Click handler
-        // but needs a value to be passed into the class to compare with 
+        //a predicate that does the same as the lambda expression used in the main form,
+        //btnLonger_Click handler but needs a value to be passed into the class to compare with 
         //public static bool CloseEnough(Block arg)
         //{
         //    if (arg.Width > HighlightWidth - 10 && arg.Width < HighlightWidth + 10)

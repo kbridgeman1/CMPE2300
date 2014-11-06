@@ -22,7 +22,6 @@ namespace CMPE2300KurtisBridgemanICA08
         int tickRequired;
         int itemsPerTick;
 
-
         public Form1()
         {
             InitializeComponent();

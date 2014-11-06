@@ -58,7 +58,6 @@ namespace CMPE2300KurtisBridgemanICA06
 
                 if (-1 == bBalls.IndexOf(tBall))
                     bBalls.Insert(0, tBall);
-                    //bBalls.Add(tBall);
             }
 
             foreach (Ball b in bBalls)
