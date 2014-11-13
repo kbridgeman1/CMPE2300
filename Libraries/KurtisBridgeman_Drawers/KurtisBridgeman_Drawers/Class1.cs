@@ -27,6 +27,11 @@ namespace KurtisBridgeman_Drawers
                 Next(0, canv.ScaledHeight - rHeight), rWidth, rHeight);
         }
 
+        public int RandFour()
+        {
+            return Next(1, 5);
+        }
+
     }
 
     public class RectDrawer : GDIDrawer.CDrawer

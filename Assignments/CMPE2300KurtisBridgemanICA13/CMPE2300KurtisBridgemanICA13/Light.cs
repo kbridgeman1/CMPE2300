@@ -10,7 +10,7 @@ using GDIDrawer;
 
 namespace CMPE2300KurtisBridgemanICA13
 {
-    class Light
+    class Light //base class
     {
         protected Point _liCenter;
         protected bool _killMe;
@@ -40,7 +40,7 @@ namespace CMPE2300KurtisBridgemanICA13
         }
     }
 
-    class FadeLight : Light
+    class FadeLight : Light //derived class
     {
         int _alpha = 255;
 
@@ -50,18 +50,73 @@ namespace CMPE2300KurtisBridgemanICA13
         public override void Animate()
         {
             _alpha -= 10;
-
-            if (_alpha < 10) _killMe = true;
+            _killMe = (_alpha < 10) ? true : false;
         }
 
         public override void Draw(CDrawer canv)
         {
             canv.AddCenteredEllipse(_liCenter.X, _liCenter.Y, 60, 60, Color.FromArgb(_alpha, _liColor));
-
             base.Draw(canv);
         }
 
     }
 
+    class ShrinkLight : Light //derived class
+    {
+        double radius = 40;
 
+        public ShrinkLight(Point msLocation) : base(msLocation) { }
+
+        public override void Animate()
+        {
+            radius = radius * 0.97;
+            _killMe = (radius < 2) ? true : false;
+        }
+
+        public override void Draw(CDrawer canv)
+        {
+            canv.AddPolygon(_liCenter.X - (int)radius, _liCenter.Y - (int)radius, (int)radius, 8, FillColor: _liColor);
+            base.Draw(canv);
+        }
+    }
+
+    class SpinLight : Light //derived  class
+    {
+        double angle = Math.PI * 2;
+
+        public SpinLight(Point msLoaction) : base(msLoaction) { }
+
+        public override void Animate()
+        {
+            angle = angle * 0.9;
+            _killMe = (angle < 0.1) ? true : false;
+        }
+
+        public override void Draw(CDrawer canv)
+        {
+            canv.AddPolygon(_liCenter.X - 40, _liCenter.Y - 40, 40, 3, angle, _liColor);
+            base.Draw(canv);
+        }
+
+    }
+
+    class GrowLight : Light //derived class
+    {
+        double radius = 40;
+
+        public GrowLight(Point msLocation) : base(msLocation) { }
+
+        public override void Animate()
+        {
+            radius = radius * 1.1;
+            _killMe = (radius > 500) ? true : false;
+        }
+
+        public override void Draw(CDrawer canv)
+        {
+            canv.AddPolygon(_liCenter.X - (int)radius, _liCenter.Y - (int)radius, (int)radius, 8, FillColor: _liColor);
+            base.Draw(canv);
+        }
+
+    }
 }

@@ -16,6 +16,7 @@ namespace CMPE2300KurtisBridgemanICA13
     {
         CDrawer pDrawer;
         List<Light> liLight;
+        MyRandom mR = new MyRandom(1);
 
         public Form1()
         {
@@ -31,7 +32,21 @@ namespace CMPE2300KurtisBridgemanICA13
             Point mouseLocation;
 
             if (pDrawer.GetLastMouseLeftClickScaled(out mouseLocation))
-                liLight.Add(new FadeLight(mouseLocation));
+                switch (mR.RandFour())
+                {
+                    case 1:
+                        liLight.Add(new SpinLight(mouseLocation));
+                        break;
+                    case 2:
+                        liLight.Add(new ShrinkLight(mouseLocation));
+                        break;
+                    case 3:
+                        liLight.Add(new FadeLight(mouseLocation));
+                        break;
+                    case 4:
+                        liLight.Add(new GrowLight(mouseLocation));
+                        break;
+                }
 
             pDrawer.Clear();
 
