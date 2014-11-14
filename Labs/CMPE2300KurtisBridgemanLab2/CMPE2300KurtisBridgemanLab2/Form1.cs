@@ -92,8 +92,6 @@ namespace CMPE2300KurtisBridgemanLab2
             lvlBonus = 0;
             difficualtyCounter = 1;
 
-            progressBar1.Value = 0;
-
             Missile.Loading = false;
 
             lblTotalEnemies.Text = "0";
@@ -151,9 +149,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            if (difficualtyCounter % 500 == 0 && progressBar1.Value != progressBar1.Maximum)
-                progressBar1.Value++;
-
             if (radioButtonMarathon.Checked)
             {
                 if (difficualtyCounter % 100 == 0)

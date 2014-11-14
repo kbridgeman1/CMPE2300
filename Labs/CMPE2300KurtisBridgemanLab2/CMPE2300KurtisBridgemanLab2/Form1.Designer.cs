@@ -49,8 +49,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.timer2 = new System.Windows.Forms.Timer(this.components);
-            this.label5 = new System.Windows.Forms.Label();
-            this.progressBar1 = new System.Windows.Forms.ProgressBar();
             ((System.ComponentModel.ISupportInitialize)(this.trackBarExplRad)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -270,31 +268,11 @@
             this.timer2.Interval = 150;
             this.timer2.Tick += new System.EventHandler(this.timer2_Tick_1);
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(124, 346);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(35, 14);
-            this.label5.TabIndex = 9;
-            this.label5.Text = "Laser";
-            // 
-            // progressBar1
-            // 
-            this.progressBar1.Location = new System.Drawing.Point(1, 363);
-            this.progressBar1.Maximum = 10;
-            this.progressBar1.Name = "progressBar1";
-            this.progressBar1.Size = new System.Drawing.Size(283, 27);
-            this.progressBar1.Step = 1;
-            this.progressBar1.TabIndex = 10;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 14F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(283, 391);
-            this.Controls.Add(this.progressBar1);
-            this.Controls.Add(this.label5);
+            this.ClientSize = new System.Drawing.Size(283, 345);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.labelExpl);
@@ -341,8 +319,6 @@
         private System.Windows.Forms.RadioButton radioButtonMarathon;
         private System.Windows.Forms.RadioButton radioButtonClassic;
         private System.Windows.Forms.Timer timer2;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.ProgressBar progressBar1;
     }
 }
 
