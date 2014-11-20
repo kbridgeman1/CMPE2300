@@ -82,7 +82,7 @@ namespace CMPE2300KurtisBridgemanICA15
     {
         protected override void vLatch()
         {
-            outAB = ((inA || inB) && !(inA && inB));
+            outAB = inA ^ inB;
         }
 
         protected override string vName()

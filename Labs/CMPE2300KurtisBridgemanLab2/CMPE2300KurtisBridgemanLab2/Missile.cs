@@ -68,15 +68,14 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             set
             {
-                if (value * 180 / Math.PI >= 60 && value * 180 / Math.PI < 180)
-                    _mslAngle = (60 * Math.PI / 180);
+                if (value >= Math.PI / 3)
+                    _mslAngle = (Math.PI / 3);
 
-                else if (value * 180 / Math.PI <= -60 && value * 180 / Math.PI >= -180)
-                    _mslAngle = (-60 * Math.PI / 180);
+                else if (value <= -1 * Math.PI / 3)
+                    _mslAngle =  (Math.PI* 5 / 3);
 
                 else
                     _mslAngle = value;
-
             }
         }
 
@@ -117,15 +116,13 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Angle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X) / ((double)destination.Y - (double)_mslLocation.Y));
             _mslRadius = 2;
-            _mslVelocity = 18;
+            _mslVelocity = 15;
             _mslAltitute = destination.Y;
             _mslAlpha = 255;
             _friend = true;
 
             _explosionColor = Color.Green;
         }
-
-        
 
         //instance city/cannon constructor
         public Missile(Point startPoint, string city)
@@ -141,6 +138,8 @@ namespace CMPE2300KurtisBridgemanLab2
                 _mslRadius = 15;
             }
         }
+
+
 
         //instance methods
         public Point Where()
@@ -195,22 +194,13 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             if (_friend)
             {
-                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius || Where().Y <= _mslAltitute)
-                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, _explosionColor);
-                else
-                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, Color.Green));
-
+                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, _explosionColor);
                 canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Green), 2);
             }
 
             else
             {
-                if (exploding || _mslRadius < explosionRadius && exploding || _mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius || Where().Y >= _mslAltitute)
-                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, _explosionColor));
-
-                else
-                    canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, Color.Red));
-
+                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, _explosionColor));
                 canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Red), 2);
             }
 
@@ -226,8 +216,10 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             if (!exploding)
             {
-                Angle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X) / ((double)mouseLocation.Y - (double)_mslLocation.Y));
-                canvas.AddLine(_mslLocation, 15, _mslAngle, Color.Blue, 8);
+                if(mouseLocation.Y <= canvas.ScaledHeight-61)
+                    Angle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X) / ((double)mouseLocation.Y - (double)_mslLocation.Y));
+                                
+                canvas.AddLine(_mslLocation, 15, _mslAngle, Color.Green, 8);
                 canvas.AddText(Ammo.ToString(), 15, _mslLocation.X - 15, _mslLocation.Y + 5, 30, 20, Color.Black);
             }
 
@@ -242,33 +234,26 @@ namespace CMPE2300KurtisBridgemanLab2
             double c = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 7 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
             double[] d = new double[] { a, b, c };
 
-            if (!cannon[0].exploding && cannon[0].Ammo > 0 &&
-                (a == d.Min() || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
-                !cannon[2].exploding && a < c || (cannon[2].exploding || cannon[2].Ammo <= 0) &&
-                !cannon[1].exploding && a < b || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
-                (cannon[2].exploding || cannon[2].Ammo <= 0)))
+            bool canShootA = (!cannon[0].exploding && cannon[0].Ammo > 0) ? true : false;
+            bool canShootB = (!cannon[1].exploding && cannon[1].Ammo > 0) ? true : false;
+            bool canShootC = (!cannon[2].exploding && cannon[2].Ammo > 0) ? true : false;
+
+
+            if (canShootA && (a == d.Min() || !canShootB && canShootC && a < c || !canShootC && canShootB && a < b || !canShootB && !canShootC))
             {
                 cannon[0].Ammo -= 1;
                 return new Point(canvas.ScaledWidth * 1 / 8 + ((int)(Math.Sin(cannon[0]._mslAngle) * cannon[0]._mslRadius)),
                     canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[0]._mslAngle) * cannon[0]._mslRadius));
             }
 
-            else if (!cannon[1].exploding && cannon[1].Ammo > 0 &&
-                (b == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
-                !cannon[2].exploding && b < c || (cannon[2].exploding || cannon[2].Ammo <= 0) &&
-                !cannon[0].exploding && b < a || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
-                (cannon[2].exploding || cannon[2].Ammo <= 0)))
+            else if (canShootB && (b == d.Min() || !canShootA && canShootC && b < c || !canShootC && canShootA && b < a || !canShootA && !canShootC))
             {
                 cannon[1].Ammo -= 1;
                 return new Point(canvas.ScaledWidth * 4 / 8 + ((int)(Math.Sin(cannon[1]._mslAngle) * cannon[1]._mslRadius)),
                     canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[1]._mslAngle) * cannon[1]._mslRadius));
             }
 
-            else if (!cannon[2].exploding && cannon[2].Ammo > 0 &&
-                (c == d.Min() || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
-                !cannon[2].exploding && c < b || (cannon[1].exploding || cannon[1].Ammo <= 0) &&
-                !cannon[0].exploding && c < a || (cannon[0].exploding || cannon[0].Ammo <= 0) &&
-                (cannon[1].exploding || cannon[1].Ammo <= 0)))
+            else if (canShootC && (c == d.Min() || !canShootA && canShootB && c < b || !canShootB && canShootA && c < a || !canShootA && !canShootB))
             {
                 cannon[2].Ammo -= 1;
                 return new Point(canvas.ScaledWidth * 7 / 8 + ((int)(Math.Sin(cannon[2]._mslAngle) * cannon[2]._mslRadius)),
@@ -336,6 +321,7 @@ namespace CMPE2300KurtisBridgemanLab2
         }
 
 
+
         //predicates
         public static bool MissileDone(Missile msl)
         {
@@ -349,6 +335,8 @@ namespace CMPE2300KurtisBridgemanLab2
 
             return false;
         }
+
+
 
         //overrides
         public override bool Equals(object obj)
