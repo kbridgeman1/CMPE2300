@@ -8,30 +8,32 @@ namespace CMPE2300KurtisBridgemanICA15
 {
     public abstract class Gate
     {
-        //protected properties for gate ins/outs
-        protected bool inA
+        //protected properties for gate ins/out
+        protected bool inA;
+        protected bool inB;
+        protected bool outAB;
+
+        //getters for ins/out
+        protected bool inputA
         {
             get { return inA; }
-            set { inA = value; }
         }
 
-        protected bool inB
+        protected bool inputB
         {
             get { return inB; }
-            set { inB = value; }
         }
 
-        protected bool outAB
+        public int output
         {
-            get { return outAB; }
-            set { outAB = value; }
+            get { return (outAB ? 1 : 0); }
         }
 
         //public methods
-        public void Set(bool A, bool B)
+        public void Set(int A, int B)
         {
-            inA = A;
-            inB = B;
+            inA = 0 == A ? false : true;
+            inB = 0 == B ? false : true;
         }
 
         //public user interface
@@ -93,7 +95,7 @@ namespace CMPE2300KurtisBridgemanICA15
     {
         protected override void vLatch()
         {
-            base.Latch();
+            base.vLatch();
             outAB = !outAB;
         }
 
