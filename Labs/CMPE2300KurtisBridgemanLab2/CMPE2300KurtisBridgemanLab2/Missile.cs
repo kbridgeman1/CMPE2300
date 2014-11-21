@@ -14,42 +14,56 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     class Missile
     {
-        Point _mslLocation;
+        //private member variables
+        private Point _mslLocation;
+        private double _mslAngle;
+        private double _mslPathLength;
+        private double _mslAltitute;
+        private int _mslRadius;
+        private int _mslAlpha;
+        private int _mslVelocity;
+        private bool _friend;
+        private Color _explosionColor;
 
-        double _mslAngle;
-        double _mslPathLength;
-        double _mslAltitute;
+        //private member properties
+        private double Angle
+        {
+            set
+            {
+                if (value >= Math.PI / 3)
+                    _mslAngle = (Math.PI / 3);
 
-        int _mslRadius;
-        int _mslAlpha;
-        int _mslVelocity;
+                else if (value <= -1 * Math.PI / 3)
+                    _mslAngle = (Math.PI * 5 / 3);
 
-        bool _friend;
-
-        Color _explosionColor;
+                else
+                    _mslAngle = value;
+            }
+        }
+        
+        //public member properties
         public bool exploding { get; set; }
-
         public int Ammo { get; set; }
-
         public Point StartLocation
         {
             get { return _mslLocation; }
         }
 
-        static CDrawer canvas;
-        static int explosionRadius;
+        //private static members
+        private static CDrawer canvas;
+        private static Random rnd;
+        private static int explosionRadius;
 
+        //public static properties
         public static CDrawer Canvas
         {
             get { return canvas; }
             set { canvas = value; }
         }
-
         public static int ExplosionRadius
         {
             set { explosionRadius = value; }
         }
-
         public static bool Loading
         {
             set
@@ -60,29 +74,10 @@ namespace CMPE2300KurtisBridgemanLab2
                 else canvas.Render();
             }
         }
-
         public static bool EnemysAim { get; set; }
         public static int Difficulty { get; set; }
 
-        double Angle
-        {
-            set
-            {
-                if (value >= Math.PI / 3)
-                    _mslAngle = (Math.PI / 3);
-
-                else if (value <= -1 * Math.PI / 3)
-                    _mslAngle =  (Math.PI* 5 / 3);
-
-                else
-                    _mslAngle = value;
-            }
-        }
-
-
-
-        static Random rnd;
-
+        
         //static constructor
         static Missile()
         {
@@ -112,7 +107,7 @@ namespace CMPE2300KurtisBridgemanLab2
         //instance constructor "Friend"
         public Missile(Point destination, List<Missile> cannons)
         {
-            _mslLocation = (Point)ClosestCannon(destination, cannons);
+            _mslLocation = ClosestCannon(destination, cannons);
 
             Angle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X) / ((double)destination.Y - (double)_mslLocation.Y));
             _mslRadius = 2;
@@ -216,7 +211,7 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             if (!exploding)
             {
-                if(mouseLocation.Y <= canvas.ScaledHeight-61)
+                if(mouseLocation.Y <= canvas.ScaledHeight-canvas.ScaledHeight/10 - 1)
                     Angle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X) / ((double)mouseLocation.Y - (double)_mslLocation.Y));
                                 
                 canvas.AddLine(_mslLocation, 15, _mslAngle, Color.Green, 8);
@@ -227,7 +222,7 @@ namespace CMPE2300KurtisBridgemanLab2
                 canvas.AddText("X", 15, _mslLocation.X - 15, _mslLocation.Y + 5, 30, 20, Color.Black);
         }
 
-        object ClosestCannon(Point destination, List<Missile> cannon)
+        Point ClosestCannon(Point destination, List<Missile> cannon)
         {
             double a = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 1 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
             double b = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 4 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));

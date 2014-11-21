@@ -12,7 +12,6 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     public partial class Form1 : Form
     {
-
         List<Missile> friendsList = new List<Missile>();
         List<Missile> foesList = new List<Missile>();
         List<Missile> collided = new List<Missile>();
@@ -90,12 +89,13 @@ namespace CMPE2300KurtisBridgemanLab2
             friendsLaunched = 0;
             lvlBonus = 0;
             difficualtyCounter = 1;
+            Missile.Difficulty = 20;
 
             Missile.Loading = false;
 
-            lblTotalEnemies.Text = "0";
-            lblMisslesFired.Text = "0";
-            lblEnemiesDestroyed.Text = "0";
+            lblTotalEnemies.Text = foesList.Count.ToString();
+            lblMisslesFired.Text = friendsList.Count.ToString();
+            lblEnemiesDestroyed.Text = foesDestroyed.ToString(); ;
             lblKillPerShot.Text = "0";
             btnPause.Enabled = true;
             btnStop.Enabled = true;
@@ -107,12 +107,11 @@ namespace CMPE2300KurtisBridgemanLab2
 
             timer1.Enabled = true;
 
-            if (radioButtonMarathon.Checked)
-                Missile.Difficulty = 20;
+ //           if (radioButtonMarathon.Checked)
+ //               Missile.Difficulty = 20;
 
             if (radioButtonClassic.Checked)
-            {
-                Missile.Difficulty = 20;
+            {                
                 cmFoeCount = 0;
                 cmFoeTotal = 10;
             }
@@ -147,6 +146,7 @@ namespace CMPE2300KurtisBridgemanLab2
 
         private void timer1_Tick(object sender, EventArgs e)
         {
+            //functionality for Marathon Game Mode
             if (radioButtonMarathon.Checked)
             {
                 if (difficualtyCounter % 100 == 0)
@@ -163,7 +163,7 @@ namespace CMPE2300KurtisBridgemanLab2
                     foesList.Add(new Missile());
             }
 
-
+            //functionality for Classic Game Mode
             if (radioButtonClassic.Checked)
             {
                 if (cmFoeCount < cmFoeTotal && rnd.Next(1, 20) == 1)
@@ -175,46 +175,12 @@ namespace CMPE2300KurtisBridgemanLab2
 
                 else if (cmFoeCount == cmFoeTotal && foesList.Count == 0)
                 {
-                    if (friendsLaunched != 0)
-                    {
-                        lblMisslesFired.Text = friendsLaunched.ToString();
-                        lblKillPerShot.Text = (Math.Round(foesDestroyed / friendsLaunched, 2)).ToString();
-                    }
-
-                    Missile.Loading = true;
-                    Missile.Canvas.AddText("Score: " + (foesDestroyed * 100 + score), 15, 10, 530, 250, 100, Color.Black);
-                    Missile.Canvas.AddText("Good Job", 100, Color.LawnGreen);
-
-                    lvlBonus = 0;
-                    lvlBonus += 100 * cityList.Count();
-                    lvlBonus += (cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo) * 50;
-
-                    Missile.Canvas.AddText(String.Format("Citys: 100pts x{0} ", cityList.Count), 20, 250, 330, 350, 100, Color.Chartreuse);
-                    Missile.Canvas.AddText(String.Format("Extra Missiles: 50pts x{0}", cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo), 20, 250, 360, 350, 100, Color.Chartreuse);
-                    Missile.Canvas.AddText(String.Format("Bonus Point: {0}pts", lvlBonus),20,250,390,350,100,Color.Chartreuse);
-                    
-                    score += lvlBonus;
-                    friendsList.Clear();
-                    Missile.Loading = false;
-
-                    System.Threading.Thread.Sleep(5000);
-
-                    Missile.Difficulty += 20;
-                    cmFoeTotal += 10;
-                    cmFoeCount = 0;
-
-                    foreach (Missile msl in cannonList)
-                    {
-                        msl.Ammo = (int)(Missile.Difficulty / 10) + 5;
-                        msl.exploding = false;
-                    }
+                    NewRound();
                 }
 
             }
 
-            bool bLMouseClick = Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation);
-
-            if (bLMouseClick)
+            if (Missile.Canvas.GetLastMouseLeftClickScaled(out pollMouseLocation))
             {
                 Missile m = new Missile(pollMouseLocation, cannonList);
                 if (m.StartLocation.X != 0 && m.StartLocation.Y != 0)
@@ -223,8 +189,6 @@ namespace CMPE2300KurtisBridgemanLab2
                     friendsLaunched++;
                 }
             }
-
-            bool bRMouseClick = Missile.Canvas.GetLastMouseRightClickScaled(out pollMouseLocation);
 
             foreach (Missile msl in friendsList)
                 msl.Move();
@@ -301,6 +265,42 @@ namespace CMPE2300KurtisBridgemanLab2
             }
         }
 
+        private void NewRound()
+        {
+            if (friendsLaunched != 0)
+            {
+                lblMisslesFired.Text = friendsLaunched.ToString();
+                lblKillPerShot.Text = (Math.Round(foesDestroyed / friendsLaunched, 2)).ToString();
+            }
+
+            Missile.Loading = true;
+            Missile.Canvas.AddText("Score: " + (foesDestroyed * 100 + score), 15, 10, 530, 250, 100, Color.Black);
+            Missile.Canvas.AddText("Good Job", 100, Color.LawnGreen);
+
+            lvlBonus = 0;
+            lvlBonus += 100 * cityList.Count();
+            lvlBonus += (cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo) * 50;
+
+            Missile.Canvas.AddText(String.Format("Citys: 100pts x{0} ", cityList.Count), 20, 250, 330, 350, 100, Color.Chartreuse);
+            Missile.Canvas.AddText(String.Format("Extra Missiles: 50pts x{0}", cannonList[0].Ammo + cannonList[1].Ammo + cannonList[2].Ammo), 20, 250, 360, 350, 100, Color.Chartreuse);
+            Missile.Canvas.AddText(String.Format("Level Bonus: {0}pts", lvlBonus), 20, 250, 390, 350, 100, Color.Chartreuse);
+
+            score += lvlBonus;
+            friendsList.Clear();
+            Missile.Loading = false;
+
+            System.Threading.Thread.Sleep(5000);
+
+            Missile.Difficulty += 20;
+            cmFoeTotal += 10;
+            cmFoeCount = 0;
+
+            foreach (Missile msl in cannonList)
+            {
+                msl.Ammo = (int)(Missile.Difficulty / 10) + 5;
+                msl.exploding = false;
+            }
+        }
 
         private void timer2_Tick_1(object sender, EventArgs e)
         {
