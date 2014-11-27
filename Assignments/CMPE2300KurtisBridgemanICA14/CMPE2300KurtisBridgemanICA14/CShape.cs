@@ -45,6 +45,7 @@ namespace CMPE2300KurtisBridgemanICA14
         public void Render()
         {
             VirtualRender();
+            Canvas.AddText(String.Format("({0},{1})", _pLocation.X, _pLocation.Y), _iRadius/5, _pLocation.X-_iRadius, _pLocation.Y-_iRadius, _iRadius*2, _iRadius*2, Color.Black);
         }
 
         //Non-virtual interfaces
@@ -57,7 +58,7 @@ namespace CMPE2300KurtisBridgemanICA14
     {
         int xVel;
         int yVel;
-        
+
         //custom constructor leveraging base constructor, to initialize radius and location
         public MovingBall(Point p)
             : base(p)
@@ -79,16 +80,16 @@ namespace CMPE2300KurtisBridgemanICA14
             _pLocation.Y += yVel;
 
         }
-       
+
         protected override void VirtualRender()
         {
-            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius*2, _iRadius*2, _color);
+            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius * 2, _iRadius * 2, _color);
         }
 
     }
 
     //derived from CShape, supports IAnimate interface
-    class SpinnerBall: CShape, IAnimate
+    class SpinnerBall : CShape, IAnimate
     {
         double drawAngle;
         double incAngle;
@@ -108,7 +109,7 @@ namespace CMPE2300KurtisBridgemanICA14
 
         protected override void VirtualRender()
         {
-            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius*2, _iRadius*2, _color);
+            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius * 2, _iRadius * 2, _color);
             Canvas.AddLine(_pLocation, _iRadius, drawAngle, Color.Black, 5);
         }
 
@@ -124,10 +125,10 @@ namespace CMPE2300KurtisBridgemanICA14
         public PentoBall(Point p)
             : base(p)
         {
-            xVel = _rnd.Next(-8, 9); //random x velocity
-            yVel = _rnd.Next(-8, 9); //random y velocity
+            xVel = _rnd.Next(-8, 9); 
+            yVel = _rnd.Next(-8, 9); 
 
-            incAngle = _rnd.NextDouble() * 0.2; 
+            incAngle = _rnd.NextDouble() * 0.2;
         }
 
         public void Move()
@@ -148,10 +149,9 @@ namespace CMPE2300KurtisBridgemanICA14
             drawAngle += incAngle;
         }
 
-
         protected override void VirtualRender()
         {
-            Canvas.AddPolygon(_pLocation.X-_iRadius, _pLocation.Y-_iRadius, _iRadius, 5, drawAngle, _color);
+            Canvas.AddPolygon(_pLocation.X - _iRadius, _pLocation.Y - _iRadius, _iRadius, 5, drawAngle, _color);
             Canvas.AddLine(_pLocation, _iRadius, drawAngle, Color.Black, 5);
         }
 

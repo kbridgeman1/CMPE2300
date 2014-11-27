@@ -29,8 +29,6 @@ namespace CMPE2300KurtisBridgemanICA14
 
         private void timer1_Tick(object sender, EventArgs e)
         {
-            this.Activate();
-            //this.KeyPreview = true;
 
             CShape.Canvas.Clear();
 
@@ -51,7 +49,7 @@ namespace CMPE2300KurtisBridgemanICA14
 
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
-            CShape.Canvas.GetLastMouseLeftClickScaled(out msLocation);
+            CShape.Canvas.GetLastMousePositionScaled(out msLocation);
 
             switch (e.KeyCode)
             {
@@ -71,6 +69,11 @@ namespace CMPE2300KurtisBridgemanICA14
                     shapeList.Add(new PentoBall(msLocation));
                     break;
             }
+        }
+
+        private void Form1_Shown(object sender, EventArgs e)
+        {
+            CShape.Canvas.Position = new Point(this.Location.X + this.Width, this.Location.Y);
         }
 
     }

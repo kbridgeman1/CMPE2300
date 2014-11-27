@@ -14,19 +14,19 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     class Missile
     {
-        //private member variables
-        private Point _mslLocation;
-        private double _mslAngle;
-        private double _mslPathLength;
-        private double _mslAltitute;
-        private int _mslRadius;
-        private int _mslAlpha;
-        private int _mslVelocity;
-        private bool _friend;
-        private Color _explosionColor;
+        //private member variables****************************************************************
+        private Point _mslLocation;         //center of the missle
+        private double _mslAngle;           //angle of missle's path
+        private double _mslPathLength;      //length from missle start point to it's destination
+        private double _mslAltitute;        //destination altitude for missle
+        private int _mslRadius;             //radius of the missle
+        private int _mslAlpha;              //opacity of the missle
+        private int _mslVelocity;           //velocity of the missle
+        private bool _friend;               //true for friendly missles, false for enemy missles
+        private Color _explosionColor;      //color for the missle, changes when exploding
 
-        //private member properties
-        private double Angle
+        //private member properties***************************************************************
+        private double Angle                //limits _mslAngle to be no between PI/3 and -PI/3 (+/- 60 degrees) 
         {
             set
             {
@@ -34,37 +34,37 @@ namespace CMPE2300KurtisBridgemanLab2
                     _mslAngle = (Math.PI / 3);
 
                 else if (value <= -1 * Math.PI / 3)
-                    _mslAngle = (Math.PI * 5 / 3);
+                    _mslAngle = (-1 * Math.PI / 3);
 
                 else
                     _mslAngle = value;
             }
         }
         
-        //public member properties
-        public bool exploding { get; set; }
-        public int Ammo { get; set; }
-        public Point StartLocation
+        //public member properties***************************************************************
+        public bool exploding { get; set; } //flag for if the missle is currently exploding
+        public int Ammo { get; set; }       //ammo count for each missle (cannon)
+        public Point StartLocation          //public getter for retrieving the missle location
         {
             get { return _mslLocation; }
         }
 
-        //private static members
-        private static CDrawer canvas;
-        private static Random rnd;
-        private static int explosionRadius;
+        //private static members*****************************************************************
+        private static CDrawer canvas;      //CDrawer object for drawing our missles
+        private static Random rnd;          //Random object for randoming angles
+        private static int explosionRadius; //stored as a variable to be modified from the Main Form
 
-        //public static properties
-        public static CDrawer Canvas
+        //public static properties***************************************************************
+        public static CDrawer Canvas        //getter and setter for accessing canvas from the Main Form
         {
             get { return canvas; }
             set { canvas = value; }
         }
-        public static int ExplosionRadius
+        public static int ExplosionRadius   //setter for adjusting the explosionRadius from the Main Form
         {
             set { explosionRadius = value; }
         }
-        public static bool Loading
+        public static bool Loading          //property for clearing and rendering our canvas
         {
             set
             {
@@ -74,11 +74,11 @@ namespace CMPE2300KurtisBridgemanLab2
                 else canvas.Render();
             }
         }
-        public static bool EnemysAim { get; set; }
-        public static int Difficulty { get; set; }
+        public static bool EnemysAim { get; set; }  //automatic property flag to determine enemy missle targets
+        public static int Difficulty { get; set; }  //automatic property used to set the missle velocity
 
         
-        //static constructor
+        //static constructor*********************************************************************
         static Missile()
         {
             ExplosionRadius = 40;
