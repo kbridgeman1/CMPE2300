@@ -79,15 +79,11 @@ namespace CMPE2300KurtisBridgemanICA14
             _pLocation.Y += yVel;
 
         }
-
-        
+       
         protected override void VirtualRender()
         {
-            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius / 2, _iRadius / 2, _color);
+            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius*2, _iRadius*2, _color);
         }
-
-
-
 
     }
 
@@ -112,12 +108,53 @@ namespace CMPE2300KurtisBridgemanICA14
 
         protected override void VirtualRender()
         {
-            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius / 2, _iRadius / 2, _color);
-            Canvas.AddLine(_pLocation, _iRadius, drawAngle, _color, 5);
+            Canvas.AddCenteredEllipse(_pLocation.X, _pLocation.Y, _iRadius*2, _iRadius*2, _color);
+            Canvas.AddLine(_pLocation, _iRadius, drawAngle, Color.Black, 5);
         }
 
     }
 
+    class PentoBall : CShape, IMoveable, IAnimate
+    {
+        int xVel;
+        int yVel;
+        double drawAngle;
+        double incAngle;
 
+        public PentoBall(Point p)
+            : base(p)
+        {
+            xVel = _rnd.Next(-8, 9); //random x velocity
+            yVel = _rnd.Next(-8, 9); //random y velocity
+
+            incAngle = _rnd.NextDouble() * 0.2; 
+        }
+
+        public void Move()
+        {
+            if (_pLocation.X + xVel >= Canvas.ScaledWidth - _iRadius || _pLocation.X + xVel <= _iRadius)
+                xVel *= -1;
+
+            if (_pLocation.Y + yVel >= Canvas.ScaledHeight - _iRadius || _pLocation.Y + yVel < _iRadius)
+                yVel *= -1;
+
+            _pLocation.X += xVel;
+            _pLocation.Y += yVel;
+
+        }
+
+        public void Animate()
+        {
+            drawAngle += incAngle;
+        }
+
+
+        protected override void VirtualRender()
+        {
+            Canvas.AddPolygon(_pLocation.X-_iRadius, _pLocation.Y-_iRadius, _iRadius, 5, drawAngle, _color);
+            Canvas.AddLine(_pLocation, _iRadius, drawAngle, Color.Black, 5);
+        }
+
+    }
 
 }
