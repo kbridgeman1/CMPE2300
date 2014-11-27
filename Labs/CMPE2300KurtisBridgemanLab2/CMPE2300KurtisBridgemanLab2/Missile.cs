@@ -14,7 +14,7 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     class Missile
     {
-        //private member variables****************************************************************
+        //private member variables*******************************************************************
         private Point _mslLocation;         //center of the missle
         private double _mslAngle;           //angle of missle's path
         private double _mslPathLength;      //length from missle start point to it's destination
@@ -25,8 +25,8 @@ namespace CMPE2300KurtisBridgemanLab2
         private bool _friend;               //true for friendly missles, false for enemy missles
         private Color _explosionColor;      //color for the missle, changes when exploding
 
-        //private member properties***************************************************************
-        private double Angle                //limits _mslAngle to be no between PI/3 and -PI/3 (+/- 60 degrees) 
+        //private member properties******************************************************************
+        private double Angle                //limits _mslAngle to be no between PI/3 and -PI/3
         {
             set
             {
@@ -40,8 +40,8 @@ namespace CMPE2300KurtisBridgemanLab2
                     _mslAngle = value;
             }
         }
-        
-        //public member properties***************************************************************
+
+        //public member properties*******************************************************************
         public bool exploding { get; set; } //flag for if the missle is currently exploding
         public int Ammo { get; set; }       //ammo count for each missle (cannon)
         public Point StartLocation          //public getter for retrieving the missle location
@@ -49,18 +49,18 @@ namespace CMPE2300KurtisBridgemanLab2
             get { return _mslLocation; }
         }
 
-        //private static members*****************************************************************
+        //private static members*********************************************************************
         private static CDrawer canvas;      //CDrawer object for drawing our missles
         private static Random rnd;          //Random object for randoming angles
-        private static int explosionRadius; //stored as a variable to be modified from the Main Form
+        private static int explosionRadius; //stored as a variable to be modified from Main Form
 
-        //public static properties***************************************************************
-        public static CDrawer Canvas        //getter and setter for accessing canvas from the Main Form
+        //public static properties*******************************************************************
+        public static CDrawer Canvas        //getter and setter for accessing canvas from Main Form
         {
             get { return canvas; }
             set { canvas = value; }
         }
-        public static int ExplosionRadius   //setter for adjusting the explosionRadius from the Main Form
+        public static int ExplosionRadius   //setter for adjusting the explosionRadius from Main Form
         {
             set { explosionRadius = value; }
         }
@@ -74,11 +74,12 @@ namespace CMPE2300KurtisBridgemanLab2
                 else canvas.Render();
             }
         }
-        public static bool EnemysAim { get; set; }  //automatic property flag to determine enemy missle targets
-        public static int Difficulty { get; set; }  //automatic property used to set the missle velocity
+        public static bool EnemysAim { get; set; }  //flag to determine enemy missle targets
+        public static int Difficulty { get; set; }  //used to set the missle velocity
 
-        
-        //static constructor*********************************************************************
+
+        //constructors*******************************************************************************
+        //static constructor for our missle class, initializes our static members
         static Missile()
         {
             ExplosionRadius = 40;
@@ -86,57 +87,64 @@ namespace CMPE2300KurtisBridgemanLab2
             Canvas = null;
         }
 
-        //default instance constructor "Foe"
+        //default instance constructor for "Foe" missles
         public Missile()
         {
-            _mslLocation = new Point(rnd.Next(0, canvas.ScaledWidth), 0);
             _mslRadius = 2;
-            _mslVelocity = Difficulty / 20;
-            _mslAltitute = canvas.ScaledHeight - 40;
             _mslAlpha = 250;
             _friend = false;
-
             _explosionColor = Color.Red;
 
+            //random point at top of drawer for start point
+            _mslLocation = new Point(rnd.Next(0, canvas.ScaledWidth), 0);
+
+            //velocity will be 1, and start 1 higher for every 20 Difficulty ticks 
+            _mslVelocity = Difficulty / 20;
+
+            //destination altitute with an offset accounting for the background image
+            _mslAltitute = canvas.ScaledHeight - canvas.ScaledHeight * 4 / 60;
+
+            //set angle to travel towards a "city", or "cannon" chosen at random            
             if (EnemysAim)
                 _mslAngle = EnemyTarget();
+
+            //set the angle to a random value between 135 and 225 degrees
             else
                 _mslAngle = rnd.Next(135, 226) * (Math.PI / 180);
         }
 
-        //instance constructor "Friend"
+        //custom instance constructor for "Friend" missles
         public Missile(Point destination, List<Missile> cannons)
         {
-            _mslLocation = ClosestCannon(destination, cannons);
-
-            Angle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X) / ((double)destination.Y - (double)_mslLocation.Y));
             _mslRadius = 2;
             _mslVelocity = 15;
             _mslAltitute = destination.Y;
             _mslAlpha = 255;
             _friend = true;
-
             _explosionColor = Color.Green;
+
+            //determines which cannons are available to shoot, returns the one with least path length
+            _mslLocation = ClosestCannon(destination, cannons);
+
+            //determines the angle between the mouse click, and start point
+            Angle = Math.Atan(-1 * ((double)destination.X - (double)_mslLocation.X)
+                / ((double)destination.Y - (double)_mslLocation.Y));
         }
 
-        //instance city/cannon constructor
+        //custom instance constructor for city/cannon
         public Missile(Point startPoint, string city)
         {
             _mslLocation = startPoint;
             _mslRadius = 5;
-            _mslVelocity = 0;
             _mslAlpha = 255;
 
+            //ammo is initialized if "cannon" is passed in as a string argument
             if (city == "cannon")
-            {
                 Ammo = 5;
-                _mslRadius = 15;
-            }
         }
 
 
-
-        //instance methods
+        //instance methods***************************************************************************
         public Point Where()
         {
             Point tp = new Point();
@@ -156,13 +164,15 @@ namespace CMPE2300KurtisBridgemanLab2
                 else if (_mslRadius < explosionRadius && exploding || _mslRadius < explosionRadius)
                 {
                     _mslRadius += 3;
-                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(200, 256),
+                        rnd.Next(0, 256), rnd.Next(0, 256));
                 }
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
                 {
                     _mslAlpha -= 10;
-                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(200, 256), rnd.Next(0, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(200, 256), rnd.Next(0, 256),
+                        rnd.Next(0, 256));
                 }
             }
 
@@ -174,13 +184,15 @@ namespace CMPE2300KurtisBridgemanLab2
                 else if (_mslRadius < explosionRadius && exploding || _mslRadius < explosionRadius)
                 {
                     _mslRadius += 3;
-                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(rnd.Next(0, 256), rnd.Next(0, 256),
+                        rnd.Next(200, 256), rnd.Next(0, 256));
                 }
 
                 else if (_mslRadius >= explosionRadius && exploding || _mslRadius >= explosionRadius)
                 {
                     _mslAlpha -= 5;
-                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(0, 256), rnd.Next(200, 256), rnd.Next(0, 256));
+                    _explosionColor = Color.FromArgb(_mslAlpha, rnd.Next(0, 256),
+                        rnd.Next(200, 256), rnd.Next(0, 256));
                 }
             }
         }
@@ -189,14 +201,20 @@ namespace CMPE2300KurtisBridgemanLab2
         {
             if (_friend)
             {
-                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, _explosionColor);
-                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Green), 2);
+                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2,
+                    _explosionColor);
+
+                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI,
+                    Color.FromArgb(_mslAlpha, Color.Green), 2);
             }
 
             else
             {
-                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2, Color.FromArgb(_mslAlpha, _explosionColor));
-                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI, Color.FromArgb(_mslAlpha, Color.Red), 2);
+                canvas.AddCenteredEllipse(Where().X, Where().Y, _mslRadius * 2, _mslRadius * 2,
+                    Color.FromArgb(_mslAlpha, _explosionColor));
+
+                canvas.AddLine(new Point(Where().X, Where().Y), _mslPathLength, _mslAngle - Math.PI,
+                    Color.FromArgb(_mslAlpha, Color.Red), 2);
             }
 
         }
@@ -204,29 +222,38 @@ namespace CMPE2300KurtisBridgemanLab2
         //enhancement methods
         public void RenderCity()
         {
-            canvas.AddCenteredRectangle(_mslLocation.X, _mslLocation.Y, _mslRadius * 3, _mslRadius, Color.Aqua);
+            canvas.AddCenteredRectangle(_mslLocation.X, _mslLocation.Y, _mslRadius * 3,
+                _mslRadius, Color.Aqua);
         }
 
         public void RenderCannon(Point mouseLocation)
         {
             if (!exploding)
             {
-                if(mouseLocation.Y <= canvas.ScaledHeight-canvas.ScaledHeight/10 - 1)
-                    Angle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X) / ((double)mouseLocation.Y - (double)_mslLocation.Y));
-                                
+                if (mouseLocation.Y <= canvas.ScaledHeight - canvas.ScaledHeight / 10 - 1)
+                    Angle = Math.Atan(-1 * ((double)mouseLocation.X - (double)_mslLocation.X)
+                        / ((double)mouseLocation.Y - (double)_mslLocation.Y));
+
                 canvas.AddLine(_mslLocation, 15, _mslAngle, Color.Green, 8);
-                canvas.AddText(Ammo.ToString(), 15, _mslLocation.X - 15, _mslLocation.Y + 5, 30, 20, Color.Black);
+                canvas.AddText(Ammo.ToString(), 15, _mslLocation.X - 15, _mslLocation.Y + 5,
+                    30, 20, Color.Black);
             }
 
             else
-                canvas.AddText("X", 15, _mslLocation.X - 15, _mslLocation.Y + 5, 30, 20, Color.Black);
+                canvas.AddText("X", 15, _mslLocation.X - 15, _mslLocation.Y + 5, 30, 20, Color.Black);//no longer than this line
         }
 
         Point ClosestCannon(Point destination, List<Missile> cannon)
         {
-            double a = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 1 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
-            double b = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 4 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
-            double c = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 7 / 8) - (double)destination.X, 2) + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
+            double a = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 1 / 8) - (double)destination.X, 2)
+                + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
+
+            double b = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 4 / 8) - (double)destination.X, 2)
+                + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
+
+            double c = Math.Sqrt(Math.Pow((canvas.ScaledWidth * 7 / 8) - (double)destination.X, 2)
+                + Math.Pow((canvas.ScaledHeight - 50) - (double)destination.Y, 2));
+
             double[] d = new double[] { a, b, c };
 
             bool canShootA = (!cannon[0].exploding && cannon[0].Ammo > 0) ? true : false;
@@ -234,29 +261,36 @@ namespace CMPE2300KurtisBridgemanLab2
             bool canShootC = (!cannon[2].exploding && cannon[2].Ammo > 0) ? true : false;
 
 
-            if (canShootA && (a == d.Min() || !canShootB && canShootC && a < c || !canShootC && canShootB && a < b || !canShootB && !canShootC))
+            if (canShootA && (a == d.Min() || !canShootB && canShootC && a < c
+                || !canShootC && canShootB && a < b || !canShootB && !canShootC))
             {
                 cannon[0].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 1 / 8 + ((int)(Math.Sin(cannon[0]._mslAngle) * cannon[0]._mslRadius)),
-                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[0]._mslAngle) * cannon[0]._mslRadius));
+
+                return new Point(canvas.ScaledWidth * 1 / 8 + ((int)(Math.Sin(cannon[0]._mslAngle)
+                    * cannon[0]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10
+                    + (int)(-1 * Math.Cos(cannon[0]._mslAngle) * cannon[0]._mslRadius));
             }
 
-            else if (canShootB && (b == d.Min() || !canShootA && canShootC && b < c || !canShootC && canShootA && b < a || !canShootA && !canShootC))
+            else if (canShootB && (b == d.Min() || !canShootA && canShootC && b < c
+                || !canShootC && canShootA && b < a || !canShootA && !canShootC))
             {
                 cannon[1].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 4 / 8 + ((int)(Math.Sin(cannon[1]._mslAngle) * cannon[1]._mslRadius)),
-                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[1]._mslAngle) * cannon[1]._mslRadius));
+                return new Point(canvas.ScaledWidth * 4 / 8 + ((int)(Math.Sin(cannon[1]._mslAngle)
+                    * cannon[1]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10
+                    + (int)(-1 * Math.Cos(cannon[1]._mslAngle) * cannon[1]._mslRadius));
             }
 
-            else if (canShootC && (c == d.Min() || !canShootA && canShootB && c < b || !canShootB && canShootA && c < a || !canShootA && !canShootB))
+            else if (canShootC && (c == d.Min() || !canShootA && canShootB && c < b
+                || !canShootB && canShootA && c < a || !canShootA && !canShootB))
             {
                 cannon[2].Ammo -= 1;
-                return new Point(canvas.ScaledWidth * 7 / 8 + ((int)(Math.Sin(cannon[2]._mslAngle) * cannon[2]._mslRadius)),
-                    canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10 + (int)(-1 * Math.Cos(cannon[2]._mslAngle) * cannon[2]._mslRadius));
+                return new Point(canvas.ScaledWidth * 7 / 8 + ((int)(Math.Sin(cannon[2]._mslAngle)
+                    * cannon[2]._mslRadius)), canvas.ScaledHeight - canvas.ScaledHeight * 1 / 10
+                    + (int)(-1 * Math.Cos(cannon[2]._mslAngle) * cannon[2]._mslRadius));
             }
 
             else
-                return new Point(0, 0); ;
+                return new Point(0, 0);
         }
 
         double EnemyTarget()
@@ -294,7 +328,8 @@ namespace CMPE2300KurtisBridgemanLab2
                     break;
             }
 
-            return Math.Atan(-1 * ((double)target - (double)_mslLocation.X) / (((double)canvas.ScaledHeight - 40) - (double)_mslLocation.Y)) + Math.PI;
+            return Math.Atan(-1 * ((double)target - (double)_mslLocation.X)
+                / (((double)canvas.ScaledHeight - 40) - (double)_mslLocation.Y)) + Math.PI;
         }
 
         public static string DiffucultyString()
@@ -344,7 +379,8 @@ namespace CMPE2300KurtisBridgemanLab2
             if (tMissile.exploding)
                 return false;
 
-            return (Math.Sqrt(Math.Pow(Where().X - tMissile.Where().X, 2) + Math.Pow(Where().Y - tMissile.Where().Y, 2)) <= _mslRadius + tMissile._mslRadius);
+            return (Math.Sqrt(Math.Pow(Where().X - tMissile.Where().X, 2) + Math.Pow(Where().Y
+                - tMissile.Where().Y, 2)) <= _mslRadius + tMissile._mslRadius);
 
         }
 
