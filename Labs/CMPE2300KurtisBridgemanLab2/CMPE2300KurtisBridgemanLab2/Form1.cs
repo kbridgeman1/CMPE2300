@@ -12,48 +12,55 @@ namespace CMPE2300KurtisBridgemanLab2
 {
     public partial class Form1 : Form
     {
-        List<Missile> friendsList = new List<Missile>();
-        List<Missile> foesList = new List<Missile>();
-        List<Missile> collided = new List<Missile>();
-        List<Missile> cityList = new List<Missile>();
-        List<Missile> cannonList = new List<Missile>();
+        List<Missile> friendsList = new List<Missile>();    //holds our friendly missiles
+        List<Missile> foesList = new List<Missile>();       //holds our enemy missles
+        List<Missile> collided = new List<Missile>();       //holds our missles that have collided
+        List<Missile> cityList = new List<Missile>();       //holds our citys
+        List<Missile> cannonList = new List<Missile>();     //holds our cannons
 
-        Point pollMouseLocation;
-        Bitmap bmp = new Bitmap(Properties.Resources.background);
-        Random rnd = new Random();
+        Point pollMouseLocation;                            //will hold our mouse click coordinates
+        Bitmap bmp = new Bitmap(Properties.Resources.background); //background image
+        Random rnd = new Random();                          //
 
-        double foesDestroyed;
-        double friendsLaunched;
-        int difficualtyCounter;
-        int cmFoeCount;
-        int cmFoeTotal;
-        int lvlBonus;
-        int score;
+        double foesDestroyed;       //count for number of enemy missile destroyed
+        double friendsLaunched;     //count for friendly missiles fired
+        int difficualtyCounter;     //difficulty tracker, increases as timer ticks
+        int cmFoeCount;             //classic mode, foes killed per level
+        int cmFoeTotal;             //classic mode, total foes per level
+        int lvlBonus;               //bonus point at the end of each level
+        int score;                  //running total for the score of the player
 
         public Form1()
         {
             InitializeComponent();
         }
 
+        //Occurs when the user presses the New Game button, sets the form members to prepare
+        //for a new game.
         private void btnNewGame_Click(object sender, EventArgs e)
         {
+            //close the canvas if one already exists
             if (Missile.Canvas != null)
                 Missile.Canvas.Close();
 
             Missile.Canvas = new GDIDrawer.CDrawer(bContinuousUpdate: false);
 
+            //sets the canvas to appear next to the main form
             Point p = new Point(this.Location.X + this.Width, this.Location.Y);
             Missile.Canvas.Position = p;
 
+            //sets the background to show the background image
             for (int row = 500; row < Missile.Canvas.ScaledHeight; row++)
                 for (int col = 0; col < Missile.Canvas.ScaledWidth; col++)
                     Missile.Canvas.SetBBScaledPixel(col, row, bmp.GetPixel(col, row));
 
+            //clears our lists upon starting a new game
             friendsList.Clear();
             foesList.Clear();
             cityList.Clear();
             cannonList.Clear();
 
+            //adds 6 cities to our list of cities
             int x = Missile.Canvas.ScaledWidth / 4;
             for (int ii = 0; ii < 2; ii++)
             {
@@ -67,6 +74,7 @@ namespace CMPE2300KurtisBridgemanLab2
                 x = Missile.Canvas.ScaledWidth * 5/8;
             }
 
+            //adds 3 cannons to our list of cannons
             x = Missile.Canvas.ScaledWidth/8;
             for (int i = 0; i < 3; i++)
             {
@@ -76,27 +84,39 @@ namespace CMPE2300KurtisBridgemanLab2
                 x += Missile.Canvas.ScaledWidth * 3 / 8;
             }
 
+            //renders all of our cities and cannons
             foreach (Missile c in cityList)
                 c.RenderCity();
 
             foreach (Missile c in cannonList)
                 c.RenderCannon(new Point(Missile.Canvas.ScaledWidth/2, Missile.Canvas.ScaledHeight/2));
 
+            //sets static Missile ExplosionRadius via trackbar value
             Missile.ExplosionRadius = trackBarExplRad.Value;
 
+            //determines whether or not enemies will aim at friendly cannons/cities
             if (chkBoxEnemysAim.Checked)
                 Missile.EnemysAim = true;
             else
                 Missile.EnemysAim = false;
 
+            //resets our tracking variables upon starting a new game
             foesDestroyed = 0;
             friendsLaunched = 0;
             lvlBonus = 0;
             difficualtyCounter = 1;
             Missile.Difficulty = 20;
 
+            if (radioButtonClassic.Checked)
+            {
+                cmFoeCount = 0;
+                cmFoeTotal = 10;
+            }
+
+            //clears our CDrawer
             Missile.Loading = false;
 
+            //sets the Score text on the main form and enables/disables the forms control
             lblTotalEnemies.Text = foesList.Count.ToString();
             lblMisslesFired.Text = friendsList.Count.ToString();
             lblEnemiesDestroyed.Text = foesDestroyed.ToString(); ;
@@ -109,17 +129,15 @@ namespace CMPE2300KurtisBridgemanLab2
             chkBoxEnemysAim.Enabled = false;
             groupBox1.Enabled = false;
 
+            //enables the timer to start the game
             timer1.Enabled = true;
-
-            if (radioButtonClassic.Checked)
-            {                
-                cmFoeCount = 0;
-                cmFoeTotal = 10;
-            }
         }
 
+        //Occurs when the user clicks the Pause button, pauses the game and waits for the user
+        //to resume.
         private void btnPause_Click(object sender, EventArgs e)
         {
+            //if the game is running, stop the timer and notify the user via CDrawer text
             if (timer1.Enabled)
             {
                 timer1.Enabled = false;
@@ -131,6 +149,8 @@ namespace CMPE2300KurtisBridgemanLab2
                 timer1.Enabled = true;
         }
 
+        //Occurs when the user clicks the Stop button, disables the timer, closes the canvas,
+        //and enables/disables form controls.
         private void btnStop_Click(object sender, EventArgs e)
         {
             timer1.Enabled = false;
