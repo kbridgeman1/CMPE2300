@@ -19,7 +19,7 @@ namespace CMPE2300KurtisBridgemanLab2
         List<Missile> cannonList = new List<Missile>();
 
         Point pollMouseLocation;
-        Bitmap bmp = new Bitmap(@"..\..\Background Image\background.jpg");
+        Bitmap bmp = new Bitmap(Properties.Resources.background);
         Random rnd = new Random();
 
         double foesDestroyed;
@@ -350,10 +350,6 @@ namespace CMPE2300KurtisBridgemanLab2
 
             Missile.Loading = false;
         }
-
-
-
-
 
     }
 }
