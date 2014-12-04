@@ -13,8 +13,8 @@ namespace CMPE2300KurtisBridgemanLab3
     class CTracker : CDrawer
     {
         //static members
-        private static HashSet<Point> hashPoints;
-        private static Dictionary<Color, List<Point>> dicColorPoint;
+        public static HashSet<Point> hashPoints;
+        public static Dictionary<Color, List<Point>> dicColorPoint;
         private static object thLock = new object();
 
         //custom constructor, initializes static members
@@ -29,6 +29,9 @@ namespace CMPE2300KurtisBridgemanLab3
         new public bool SetBBScaledPixel(int xCoord, int yCoord, Color pixelColor)
         {
             if (hashPoints.Contains(new Point(xCoord, yCoord)))
+                return false;
+
+            if (xCoord < 0 || xCoord > ScaledWidth - 1 || yCoord < 0 || yCoord > ScaledHeight - 1)
                 return false;
 
             lock (thLock)
@@ -49,7 +52,7 @@ namespace CMPE2300KurtisBridgemanLab3
         }
 
         //an event that will be used from the main form
-        public event dBackFull Full = null;
+        public event dBackFull Full;
 
         //invoke the OnFill event, called when we want?
         protected virtual void OnFill(EventArgs ev)
@@ -57,6 +60,8 @@ namespace CMPE2300KurtisBridgemanLab3
             if (Full != null)
                 Full(this, ev);
         }
+
+        
 
         public void Reset()
         {
@@ -79,7 +84,6 @@ namespace CMPE2300KurtisBridgemanLab3
         static Wanderer()
         {
             pList = new List<Point>();
-
             pList.Add(new Point(0, -1));  //up
             pList.Add(new Point(0, 1));   //down   
             pList.Add(new Point(-1, 0));  //left  
@@ -121,22 +125,18 @@ namespace CMPE2300KurtisBridgemanLab3
             {
                 Point nextMove = possibleDirections.Pop();
 
-                nextLocation.X = nextLocation.X + nextMove.X;
-                nextLocation.Y = nextLocation.Y + nextMove.Y;
-
-                if (canv.SetBBScaledPixel(nextLocation.X, nextLocation.Y, wanderColor))
+                if (canv.SetBBScaledPixel(nextLocation.X + nextMove.X, nextLocation.Y + nextMove.Y, wanderColor))
                 {
+                    nextLocation.X += nextMove.X;
+                    nextLocation.Y += nextMove.Y;
                     pStack.Push(nextLocation);
                     return true;
                 }
             }
 
-            //   while (pStack.Count > 1)
             pStack.Pop();
 
             return true;
         }
-
     }
-
 }

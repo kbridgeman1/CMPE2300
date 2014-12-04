@@ -11,7 +11,7 @@ namespace CMPE2300KurtisBridgemanLab3
     {
         public static List<Point> FisherYatesShuffle(this List<Point> pLst, Random rnd)
         {
-            
+         //   Random rnd = new Random();
             List<Point> tpList = new List<Point>(pLst);
 
             for (int i = tpList.Count; i > 1; i--)
