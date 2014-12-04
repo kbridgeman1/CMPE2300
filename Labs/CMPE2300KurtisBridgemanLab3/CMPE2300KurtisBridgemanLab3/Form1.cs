@@ -17,31 +17,31 @@ namespace CMPE2300KurtisBridgemanLab3
     {
 
         CTracker canvas;
+        Random rnd = new Random();
 
+        RandomWanderer rw;
 
         public Form1()
         {
             InitializeComponent();
             canvas = new CTracker(800, 600);
-
+            rw = new RandomWanderer(new Point(400, 300), Color.Blue, canvas);
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
-            for (int irow = 0; irow < canvas.ScaledHeight; irow++)
-                for (int icol = 0; icol < canvas.ScaledWidth; icol++)
-                {
-                    canvas.SetBBScaledPixel(icol, irow, Color.Blue);
-                    canvas.Render();
-                }
-
-            
-            
+            timer1.Enabled = true;   
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
             canvas.Reset();
+        }
+
+        private void timer1_Tick(object sender, EventArgs e)
+        {
+            while (rw.Move())
+                canvas.Render();
         }
 
 
