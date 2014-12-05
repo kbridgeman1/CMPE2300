@@ -13,9 +13,16 @@ namespace CMPE2300KurtisBridgemanLab3
     class CTracker : CDrawer
     {
         //static members
-        public static HashSet<Point> hashPoints;
-        public static Dictionary<Color, List<Point>> dicColorPoint;
-        private static object thLock = new object();
+        private static HashSet<Point> hashPoints;
+        private static Dictionary<Color, List<Point>> dicColorPoint;
+        public static object thLock = new object();
+
+        //static properties
+        public static HashSet<Point> HashPoints
+        { get { return hashPoints; } }
+
+        public static Dictionary<Color, List<Point>> DicColorPoint
+        { get { return dicColorPoint; } }
 
         //custom constructor, initializes static members
         public CTracker(int width, int height)
@@ -43,25 +50,22 @@ namespace CMPE2300KurtisBridgemanLab3
 
                 else
                     dicColorPoint[pixelColor].Add(new Point(xCoord, yCoord));
+
+
+                base.SetBBScaledPixel(xCoord, yCoord, pixelColor);
+                Render();
+
+                if (HashPoints.Count >= ScaledWidth * ScaledHeight)
+                {
+                    if (Full != null)
+                        Full(this, EventArgs.Empty);
+                }
             }
-
-            base.SetBBScaledPixel(xCoord, yCoord, pixelColor);
-            Render();
-
             return true;
         }
 
         //an event that will be used from the main form
         public event dBackFull Full;
-
-        //invoke the OnFill event, called when we want?
-        protected virtual void OnFill(EventArgs ev)
-        {
-            if (Full != null)
-                Full(this, ev);
-        }
-
-        
 
         public void Reset()
         {
