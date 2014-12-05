@@ -51,16 +51,17 @@ namespace CMPE2300KurtisBridgemanLab3
                 else
                     dicColorPoint[pixelColor].Add(new Point(xCoord, yCoord));
 
-
-                base.SetBBScaledPixel(xCoord, yCoord, pixelColor);
-                Render();
-
-                if (HashPoints.Count >= ScaledWidth * ScaledHeight)
-                {
-                    if (Full != null)
-                        Full(this, EventArgs.Empty);
-                }
             }
+
+            base.SetBBScaledPixel(xCoord, yCoord, pixelColor);
+            Render();
+
+            if (HashPoints.Count >= ScaledWidth * ScaledHeight)
+            {
+                if (Full != null)
+                    Full(this, EventArgs.Empty);
+            }
+
             return true;
         }
 

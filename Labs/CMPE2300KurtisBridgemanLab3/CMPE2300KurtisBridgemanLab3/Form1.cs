@@ -20,6 +20,8 @@ namespace CMPE2300KurtisBridgemanLab3
         Random rnd = new Random();
         volatile bool isAlive;
 
+        DrawerDone drawerDone;
+
         public Form1()
         {
             InitializeComponent();
@@ -30,41 +32,30 @@ namespace CMPE2300KurtisBridgemanLab3
             if (canvas != null)
                 canvas.Close();
 
-            canvas = new CTracker(800, 600);
+            if (thList != null)
+                thList.Clear();
+
+            isAlive = false;
+
+            canvas = new CTracker((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
             thList = new List<Thread>();
-            canvas.Scale = 100;
+            canvas.Scale = 1;
             isAlive = true;
             canvas.Full += canvas_Full;
-            button1.Enabled = false;
             timer1.Enabled = true;
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            //button1.Enabled = true;
-
-            foreach (Thread th in thList)
-                th.Abort();
-
-            thList.Clear();
-            listView1.Items.Clear();
-
-            canvas.Reset();
         }
 
         void canvas_Full(object sender, EventArgs e)
         {
-            lock (CTracker.thLock)
-            {
-                foreach (Thread th in thList)
-                    if (!isAlive)
-                        th.
-//                isAlive = false;
+            if (thList != null)
                 thList.Clear();
-//                button1.Enabled = true;
-                timer1.Enabled = false;
-            }
+
+            isAlive = false;
+            timer1.Enabled = false;
+
+            drawerDone = new DrawerDone();
+            drawerDone.ShowDialog();
+
         }
 
         private void timer1_Tick(object sender, EventArgs e)
@@ -97,26 +88,14 @@ namespace CMPE2300KurtisBridgemanLab3
                     lvi.UseItemStyleForSubItems = false;
                     lvi.SubItems.Add(Math.Round(((double)kvp.Value.Count / (double)(canvas.ScaledWidth * canvas.ScaledHeight) * 100), 0).ToString() + "%");
                 }
-
-            //if (CTracker.HashPoints.Count >= canvas.ScaledWidth * canvas.ScaledHeight)
-            //{
-            //    foreach (Thread th in thList)
-            //        th.Abort();
-
-            //    thList.Clear();
-            //    button1.Enabled = true;
-            //    timer1.Enabled = false;
-            //}
         }
 
         private void Wandering(object rndWan)
         {
             RandomWanderer rndWanderer = rndWan as RandomWanderer;
-            
+
             while (rndWanderer.Move() && isAlive)
                 canvas.Render();
         }
-
-
     }
 }
