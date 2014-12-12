@@ -32,15 +32,20 @@ namespace CMPE2300KurtisBridgemanLab3
             if (canvas != null)
                 canvas.Close();
 
+            isAlive = false;
+            Thread.Sleep(100);
+            isAlive = true;
+
             if (thList != null)
                 thList.Clear();
 
-            isAlive = false;
-
+            listView1.Items.Clear();
+            
             canvas = new CTracker((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
             thList = new List<Thread>();
-            canvas.Scale = 1;
-            isAlive = true;
+            canvas.Scale = 2;
+            canvas.Position = new Point(Location.X + Width, Location.Y);
+            
             canvas.Full += canvas_Full;
             timer1.Enabled = true;
         }
@@ -51,8 +56,8 @@ namespace CMPE2300KurtisBridgemanLab3
                 thList.Clear();
 
             isAlive = false;
-            timer1.Enabled = false;
-
+//            timer1.Enabled = false;
+//            button1.Enabled = true;
             drawerDone = new DrawerDone();
             drawerDone.ShowDialog();
 

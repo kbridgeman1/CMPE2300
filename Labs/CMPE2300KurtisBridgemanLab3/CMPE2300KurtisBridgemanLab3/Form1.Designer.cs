@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.ListViewItem listViewItem2 = new System.Windows.Forms.ListViewItem("");
+            System.Windows.Forms.ListViewItem listViewItem1 = new System.Windows.Forms.ListViewItem("");
             this.button1 = new System.Windows.Forms.Button();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
             this.listView1 = new System.Windows.Forms.ListView();
@@ -63,7 +63,7 @@
             this.columnHeaderColor,
             this.columnHeaderPixels});
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
-            listViewItem2});
+            listViewItem1});
             this.listView1.Location = new System.Drawing.Point(12, 61);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(198, 272);
@@ -98,7 +98,7 @@
             this.numericUpDownWidth.Size = new System.Drawing.Size(46, 20);
             this.numericUpDownWidth.TabIndex = 3;
             this.numericUpDownWidth.Value = new decimal(new int[] {
-            200,
+            800,
             0,
             0,
             0});
@@ -120,7 +120,7 @@
             this.numericUpDownHeight.Size = new System.Drawing.Size(46, 20);
             this.numericUpDownHeight.TabIndex = 4;
             this.numericUpDownHeight.Value = new decimal(new int[] {
-            200,
+            600,
             0,
             0,
             0});
