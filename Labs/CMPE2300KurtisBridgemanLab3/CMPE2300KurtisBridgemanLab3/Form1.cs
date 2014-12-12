@@ -43,7 +43,7 @@ namespace CMPE2300KurtisBridgemanLab3
             
             canvas = new CTracker((int)numericUpDownWidth.Value, (int)numericUpDownHeight.Value);
             thList = new List<Thread>();
-            canvas.Scale = 2;
+            canvas.Scale = 1;
             canvas.Position = new Point(Location.X + Width, Location.Y);
             
             canvas.Full += canvas_Full;
@@ -68,7 +68,9 @@ namespace CMPE2300KurtisBridgemanLab3
             if (canvas.GetLastMouseLeftClickScaled(out msLocation))
             {
                 //loops until a unused color is found
-                Color testCol;
+                Color testCol = new Color();
+
+                if(CTracker.DicColorPoint.Count <= 32)
                 do
                     testCol = GDIDrawer.RandColor.GetColor();
                 while (CTracker.DicColorPoint.ContainsKey(testCol));
@@ -97,10 +99,14 @@ namespace CMPE2300KurtisBridgemanLab3
 
         private void Wandering(object rndWan)
         {
+            System.Diagnostics.Trace.WriteLine("Thread Started");
+
             RandomWanderer rndWanderer = rndWan as RandomWanderer;
 
             while (rndWanderer.Move() && isAlive)
                 canvas.Render();
+
+            System.Diagnostics.Trace.WriteLine("Thread Ended");
         }
     }
 }
