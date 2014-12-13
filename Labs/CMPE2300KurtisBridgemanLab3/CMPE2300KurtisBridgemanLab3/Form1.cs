@@ -119,15 +119,14 @@ namespace CMPE2300KurtisBridgemanLab3
             renderCounter++;
         }
 
-
         //Function:     Wandering
-        //Description:  Moves Wanderers until it can not move any more, or it has been told
+        //Description:  Moves Wanderers until it can move no more, or it has been told
         //              to end via isAlive being set to false.
         //Return:       void
         //Parameters:   object rndWand - our RandomWanderer created via mouse left click
         private void Wandering(object rndWan)
         {
-            int thCount = threadCounter;    //get the current thread count and store it in this thread
+            int thCount = threadCounter;    //store the current thread count as a variable in this thread
             threadCounter++;
 
             System.Diagnostics.Trace.WriteLine(String.Format("Thread {0} Started",thCount));

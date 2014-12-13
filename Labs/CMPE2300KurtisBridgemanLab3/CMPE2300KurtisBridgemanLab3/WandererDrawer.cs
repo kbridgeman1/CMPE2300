@@ -44,7 +44,7 @@ namespace CMPE2300KurtisBridgemanLab3
         //override of the inherited SetBBScaledPixel
         new public bool SetBBScaledPixel(int xCoord, int yCoord, Color pixelColor)
         {
-            //return false if argument pixel is already colored
+            //return false if the argument pixel is already colored
             if (hashPoints.Contains(new Point(xCoord, yCoord)))
                 return false;
 
@@ -70,10 +70,8 @@ namespace CMPE2300KurtisBridgemanLab3
 
             //trigger the event if all pixel have been colored
             if (HashPoints.Count >= ScaledWidth * ScaledHeight)
-            {
                 if (Full != null)
-                    Full(this, EventArgs.Empty);
-            }
+                    Full(this, EventArgs.Empty);           
 
             //true indicates the pixel has been successfully set
             return true;
@@ -159,7 +157,7 @@ namespace CMPE2300KurtisBridgemanLab3
                 }
             }
 
-            //non of the 4 directions are possible, backtrack by one point
+            //non of the 4 directions are possible, backtrack one point
             pStack.Pop();
 
             //indicates that the Wanderer should keep moving
