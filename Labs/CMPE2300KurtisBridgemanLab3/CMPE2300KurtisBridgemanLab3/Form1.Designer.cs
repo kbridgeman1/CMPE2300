@@ -39,13 +39,16 @@
             this.numericUpDownHeight = new System.Windows.Forms.NumericUpDown();
             this.lblWidth = new System.Windows.Forms.Label();
             this.lblHeight = new System.Windows.Forms.Label();
+            this.lblScale = new System.Windows.Forms.Label();
+            this.numericUpDownScale = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScale)).BeginInit();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(125, 28);
+            this.button1.Location = new System.Drawing.Point(115, 35);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(85, 27);
             this.button1.TabIndex = 0;
@@ -59,14 +62,17 @@
             // 
             // listView1
             // 
+            this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeaderColor,
             this.columnHeaderPixels});
             this.listView1.Items.AddRange(new System.Windows.Forms.ListViewItem[] {
             listViewItem1});
-            this.listView1.Location = new System.Drawing.Point(12, 61);
+            this.listView1.Location = new System.Drawing.Point(12, 68);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(198, 272);
+            this.listView1.Size = new System.Drawing.Size(198, 286);
             this.listView1.TabIndex = 2;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -83,7 +89,7 @@
             // 
             // numericUpDownWidth
             // 
-            this.numericUpDownWidth.Location = new System.Drawing.Point(12, 35);
+            this.numericUpDownWidth.Location = new System.Drawing.Point(53, 9);
             this.numericUpDownWidth.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -105,7 +111,7 @@
             // 
             // numericUpDownHeight
             // 
-            this.numericUpDownHeight.Location = new System.Drawing.Point(73, 35);
+            this.numericUpDownHeight.Location = new System.Drawing.Point(53, 42);
             this.numericUpDownHeight.Maximum = new decimal(new int[] {
             1000,
             0,
@@ -128,7 +134,7 @@
             // lblWidth
             // 
             this.lblWidth.AutoSize = true;
-            this.lblWidth.Location = new System.Drawing.Point(12, 19);
+            this.lblWidth.Location = new System.Drawing.Point(9, 11);
             this.lblWidth.Name = "lblWidth";
             this.lblWidth.Size = new System.Drawing.Size(38, 13);
             this.lblWidth.TabIndex = 5;
@@ -137,17 +143,45 @@
             // lblHeight
             // 
             this.lblHeight.AutoSize = true;
-            this.lblHeight.Location = new System.Drawing.Point(70, 19);
+            this.lblHeight.Location = new System.Drawing.Point(6, 44);
             this.lblHeight.Name = "lblHeight";
             this.lblHeight.Size = new System.Drawing.Size(41, 13);
             this.lblHeight.TabIndex = 6;
             this.lblHeight.Text = "Height:";
             // 
+            // lblScale
+            // 
+            this.lblScale.AutoSize = true;
+            this.lblScale.Location = new System.Drawing.Point(112, 11);
+            this.lblScale.Name = "lblScale";
+            this.lblScale.Size = new System.Drawing.Size(37, 13);
+            this.lblScale.TabIndex = 8;
+            this.lblScale.Text = "Scale:";
+            // 
+            // numericUpDownScale
+            // 
+            this.numericUpDownScale.Location = new System.Drawing.Point(154, 9);
+            this.numericUpDownScale.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.numericUpDownScale.Name = "numericUpDownScale";
+            this.numericUpDownScale.Size = new System.Drawing.Size(46, 20);
+            this.numericUpDownScale.TabIndex = 7;
+            this.numericUpDownScale.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(222, 345);
+            this.ClientSize = new System.Drawing.Size(222, 366);
+            this.Controls.Add(this.lblScale);
+            this.Controls.Add(this.numericUpDownScale);
             this.Controls.Add(this.lblHeight);
             this.Controls.Add(this.lblWidth);
             this.Controls.Add(this.numericUpDownHeight);
@@ -158,6 +192,7 @@
             this.Text = "Form1";
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownWidth)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDownHeight)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpDownScale)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,6 +209,8 @@
         private System.Windows.Forms.NumericUpDown numericUpDownHeight;
         private System.Windows.Forms.Label lblWidth;
         private System.Windows.Forms.Label lblHeight;
+        private System.Windows.Forms.Label lblScale;
+        private System.Windows.Forms.NumericUpDown numericUpDownScale;
     }
 }
 
