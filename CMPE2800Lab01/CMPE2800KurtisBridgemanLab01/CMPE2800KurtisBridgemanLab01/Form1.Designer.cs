@@ -28,20 +28,33 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.textBoxStatus = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
+            // 
+            // textBoxStatus
+            // 
+            this.textBoxStatus.Enabled = false;
+            this.textBoxStatus.Location = new System.Drawing.Point(12, 12);
+            this.textBoxStatus.Name = "textBoxStatus";
+            this.textBoxStatus.Size = new System.Drawing.Size(326, 20);
+            this.textBoxStatus.TabIndex = 0;
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(350, 45);
+            this.Controls.Add(this.textBoxStatus);
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
+
+        private System.Windows.Forms.TextBox textBoxStatus;
     }
 }
 

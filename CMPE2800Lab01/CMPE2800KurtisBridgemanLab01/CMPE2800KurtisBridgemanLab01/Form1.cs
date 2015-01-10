@@ -13,36 +13,29 @@ using GDIDrawer;
 
 namespace CMPE2800KurtisBridgemanLab01
 {
+    public delegate void delVoidPointInt(Point pt, int aCount);
+
     public partial class Form1 : Form
     {
         static CDrawer canvas;
-        Color[,] colArray;
-        Thread m_tThread;
-        volatile bool dirtFlg;
+        static Color[,] colArray;
+        volatile bool dFlag = true;
         object lockObj = new object();
+        object lockFlg = new object();
 
         public Form1()
         {
             InitializeComponent();
 
             canvas = new CDrawer(bContinuousUpdate: false);
-            canvas.Scale = 100;
-            canvas.BBColour = Color.Salmon;
+            canvas.Scale = 50;
 
-            colArray = new Color[canvas.ScaledWidth, canvas.ScaledHeight];
+            colArray = new Color[canvas.ScaledHeight, canvas.ScaledWidth];
             for (int iR = 0; iR < canvas.ScaledHeight; iR++)
                 for (int iC = 0; iC < canvas.ScaledWidth; iC++)
-                    colArray[iC, iR] = Color.Salmon;
+                    colArray[iR, iC] = Color.Salmon;
 
-            DrawGridLines();
-
-            m_tThread = new Thread(Rendering);
-            m_tThread.IsBackground = true;
-            m_tThread.Start();
-
-            m_tThread = new Thread(Clicking);
-            m_tThread.IsBackground = true;
-            m_tThread.Start();
+            InitThreadsBackground();
         }
 
         //checks the dirty flag, if true, clears/renders our drawer then sets dirty flag to false
@@ -52,82 +45,98 @@ namespace CMPE2800KurtisBridgemanLab01
 
             do
             {
-                if (dirtFlg)
+                if (dFlag)
                 {
-
-                    Color[,] tColorArr = colArray as Color[,];
-
                     lock (lockObj)
-                    {
-                        canvas.Clear();
-                        for (int iR = 0; iR < canvas.ScaledHeight; iR++)
-                            for (int iC = 0; iC < canvas.ScaledWidth; iC++)
-                                canvas.SetBBScaledPixel(iC, iR, tColorArr[iC, iR]);
+                        RenderGrid(canvas, colArray);
 
-                        DrawGridLines();
-                    }
-
-                    dirtFlg = false;
+                    lock (lockFlg)
+                        dFlag = false;
                 }
 
                 Thread.Sleep(1);
 
             } while (true);
 
-            System.Diagnostics.Trace.WriteLine("Rendering Ended");
         }
 
 
-        private void Clicking(object ob)
+        private void Clicking()
         {
             System.Diagnostics.Trace.WriteLine("Clicking Started");
             Point msCLocation;
 
             do
             {
-                lock (lockObj)
-                    if (canvas.GetLastMouseLeftClickScaled(out msCLocation)
-                     && (colArray[msCLocation.X, msCLocation.Y] == Color.Salmon))
-                    {
-                        colArray[msCLocation.X, msCLocation.Y] = Color.Green;
-                        dirtFlg = true;
-                    }
+                if (canvas.GetLastMouseLeftClickScaled(out msCLocation))
+                {
+                    lock (lockObj)
+                        if (colArray[msCLocation.Y, msCLocation.X] == Color.Salmon)
+                            colArray[msCLocation.Y, msCLocation.X] = Color.Green;
 
-                lock (lockObj)
-                    if (canvas.GetLastMouseRightClickScaled(out msCLocation)
-                     && (colArray[msCLocation.X, msCLocation.Y] == Color.Green))
-                    {
-                        colArray[msCLocation.X, msCLocation.Y] = Color.Salmon;
-                        dirtFlg = true;
-                    }
+                    lock (lockFlg)
+                        dFlag = true;
+                }
+
+                if (canvas.GetLastMouseRightClickScaled(out msCLocation))
+                {
+                    lock (lockObj)
+                        if (colArray[msCLocation.Y, msCLocation.X] == Color.Green)
+                            colArray[msCLocation.Y, msCLocation.X] = Color.Salmon;
+
+                    lock (lockFlg)
+                        dFlag = true;
+                }
 
                 Thread.Sleep(1);
 
             } while (true);
 
-            System.Diagnostics.Trace.WriteLine("Clicking Ended");
         }
 
         private void Moving()
         {
             Point msLocation;
+            int adjCount;
 
             do
             {
-                canvas.GetLastMousePosition(out msLocation);
+                canvas.GetLastMousePositionScaled(out msLocation);
 
+                adjCount = 0;
+                Color[,] colArrayCopy = (Color[,])colArray.Clone();
 
+  //              if (msLocation.X >= 0 && msLocation.Y >= 0)
+  //                  RecursiveCheck(ref adjCount, msLocation.X, msLocation.Y, colArrayCopy[msLocation.Y, msLocation.X]);
+
+                UpdateFormText(msLocation, adjCount);
 
                 Thread.Sleep(1);
 
             } while (true);
         }
 
+        private void UpdateFormText(Point msLocation, int adjCount)
+        {
+            if (textBoxStatus.InvokeRequired)
+            {
+                delVoidPointInt _dUpdateFormText = new delVoidPointInt(UpdateFormText);
+                Invoke(_dUpdateFormText, new object[] { msLocation, adjCount });
+            }
 
+            else
+                textBoxStatus.Text = String.Format("Block: {{X={0},Y={1}}}, {2} adjacent blocks.", msLocation.X, msLocation.Y, adjCount);
+        }
 
         //helper methods
-        private void DrawGridLines()
+        private static void RenderGrid(CDrawer canvas, Color[,] colAr)
         {
+            canvas.Clear();
+
+            for (int iR = 0; iR < canvas.ScaledHeight; iR++)
+                for (int iC = 0; iC < canvas.ScaledWidth; iC++)
+                    canvas.SetBBScaledPixel(iC, iR, colAr[iR, iC]);
+
             for (int i = 0; i < canvas.ScaledWidth; i++)
                 canvas.AddLine(i, 0, i, canvas.ScaledWidth, Color.Black, 1);
 
@@ -135,6 +144,51 @@ namespace CMPE2800KurtisBridgemanLab01
                 canvas.AddLine(0, i, canvas.ScaledWidth, i, Color.Black, 1);
 
             canvas.Render();
+        }
+
+
+        private void InitThreadsBackground()
+        {
+            Thread m_tThread;
+
+            m_tThread = new Thread(Rendering);
+            m_tThread.IsBackground = true;
+            m_tThread.Start();
+
+            m_tThread = new Thread(Clicking);
+            m_tThread.IsBackground = true;
+            m_tThread.Start();
+
+            m_tThread = new Thread(Moving, 1000);
+            m_tThread.IsBackground = true;
+            m_tThread.Start();
+        }
+
+
+        private void RecursiveCheck(ref int aCount, int xCoord, int yCoord, Color matchColor)
+        {
+                aCount++;
+
+                if (xCoord < 0 || xCoord >= canvas.ScaledWidth || yCoord < 0 || yCoord >= canvas.ScaledHeight)
+                    return;
+
+                if (colArray[yCoord, xCoord] != matchColor)
+                    return;
+
+                if (xCoord - 1 >= 0)
+                    RecursiveCheck(ref aCount, xCoord - 1, yCoord, matchColor);
+
+                if (yCoord - 1 >= 0)
+                    RecursiveCheck(ref aCount, xCoord, yCoord - 1, matchColor);
+
+                if (xCoord + 1 < canvas.ScaledWidth)
+                    RecursiveCheck(ref aCount, xCoord + 1, yCoord, matchColor);
+
+                if (yCoord + 1 < canvas.ScaledHeight)
+                    RecursiveCheck(ref aCount, xCoord, yCoord + 1, matchColor);
+
+                return;
+
         }
 
     }
