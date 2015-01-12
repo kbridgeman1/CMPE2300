@@ -19,6 +19,7 @@ namespace CMPE2800KurtisBridgemanLab01
     {
         static CDrawer canvas;
         static Color[,] colArray;
+        static List<Point> liPoint;
         volatile bool dFlag = true;
         object lockObj = new object();
         object lockFlg = new object();
@@ -29,6 +30,8 @@ namespace CMPE2800KurtisBridgemanLab01
 
             canvas = new CDrawer(bContinuousUpdate: false);
             canvas.Scale = 50;
+
+            liPoint = new List<Point>();
 
             colArray = new Color[canvas.ScaledHeight, canvas.ScaledWidth];
             for (int iR = 0; iR < canvas.ScaledHeight; iR++)
@@ -104,10 +107,11 @@ namespace CMPE2800KurtisBridgemanLab01
                 canvas.GetLastMousePositionScaled(out msLocation);
 
                 adjCount = 0;
+                liPoint.Clear();
                 Color[,] colArrayCopy = (Color[,])colArray.Clone();
 
-  //              if (msLocation.X >= 0 && msLocation.Y >= 0)
-  //                  RecursiveCheck(ref adjCount, msLocation.X, msLocation.Y, colArrayCopy[msLocation.Y, msLocation.X]);
+                if (msLocation.X >= 0 && msLocation.Y >= 0)
+                    RecursiveCheck(ref adjCount, msLocation.X, msLocation.Y, colArrayCopy[msLocation.Y, msLocation.X]);
 
                 UpdateFormText(msLocation, adjCount);
 
@@ -159,7 +163,7 @@ namespace CMPE2800KurtisBridgemanLab01
             m_tThread.IsBackground = true;
             m_tThread.Start();
 
-            m_tThread = new Thread(Moving, 1000);
+            m_tThread = new Thread(Moving, 8000);
             m_tThread.IsBackground = true;
             m_tThread.Start();
         }
@@ -167,28 +171,32 @@ namespace CMPE2800KurtisBridgemanLab01
 
         private void RecursiveCheck(ref int aCount, int xCoord, int yCoord, Color matchColor)
         {
-                aCount++;
-
-                if (xCoord < 0 || xCoord >= canvas.ScaledWidth || yCoord < 0 || yCoord >= canvas.ScaledHeight)
-                    return;
-
-                if (colArray[yCoord, xCoord] != matchColor)
-                    return;
-
-                if (xCoord - 1 >= 0)
-                    RecursiveCheck(ref aCount, xCoord - 1, yCoord, matchColor);
-
-                if (yCoord - 1 >= 0)
-                    RecursiveCheck(ref aCount, xCoord, yCoord - 1, matchColor);
-
-                if (xCoord + 1 < canvas.ScaledWidth)
-                    RecursiveCheck(ref aCount, xCoord + 1, yCoord, matchColor);
-
-                if (yCoord + 1 < canvas.ScaledHeight)
-                    RecursiveCheck(ref aCount, xCoord, yCoord + 1, matchColor);
-
+            if (liPoint.Contains(new Point(xCoord, yCoord)))
                 return;
 
+            aCount++;
+
+            if (xCoord < 0 || xCoord >= canvas.ScaledWidth || yCoord < 0 || yCoord >= canvas.ScaledHeight)
+                return;
+
+            if (colArray[yCoord, xCoord] != matchColor)
+                return;
+
+            liPoint.Add(new Point(xCoord, yCoord));
+
+            if (xCoord - 1 >= 0)
+                RecursiveCheck(ref aCount, xCoord - 1, yCoord, matchColor);
+
+            if (yCoord - 1 >= 0)
+                RecursiveCheck(ref aCount, xCoord, yCoord - 1, matchColor);
+
+            if (xCoord + 1 < canvas.ScaledWidth)
+                RecursiveCheck(ref aCount, xCoord + 1, yCoord, matchColor);
+
+            if (yCoord + 1 < canvas.ScaledHeight)
+                RecursiveCheck(ref aCount, xCoord, yCoord + 1, matchColor);
+
+            return;
         }
 
     }
