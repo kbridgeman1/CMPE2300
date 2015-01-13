@@ -29,7 +29,7 @@ namespace CMPE2800KurtisBridgemanLab01
             InitializeComponent();
 
             canvas = new CDrawer(bContinuousUpdate: false);
-            canvas.Scale = 50;
+            canvas.Scale = 20;
 
             liPoint = new List<Point>();
 
@@ -46,7 +46,7 @@ namespace CMPE2800KurtisBridgemanLab01
         {
             System.Diagnostics.Trace.WriteLine("Rendering Started");
 
-            do
+            while (true)
             {
                 if (dFlag)
                 {
@@ -58,8 +58,7 @@ namespace CMPE2800KurtisBridgemanLab01
                 }
 
                 Thread.Sleep(1);
-
-            } while (true);
+            }
 
         }
 
@@ -69,7 +68,7 @@ namespace CMPE2800KurtisBridgemanLab01
             System.Diagnostics.Trace.WriteLine("Clicking Started");
             Point msCLocation;
 
-            do
+            while (true)
             {
                 if (canvas.GetLastMouseLeftClickScaled(out msCLocation))
                 {
@@ -92,8 +91,7 @@ namespace CMPE2800KurtisBridgemanLab01
                 }
 
                 Thread.Sleep(1);
-
-            } while (true);
+            }
 
         }
 
@@ -102,7 +100,7 @@ namespace CMPE2800KurtisBridgemanLab01
             Point msLocation;
             int adjCount;
 
-            do
+            while (true)
             {
                 canvas.GetLastMousePositionScaled(out msLocation);
 
@@ -111,13 +109,12 @@ namespace CMPE2800KurtisBridgemanLab01
                 Color[,] colArrayCopy = (Color[,])colArray.Clone();
 
                 if (msLocation.X >= 0 && msLocation.Y >= 0)
-                    RecursiveCheck(ref adjCount, msLocation.X, msLocation.Y, colArrayCopy[msLocation.Y, msLocation.X]);
+                    RecursiveCheck(ref adjCount, msLocation.X, msLocation.Y, colArrayCopy[msLocation.Y, msLocation.X], colArrayCopy);
 
                 UpdateFormText(msLocation, adjCount);
 
                 Thread.Sleep(1);
-
-            } while (true);
+            }
         }
 
         private void UpdateFormText(Point msLocation, int adjCount)
@@ -163,18 +160,16 @@ namespace CMPE2800KurtisBridgemanLab01
             m_tThread.IsBackground = true;
             m_tThread.Start();
 
-            m_tThread = new Thread(Moving, 8000);
+            m_tThread = new Thread(Moving, 200000);
             m_tThread.IsBackground = true;
             m_tThread.Start();
         }
 
 
-        private void RecursiveCheck(ref int aCount, int xCoord, int yCoord, Color matchColor)
+        private void RecursiveCheck(ref int aCount, int xCoord, int yCoord, Color matchColor, Color[,] colArr)
         {
             if (liPoint.Contains(new Point(xCoord, yCoord)))
                 return;
-
-            aCount++;
 
             if (xCoord < 0 || xCoord >= canvas.ScaledWidth || yCoord < 0 || yCoord >= canvas.ScaledHeight)
                 return;
@@ -184,17 +179,19 @@ namespace CMPE2800KurtisBridgemanLab01
 
             liPoint.Add(new Point(xCoord, yCoord));
 
+            aCount++;
+
             if (xCoord - 1 >= 0)
-                RecursiveCheck(ref aCount, xCoord - 1, yCoord, matchColor);
+                RecursiveCheck(ref aCount, xCoord - 1, yCoord, matchColor, colArr);
 
             if (yCoord - 1 >= 0)
-                RecursiveCheck(ref aCount, xCoord, yCoord - 1, matchColor);
+                RecursiveCheck(ref aCount, xCoord, yCoord - 1, matchColor, colArr);
 
             if (xCoord + 1 < canvas.ScaledWidth)
-                RecursiveCheck(ref aCount, xCoord + 1, yCoord, matchColor);
+                RecursiveCheck(ref aCount, xCoord + 1, yCoord, matchColor, colArr);
 
             if (yCoord + 1 < canvas.ScaledHeight)
-                RecursiveCheck(ref aCount, xCoord, yCoord + 1, matchColor);
+                RecursiveCheck(ref aCount, xCoord, yCoord + 1, matchColor, colArr);
 
             return;
         }
