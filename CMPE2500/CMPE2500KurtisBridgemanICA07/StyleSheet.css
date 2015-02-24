@@ -1,0 +1,37 @@
+﻿body {
+
+
+
+}
+
+
+#header{
+    border-color:red;
+    border-style:solid;
+    border-width:3px;
+    text-align:center;
+}
+
+#mainTable{    
+    margin:auto;
+}
+
+#mainTable td{
+    border-color: orange;
+    border-style:dotted;
+    border-width:2px;
+}
+
+#mainTable .hRow{
+    border-color: green;
+    border-style:dashed;
+    border-width:2px;
+    font-size:1.2em;
+    text-decoration:underline;
+    text-align:center;
+    font-weight:bold;
+
+    padding:5px 15px 5px 15px;
+    margin:10px 10px 10px 10px;
+}
+
