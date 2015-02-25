@@ -14,6 +14,7 @@
 
 #mainTable{    
     margin:auto;
+    font-size:1.2em;
 }
 
 #mainTable td{
@@ -26,7 +27,6 @@
     border-color: green;
     border-style:dashed;
     border-width:2px;
-    font-size:1.2em;
     text-decoration:underline;
     text-align:center;
     font-weight:bold;

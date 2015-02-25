@@ -19,9 +19,17 @@
         <table id="mainTable">
             <tr><td class="hRow">Red</td><td class="hRow">Green</td><td class="hRow">Blue</td><td class="hRow">Saved Colors</td></tr>
             <tr>
-                <td><asp:TextBox ID="tBxRed" runat="server"></asp:TextBox></td>
-                <td>radList</td>
-                <td><asp:DropDownList ID="ddlBlue" runat="server">
+                <td>
+                    <asp:TextBox ID="tBxRed" runat="server" style="width:98%; height:100%"></asp:TextBox>
+                </td>
+                <td>
+                    <asp:RadioButtonList ID="rblGreed" runat="server" RepeatDirection="Horizontal" style="width:100%; height:100%">
+                        <asp:ListItem Value="0">0%</asp:ListItem>
+                        <asp:ListItem Value="128">50%</asp:ListItem>
+                        <asp:ListItem Value="255">100%</asp:ListItem>
+                    </asp:RadioButtonList>
+                </td>
+                <td><asp:DropDownList ID="ddlBlue" runat="server" style="width:98%; height:100%; font-size:0.9em">
                     <asp:ListItem Text="Nada" Value="0" />
                     <asp:ListItem Text="Just a bit" Value="64" />
                     <asp:ListItem Text="About half" Value="128" />
@@ -30,8 +38,9 @@
                     </asp:DropDownList></td>
                 <td rowspan="3"><asp:ListBox ID="ListBox1" runat="server"></asp:ListBox></td>
             </tr>
-
-            <tr><td></td><td></td><td></td></tr>
+            <tr>
+                <td colspan="3">Name:<asp:TextBox ID="tBxName" runat="server" style="width:85%; height:100%"></asp:TextBox></td>
+            </tr>
             <tr><td></td><td></td><td></td></tr>
             <tr><td></td><td></td><td></td><td></td></tr>
         </table>
