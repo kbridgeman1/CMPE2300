@@ -10,16 +10,18 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        
+        //prepopulate listbox (for testing)
+     //   for (int i = 0; i < 10;i++)
+      //      lbSavedColors.Items.Add(new ListItem(String.Format("{0}", i), new Random().Next().ToString()));
     }
 
     protected void lbSavedColors_SelectedIndexChanged(object sender, EventArgs e)
     {
-        Color genCol = Color.FromArgb(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue));
+        Color genCol = Color.FromArgb(int.Parse(lbSavedColors.SelectedItem.Value));
 
         previewColor.ForeColor = genCol;
         previewColor.BackColor = genCol;
-        lblStatus.Text = String.Format("Color => {0} : Successfully Loaded", tbName.Text);
+        lblStatus.Text = String.Format("Color => {0} : Successfully Loaded", lbSavedColors.SelectedItem.Text);
         lblStatus.ForeColor = Color.Green;
     }
 
@@ -34,7 +36,6 @@ public partial class _Default : System.Web.UI.Page
             previewColor.BackColor = col;
             lblStatus.Text = "";
         }
-
     }
 
     protected void btnSaveColor_Click(object sender, EventArgs e)
@@ -60,6 +61,10 @@ public partial class _Default : System.Web.UI.Page
             lbSavedColors.Items.Add(new ListItem(tbName.Text, Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked).ToArgb().ToString()));
         }
 
+        else
+        {
+
+        }
     }
 
     private bool CanMakeColor()
