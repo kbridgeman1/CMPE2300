@@ -10,9 +10,13 @@ public partial class _Default : System.Web.UI.Page
 {
     protected void Page_Load(object sender, EventArgs e)
     {
-        //prepopulate listbox (for testing)
-     //   for (int i = 0; i < 10;i++)
-      //      lbSavedColors.Items.Add(new ListItem(String.Format("{0}", i), new Random().Next().ToString()));
+        if(!IsPostBack)
+        {
+
+ //           previewColor.BorderStyle = BorderStyle.Inset;           
+        }
+
+
     }
 
     protected void lbSavedColors_SelectedIndexChanged(object sender, EventArgs e)
@@ -63,7 +67,9 @@ public partial class _Default : System.Web.UI.Page
 
         else
         {
-
+            lblStatus.Text = "You must enter a byte value for red.";
+            lblStatus.ForeColor = Color.Red;
+            return;
         }
     }
 

@@ -4,7 +4,6 @@
 
 }
 
-
 #header{
     border-color:red;
     border-style:solid;
@@ -35,3 +34,9 @@
     margin:10px 10px 10px 10px;
 }
 
+#previewColor{
+    width:100%;
+    border-style:inset;
+    display:inline-block;
+    color:white;
+}

@@ -45,7 +45,7 @@
                 <td colspan="3"><asp:CheckBox ID="chbGreyScale" runat="server" />GreyScale</td>
             </tr>
             <tr>
-                <td rowspan="2" colspan="3"><asp:Label ID="previewColor" runat="server" Text="PlaceHolder" style="width:85%;height:100%; border-style:inset"></asp:Label></td>
+                <td rowspan="2" colspan="3"><asp:Label ID="previewColor" runat="server" Text="PlaceHolder"></asp:Label></td>
                 <td><asp:Button ID="btnPreviewCol" runat="server" Text="Preview Chosen Color" style="width:98%; height:100%" OnClick="btnPreviewCol_Click" /></td>
             </tr>
             <tr>
