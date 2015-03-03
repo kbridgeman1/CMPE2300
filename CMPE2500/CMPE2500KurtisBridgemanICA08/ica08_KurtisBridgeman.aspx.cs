@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Drawing;
 
 public partial class ica08_KurtisBridgeman : System.Web.UI.Page
 {
@@ -11,6 +12,11 @@ public partial class ica08_KurtisBridgeman : System.Web.UI.Page
 
     protected void Page_Load(object sender, EventArgs e)
     {
+        if(!IsPostBack)
+        {
+            ListBox1.Items.Add(new ListItem("Dates to Remember"));
+        }
+
         sRB = "";
 
         if (RadioButton1.Checked)
@@ -19,33 +25,41 @@ public partial class ica08_KurtisBridgeman : System.Web.UI.Page
             sRB = RadioButton2.Text;
         else if (RadioButton3.Checked)
             sRB = RadioButton3.Text;
-
-        foreach (ListItem li in ListBox1.Items)
-        {
-            
-
-        }
     }
 
     protected void Calendar1_SelectionChanged(object sender, EventArgs e)
-    {        
+    {    
         if (sRB != "")
         {
-            string d = "";
-            d += Calendar1.SelectedDate.Month.ToString();
-            d += Calendar1.SelectedDate.Day.ToString();
-            d += Calendar1.SelectedDate.Year.ToString();
-            d = Calendar1.SelectedDate.ToString("MMM - s - yyyy");
+            ListItem li  = new ListItem(Calendar1.SelectedDate.ToString("MMMM - dd - yyyy"), sRB);
 
-            ListBox1.Items.Add(new ListItem(d, sRB));
+            if (ListBox1.Items.Contains(li))
+            {
+                ListBox1.Items.Remove(li);
+                lblStatus.Text = String.Format("Removed => {0} : {1}", li.Text, li.Value);
+            }
+            else
+            {
+                ListBox1.Items.Add(li);
+                lblStatus.Text = String.Format("Added => {0} : {1}", li.Text, li.Value);
+            }
         }
+
+        Calendar1.SelectedDate = DateTime.Now;
     }
 
-    protected string MonthString(int iM)
+    protected void Calendar1_DayRender(object sender, DayRenderEventArgs e)
     {
+        ListItem li = ListBox1.Items.FindByText(e.Day.Date.ToString("MMMM - dd - yyyy"));
 
-        
-
-        return "";
+        if(li != null)
+        {
+            if (li.Value == RadioButton1.Text)
+                e.Cell.BackColor = Color.Red;
+            else if (li.Value == RadioButton2.Text)
+                e.Cell.BackColor = Color.Blue;
+            else if (li.Value == RadioButton3.Text)
+                e.Cell.BackColor = Color.Yellow;
+        }
     }
 }

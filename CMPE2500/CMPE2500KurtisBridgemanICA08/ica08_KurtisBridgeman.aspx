@@ -25,14 +25,17 @@
                 </tr>
                 <tr>
                     <td>
-                        <asp:Calendar ID="Calendar1" runat="server" OnSelectionChanged="Calendar1_SelectionChanged" ></asp:Calendar>
+                        <asp:Calendar ID="Calendar1" runat="server" OnSelectionChanged="Calendar1_SelectionChanged" OnDayRender="Calendar1_DayRender" ></asp:Calendar>
                     </td>
                     <td>
-                        <asp:ListBox ID="ListBox1" runat="server"></asp:ListBox>
+                        <asp:ListBox ID="ListBox1" runat="server" Rows="15"></asp:ListBox>
                     </td> <%-- Dates to remember ListBox --%>
                 </tr>
                 <tr>
-                    <td colspan="2"></td>  <%-- status/crosspage post button --%>
+                    <td id="botCell" colspan="2">
+                        <asp:Label ID="lblStatus" runat="server" Text="Status"></asp:Label><br />
+                        <asp:Button ID="btnCrossPagePrint" runat="server" Text="Button" PostBackUrl="~/ica08_PostBackPage.aspx" />
+                    </td>  <%-- status/crosspage post button --%>
                 </tr>
             </table>
         </div>

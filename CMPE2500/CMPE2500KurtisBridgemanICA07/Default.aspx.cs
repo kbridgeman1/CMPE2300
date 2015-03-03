@@ -12,12 +12,11 @@ public partial class _Default : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
-//            RadioButtonList rbList = new RadioButtonList();
-            ListItem li = new ListItem("0%", "0");
-            li.Selected = true;
-            rblGreen.Items.Add(li);
+            rblGreen.Items.Add(new ListItem("0%", "0"));
             rblGreen.Items.Add(new ListItem("50%", "128"));
             rblGreen.Items.Add(new ListItem("100%", "255"));
+
+            rblGreen.SelectedIndex = 0;
         }
     }
 
@@ -42,6 +41,11 @@ public partial class _Default : System.Web.UI.Page
             previewColor.BackColor = col;
             lblStatus.Text = "";
         }
+        else
+        {
+            lblStatus.Text = "Enter byte value for red between 1 and 255.";
+            lblStatus.ForeColor = Color.Red;
+        }
     }
 
     protected void btnSaveColor_Click(object sender, EventArgs e)
@@ -57,16 +61,19 @@ public partial class _Default : System.Web.UI.Page
                 return;
             }
 
-            else if(!Processing.NameAvailable(tbName.Text, lbSavedColors))
+            else if (!Processing.NameAvailable(tbName.Text, lbSavedColors, Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked)))
             {
-                lblStatus.Text = "That name is already taken.";
+                lblStatus.Text = "That name/color is already taken.";
                 lblStatus.ForeColor = Color.Red;
                 return;
             }
 
             if (lbSavedColors.Items.Count < 6)
             {
-                lbSavedColors.Items.Add(new ListItem(tbName.Text, Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked).ToArgb().ToString()));
+                Color col = Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked);
+                lbSavedColors.Items.Add(new ListItem(tbName.Text, col.ToArgb().ToString()));
+                previewColor.ForeColor = col;
+                previewColor.BackColor = col;
                 lblStatus.Text = String.Format("Color => {0} : Successfully Saved", tbName.Text);
                 lblStatus.ForeColor = Color.Green;
             }
@@ -80,7 +87,7 @@ public partial class _Default : System.Web.UI.Page
 
         else
         {
-            lblStatus.Text = "You must enter a byte value for red.";
+            lblStatus.Text = "You must enter a byte value for red between 1 and 255.";
             lblStatus.ForeColor = Color.Red;
             return;
         }

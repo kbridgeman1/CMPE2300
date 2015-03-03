@@ -16,7 +16,11 @@
     
 }
 
-input RadioButton {
+#botCell{
+    margin: auto auto auto auto;
+    text-align:center;
+}
 
-    padding: 10px;
+#ListBox1{
+    width:200px;
 }

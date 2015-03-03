@@ -18,11 +18,18 @@ public static class Processing
     }
 
 
-    public static bool NameAvailable(string name, ListBox colList)
+    public static bool NameAvailable(string name, ListBox colList, Color col)
     {
-        foreach (ListItem li in colList.Items)
-            if (li.Text == name)
-                return false;
+//        foreach (ListItem li in colList.Items)
+//            if (li.Text == name)
+//                return false;
+
+        if (colList.Items.FindByText(name) != null)
+            return false;
+
+        if (colList.Items.FindByValue(col.ToArgb().ToString()) !=  null)
+            return false;
+
 
         return true;
     }
