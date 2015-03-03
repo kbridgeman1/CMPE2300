@@ -1,0 +1,22 @@
+﻿body {
+}
+
+
+#Table1 {
+
+    margin:auto 10px 10px 10px;
+    border: 2px solid grey;
+
+}
+
+#Table1 td {
+
+    border: 1px solid grey;
+    padding: 10px;
+    
+}
+
+input RadioButton {
+
+    padding: 10px;
+}

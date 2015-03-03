@@ -12,11 +12,13 @@ public partial class _Default : System.Web.UI.Page
     {
         if(!IsPostBack)
         {
-
- //           previewColor.BorderStyle = BorderStyle.Inset;           
+//            RadioButtonList rbList = new RadioButtonList();
+            ListItem li = new ListItem("0%", "0");
+            li.Selected = true;
+            rblGreen.Items.Add(li);
+            rblGreen.Items.Add(new ListItem("50%", "128"));
+            rblGreen.Items.Add(new ListItem("100%", "255"));
         }
-
-
     }
 
     protected void lbSavedColors_SelectedIndexChanged(object sender, EventArgs e)
@@ -62,7 +64,18 @@ public partial class _Default : System.Web.UI.Page
                 return;
             }
 
-            lbSavedColors.Items.Add(new ListItem(tbName.Text, Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked).ToArgb().ToString()));
+            if (lbSavedColors.Items.Count < 6)
+            {
+                lbSavedColors.Items.Add(new ListItem(tbName.Text, Processing.GenerateColor(byte.Parse(tBxRed.Text), byte.Parse(rblGreen.SelectedValue), byte.Parse(ddlBlue.SelectedValue), chbGreyScale.Checked).ToArgb().ToString()));
+                lblStatus.Text = String.Format("Color => {0} : Successfully Saved", tbName.Text);
+                lblStatus.ForeColor = Color.Green;
+            }
+            else
+            {
+                lblStatus.Text = "Only 6 colors may be saved.";
+                lblStatus.ForeColor = Color.Red;
+            }
+
         }
 
         else
