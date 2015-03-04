@@ -45,7 +45,6 @@ public partial class ica08_KurtisBridgeman : System.Web.UI.Page
             }
         }
 
-
         Calendar1.SelectedDate = DateTime.Now;
     }
 

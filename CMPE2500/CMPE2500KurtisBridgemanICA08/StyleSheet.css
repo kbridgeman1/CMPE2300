@@ -24,3 +24,8 @@
 #ListBox1{
     width:200px;
 }
+
+input[type="radio"] label {
+    font-size:1.5em;
+    font-weight:bolder;
+}

@@ -17,9 +17,9 @@
             <table id="Table1" runat="server">
                 <tr>
                     <td>
-                        <asp:RadioButton ID="RadioButton1" runat="server" GroupName="rBtns" Text="Red" BackColor="Red" />
-                        <asp:RadioButton ID="RadioButton2" runat="server" GroupName="rBtns" Text="Blue" BackColor="Blue" />
-                        <asp:RadioButton ID="RadioButton3" runat="server" GroupName="rBtns" Text="Yellow" BackColor="Yellow" />
+                        <asp:RadioButton ID="RadioButton1" runat="server" GroupName="rBtns" Text="Physio" BackColor="Red" />
+                        <asp:RadioButton ID="RadioButton2" runat="server" GroupName="rBtns" Text="Dental" BackColor="Blue" />
+                        <asp:RadioButton ID="RadioButton3" runat="server" GroupName="rBtns" Text="Psycho" BackColor="Yellow" />
                     </td>
                     <td></td> <%-- Blank --%>
                 </tr>
