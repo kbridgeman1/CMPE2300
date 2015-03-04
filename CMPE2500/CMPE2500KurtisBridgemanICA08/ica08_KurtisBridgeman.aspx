@@ -34,7 +34,7 @@
                 <tr>
                     <td id="botCell" colspan="2">
                         <asp:Label ID="lblStatus" runat="server" Text="Status"></asp:Label><br />
-                        <asp:Button ID="btnCrossPagePrint" runat="server" Text="Button" PostBackUrl="~/ica08_PostBackPage.aspx" />
+                        <asp:Button ID="btnCrossPagePrint" runat="server" Text="CrossPage PostBack" PostBackUrl="~/ica08_PostBackPage.aspx" />
                     </td>  <%-- status/crosspage post button --%>
                 </tr>
             </table>
