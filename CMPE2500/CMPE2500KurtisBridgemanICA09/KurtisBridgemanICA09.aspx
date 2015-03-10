@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <title></title>
+    <title>ICA09 - AspImgur</title>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -23,12 +23,10 @@
                 <asp:FileUpload ID="v2FileUploadAddImage" runat="server" /><br />
                 <asp:Button ID="v2btnNext" runat="server" Text="Next" OnClick="v2btnNext_Click" />
             </asp:View>
-
-
-
+            <asp:View ID="ViewAddedImage" runat="server"></asp:View>
         </asp:MultiView>
         <asp:Label ID="lblStatus" runat="server" Text="Label"></asp:Label>
-        <asp:Button ID="btnToAlbum" runat="server" Text="Go To Album" />
+        <asp:Button ID="btnToAlbum" runat="server" Text="Go To Album" PostBackUrl="~/AlbumCrossPage.aspx"/>
     </div>
     </form>
 </body>

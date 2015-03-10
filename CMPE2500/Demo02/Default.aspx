@@ -11,7 +11,7 @@
     <div>
         <asp:RadioButton ID="RadioButton1" runat="server" GroupName="myGroup" Text="Test0"/>  <%--group name property--%>
         <asp:RadioButton ID="RadioButton2" runat="server" GroupName="myGroup" Text="Test1"/>
-        <asp:RadioButton ID="RadioButton3" runat="server" GroupName="myGroup" Text="Test2"/>
+        
         <asp:Calendar ID="Calendar1" runat="server" BackColor="White" BorderColor="#3366CC" BorderWidth="1px" CellPadding="1" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#003399" Height="200px" OnDayRender="Calendar1_DayRender" Width="220px" >
             <DayHeaderStyle BackColor="#99CCCC" ForeColor="#336666" Height="1px" />
             <NextPrevStyle Font-Size="8pt" ForeColor="#CCCCFF" />
@@ -22,6 +22,7 @@
             <TodayDayStyle BackColor="#99CCCC" ForeColor="White" />
             <WeekendDayStyle BackColor="#CCCCFF" />
         </asp:Calendar>
+        <asp:RadioButton ID="RadioButton3" runat="server" GroupName="myGroup" Text="Test2"/>
         <asp:Button ID="Button1" runat="server" Text="Button" PostBackUrl="~/Default2.aspx" />
     </div>
     </form>

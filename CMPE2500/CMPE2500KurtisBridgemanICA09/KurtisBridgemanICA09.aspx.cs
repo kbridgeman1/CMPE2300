@@ -97,6 +97,7 @@ public partial class KurtisBridgemanICA09 : System.Web.UI.Page
                 System.Diagnostics.Trace.WriteLine(ex);
             }
 
+            MultViewMain.ActiveViewIndex = 2;
             lblStatus.Text += String.Format("Image: {0} has been successfully added to the album.", filePath);
             lblStatus.BackColor = Color.LightGreen;
         }
