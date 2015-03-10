@@ -49,18 +49,56 @@ public partial class KurtisBridgemanICA09 : System.Web.UI.Page
     }
     protected void v2btnNext_Click(object sender, EventArgs e)
     {
-
         string absolutePath;
-        //are these the same?
-        //Server.MapPath(String.Format("~/Uploads/{0}", v1tbxUsername.Text));
         absolutePath = MapPath(String.Format("~/Uploads/{0}", v1tbxUsername.Text));
-        
+
         if(v2FileUploadAddImage.HasFile)
         {
+            lblStatus.Text = "";
+
             if(!Directory.Exists(absolutePath))
+                try
+                {
+                    Directory.CreateDirectory(absolutePath);
+                    lblStatus.Text += String.Format("Directory: {0} has been created.<br/>", absolutePath);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine(ex);
+                }
+
+            string filePath = v2FileUploadAddImage.FileName;
+
+            if (!filePath.IsJPG())
             {
-                Directory.CreateDirectory(absolutePath);
+                lblStatus.Text += "Only .png file types are allowed.";
+                lblStatus.BackColor = Color.Red;
+                return;
             }
+
+            string picPath = absolutePath + "\\" + filePath;
+
+            if (File.Exists(picPath))
+                try
+                {
+                    File.Delete(picPath);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Trace.WriteLine(ex);
+                }
+
+            try
+            {
+                v2FileUploadAddImage.SaveAs(picPath);
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+            }
+
+            lblStatus.Text += String.Format("Image: {0} has been successfully added to the album.", filePath);
+            lblStatus.BackColor = Color.LightGreen;
         }
 
 
