@@ -19,20 +19,32 @@ public partial class AlbumCrossPage : System.Web.UI.Page
 
             _placeholderAlbum.Controls.Clear();
 
-            
-            
-            foreach (string s in Directory.GetFiles(absolutePath))
+            string[] imgFilePaths;
+
+            try
             {
-                FileInfo fi = new FileInfo(s); //keep working on this...
-                
-                Image img = new Image();
-                img.ImageUrl = String.Format("~/Uploads/{0}/{1}", _hiddenFieldUName.Value ,fi.Name);
-                img.Height = 100;
-                img.BorderColor = System.Drawing.Color.LightBlue;
-                img.BorderWidth = 5;
-                _placeholderAlbum.Controls.Add(img);
+                imgFilePaths = Directory.GetFiles(absolutePath);
+
+                foreach (string s in imgFilePaths)
+                {
+                    FileInfo fi = new FileInfo(s);
+
+                    Image img = new Image();
+                    img.ImageUrl = String.Format("~/Uploads/{0}/{1}", _hiddenFieldUName.Value, fi.Name);
+                    img.Height = 100;
+                    img.BorderColor = System.Drawing.Color.LightBlue;
+                    img.BorderWidth = 5;
+                    _placeholderAlbum.Controls.Add(img);
+                }
             }
-             
+            catch(Exception ex)
+            {
+                System.Diagnostics.Trace.WriteLine(ex);
+
+                Label lbl = new Label();
+                lbl.Text = String.Format("No directory for {0} has been created yet.", _hiddenFieldUName.Value);
+                _placeholderAlbum.Controls.Add(lbl);
+            }                      
         }
     }
     protected void _btnAddAgain_Click(object sender, EventArgs e)

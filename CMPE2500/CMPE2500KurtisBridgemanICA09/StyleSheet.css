@@ -1,0 +1,28 @@
+﻿body {
+
+    background-color:darkgrey;
+    margin:25px;
+    text-align:center;
+}
+
+table {
+    
+    margin:auto;
+}
+
+td {
+    
+    padding:5px;
+}
+
+/*does not work...*/
+button { 
+
+    width:55px;
+}
+
+/*or this...*/
+input[type=button] { 
+
+    width:55px;
+}
