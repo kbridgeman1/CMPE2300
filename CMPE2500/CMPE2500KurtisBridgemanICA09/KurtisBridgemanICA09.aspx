@@ -10,6 +10,7 @@
 <body>
     <form id="form1" runat="server">
         <div>
+            <asp:HiddenField ID="hiddenFileSavedName" runat="server" />
             <h1>ICA09 - Aspimgur</h1>
             <hr />
             <asp:MultiView ID="MultViewMain" runat="server">

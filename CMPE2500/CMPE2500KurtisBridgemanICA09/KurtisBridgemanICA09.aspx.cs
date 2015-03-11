@@ -19,7 +19,6 @@ public partial class KurtisBridgemanICA09 : System.Web.UI.Page
             lblStatus.Width = Unit.Percentage(100);
             lblStatus.BorderStyle = BorderStyle.Inset;
             lblStatus.BackColor = Color.LightGreen;
-            lblStatus.BackColor = Color.LightGreen;
             btnToAlbum.Enabled = true;
             MultViewMain.ActiveViewIndex = 1;
         }
@@ -117,6 +116,8 @@ public partial class KurtisBridgemanICA09 : System.Web.UI.Page
                 return;
             }
 
+            FileInfo fi = new FileInfo(picPath);
+            hiddenFileSavedName.Value = fi.Name;
             MultViewMain.ActiveViewIndex = 2;
             lblStatus.Text += String.Format("Image: {0} has been successfully added to the album.", filePath);
             lblStatus.BackColor = Color.LightGreen;

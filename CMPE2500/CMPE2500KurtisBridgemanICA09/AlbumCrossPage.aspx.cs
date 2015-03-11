@@ -31,10 +31,21 @@ public partial class AlbumCrossPage : System.Web.UI.Page
 
                     Image img = new Image();
                     img.ImageUrl = String.Format("~/Uploads/{0}/{1}", _hiddenFieldUName.Value, fi.Name);
-                    img.Height = 100;
-                    img.BorderColor = System.Drawing.Color.LightBlue;
-                    img.BorderWidth = 5;
-                    _placeholderAlbum.Controls.Add(img);
+
+                    if (fi.Name == ((HiddenField)PreviousPage.FindControl("hiddenFileSavedName")).Value)
+                    {
+                        img.Height = 196;
+                        img.BorderColor = System.Drawing.Color.Yellow;
+                        img.BorderWidth = 4;
+                        _placeholderAlbum.Controls.Add(img);
+                    }
+                    else
+                    {
+                        img.Height = 200;
+                        img.BorderColor = System.Drawing.Color.LightBlue;
+                        img.BorderWidth = 2;
+                        _placeholderAlbum.Controls.Add(img);
+                    }
                 }
             }
             catch(Exception ex)
