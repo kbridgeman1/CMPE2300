@@ -13,19 +13,23 @@ public partial class _Default : System.Web.UI.Page
         if(!IsPostBack)
         {
             string absPath = MapPath("~/");
-            string[] filePaths;
             try
             {
-                filePaths = Directory.GetFiles(absPath);
-                foreach(string s in filePaths)
+                foreach(string s in Directory.GetFiles(absPath))
                 {
                     FileInfo fi = new FileInfo(s);
-                    string ss = fi.Extension;
+
+                    if (fi.Extension == ".aspx")
+                    {
+                        HyperLink hl = new HyperLink();
+                        hl.Text = fi.Name;
+                        //hl.NavigateUrl = fi.FullName; //don't think this is needed
+                        hl.Target = fi.FullName; //is this the right target path?
+                        PlaceHolderHypLinks.Controls.Add(hl);
+                    }
                 }
-
-
             }
-            catch { }
+            catch(Exception ex) { System.Diagnostics.Trace.WriteLine(ex); }
 
         }
 
