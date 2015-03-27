@@ -23,9 +23,12 @@ public partial class _Default : System.Web.UI.Page
                     {
                         HyperLink hl = new HyperLink();
                         hl.Text = fi.Name;
-                        //hl.NavigateUrl = fi.FullName; //don't think this is needed
-                        hl.Target = fi.FullName; //is this the right target path?
+                        hl.Target = fi.DirectoryName;
+                        Label lbl = new Label();
+                        lbl.Text = "</br>";
+
                         PlaceHolderHypLinks.Controls.Add(hl);
+                        PlaceHolderHypLinks.Controls.Add(lbl);
                     }
                 }
             }
