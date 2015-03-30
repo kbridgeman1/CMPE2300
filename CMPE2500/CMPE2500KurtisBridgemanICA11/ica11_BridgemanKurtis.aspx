@@ -41,7 +41,7 @@ ORDER BY cat.CategoryID">
     <asp:Label ID="Label1" runat="server" Text="Customer:"></asp:Label>
     <asp:DropDownList ID="dropDownListCustomers" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="ContactName" DataValueField="CustomerID">
     </asp:DropDownList>
-    <asp:ListView ID="listViewOrders" runat="server" DataKeyNames="OrderID" DataSourceID="SqlDataSource2" Style="width: 100%" InsertItemPosition="LastItem">
+    <asp:ListView ID="listViewOrders" runat="server" DataKeyNames="OrderID" DataSourceID="SqlDataSource2" Style="width: 100%" InsertItemPosition="LastItem" >
         <AlternatingItemTemplate>
             <tr style="background-color: #FFF8DC;">
                 <td>
@@ -97,7 +97,7 @@ ORDER BY cat.CategoryID">
                     <%--<asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />--%>
                 </td>
                 <td>
-                    <asp:Calendar ID="CalendarOrderDate" runat="server" SelectedDate='<%# Bind("OrderDate") %>'></asp:Calendar>
+                    <asp:Calendar ID="CalendarOrderDate" runat="server" SelectedDate='<%# Bind("OrderDate") %>' CellPadding="5"></asp:Calendar>
                     <%--<asp:TextBox ID="OrderDateTextBox" runat="server" Text='<%# Bind("OrderDate") %>' />--%>
                 </td>
             </tr>
@@ -166,17 +166,21 @@ ORDER BY cat.CategoryID">
         </SelectedItemTemplate>
     </asp:ListView>
     <br /><br />
-    <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px" AllowPaging="True" AutoGenerateRows="False" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" DataKeyNames="CategoryID" DataSourceID="SqlDataSource4" ForeColor="Black" GridLines="Vertical">
-        <AlternatingRowStyle BackColor="#CCCCCC" />
+    <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px" AllowPaging="True" AutoGenerateRows="False" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" DataKeyNames="CategoryID" DataSourceID="SqlDataSource4" ForeColor="Black" GridLines="Vertical" HeaderText="Summary Category Detials View">
+        <AlternatingRowStyle BackColor="#CCCCCC"/>
         <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
         <Fields>
             <asp:BoundField DataField="OrderID" HeaderText="OrderID" SortExpression="OrderID" />
-            <asp:BoundField DataField="CategoryID" HeaderText="CategoryID" SortExpression="CategoryID" InsertVisible="False" ReadOnly="True" />
+            <asp:BoundField DataField="CategoryID" HeaderText="CategoryID" SortExpression="CategoryID" InsertVisible="False" ReadOnly="True">
+            <ItemStyle HorizontalAlign="Right" />
+            </asp:BoundField>
             <asp:BoundField DataField="CategoryName" HeaderText="CategoryName" SortExpression="CategoryName" />
-            <asp:BoundField DataField="Category Sum" HeaderText="Category Sum" ReadOnly="True" SortExpression="Category Sum" />
+            <asp:BoundField DataField="Category Sum" HeaderText="Category Sum" ReadOnly="True" SortExpression="Category Sum" DataFormatString="{0:C}" >
+            <ItemStyle HorizontalAlign="Right" />
+            </asp:BoundField>
         </Fields>
         <FooterStyle BackColor="#CCCCCC" />
-        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" Wrap="false"/>
         <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
     </asp:DetailsView>
 </asp:Content>
