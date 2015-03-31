@@ -17,4 +17,9 @@ public partial class ica11_BridgemanKurtis : System.Web.UI.Page
 
 
     }
+    protected void dropDownListCustomers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        listViewOrders.EditIndex = -1;
+        listViewOrders.SelectedIndex = -1;
+    }
 }

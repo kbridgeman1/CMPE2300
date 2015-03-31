@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomersConnectionString %>" SelectCommand="SELECT [CustomerID], [ContactName] FROM [Customers] ORDER BY [CustomerID]"></asp:SqlDataSource>
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomersConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers]"></asp:SqlDataSource>
     <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindOrdersConnectionString %>" SelectCommand="SELECT [OrderID], [CustomerID], [OrderDate] FROM [Orders] WHERE ([CustomerID] = @CustomerID)" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Orders] WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))" InsertCommand="INSERT INTO [Orders] ([CustomerID], [OrderDate]) VALUES (@CustomerID, @OrderDate)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Orders] SET [CustomerID] = @CustomerID, [OrderDate] = @OrderDate WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))">
         <DeleteParameters>
             <asp:Parameter Name="original_OrderID" Type="Int32" />
@@ -25,7 +25,7 @@
             <asp:Parameter Name="original_OrderDate" Type="DateTime" />
         </UpdateParameters>
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomerConnectionString %>" SelectCommand="SELECT [CustomerID], [ContactName] FROM [Customers] ORDER BY [CustomerID]">
+    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomerConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers]">
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCategorySumConnectionString %>" SelectCommand="SELECT odd.OrderID,cat.CategoryID, cat.CategoryName, SUM(odd.UnitPrice * odd.Quantity) as 'Category Sum'
 FROM kbridgeman1_Northwind.dbo.Categories as cat
@@ -39,7 +39,7 @@ ORDER BY cat.CategoryID">
         </SelectParameters>
     </asp:SqlDataSource>
     <asp:Label ID="Label1" runat="server" Text="Customer:"></asp:Label>
-    <asp:DropDownList ID="dropDownListCustomers" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="ContactName" DataValueField="CustomerID">
+    <asp:DropDownList ID="dropDownListCustomers" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="CompanyName" DataValueField="CustomerID" OnSelectedIndexChanged="dropDownListCustomers_SelectedIndexChanged">
     </asp:DropDownList>
     <asp:ListView ID="listViewOrders" runat="server" DataKeyNames="OrderID" DataSourceID="SqlDataSource2" Style="width: 100%" InsertItemPosition="LastItem" >
         <AlternatingItemTemplate>
@@ -56,7 +56,7 @@ ORDER BY cat.CategoryID">
                     <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Eval("CustomerID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate") %>' />
+                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate", "{0:dd-MMM-yyyy H:mm:ss}") %>' />
                 </td>
             </tr>
         </AlternatingItemTemplate>
@@ -70,7 +70,7 @@ ORDER BY cat.CategoryID">
                     <asp:Label ID="OrderIDLabel1" runat="server" Text='<%# Eval("OrderID") %>' />
                 </td>
                 <td>
-                    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource3" DataTextField="ContactName" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>' ></asp:DropDownList>
+                    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource3" DataTextField="CompanyName" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>' ></asp:DropDownList>
                     <%--<asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />--%>
                 </td>
                 <td>
@@ -93,7 +93,7 @@ ORDER BY cat.CategoryID">
                 </td>
                 <td>&nbsp;</td>
                 <td>
-                    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource3" DataTextField="ContactName" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>' ></asp:DropDownList>
+                    <asp:DropDownList ID="DropDownList1" runat="server" DataSourceID="SqlDataSource3" DataTextField="CompanyName" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>' ></asp:DropDownList>
                     <%--<asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />--%>
                 </td>
                 <td>
@@ -116,7 +116,7 @@ ORDER BY cat.CategoryID">
                     <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Eval("CustomerID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate") %>' />
+                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate", "{0:dd-MMM-yyyy H:mm:ss}") %>' />
                 </td>
             </tr>
         </ItemTemplate>
@@ -160,7 +160,7 @@ ORDER BY cat.CategoryID">
                     <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Eval("CustomerID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate") %>' />
+                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate", "{0:dd-MMM-yyyy H:mm:ss}") %>' />
                 </td>
             </tr>
         </SelectedItemTemplate>
@@ -183,5 +183,6 @@ ORDER BY cat.CategoryID">
         <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" Wrap="false"/>
         <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
     </asp:DetailsView>
+    
 </asp:Content>
 
