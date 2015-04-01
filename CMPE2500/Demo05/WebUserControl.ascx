@@ -1,6 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeFile="WebUserControl.ascx.cs" Inherits="WebUserControl" %>
 
 <div>
-    <h1>This is a Web User Control</h1>
+    <h1>Demo 5 & 6</h1>
     <hr />
 </div>
