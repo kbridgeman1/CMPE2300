@@ -14,13 +14,23 @@ public partial class ica12_BridgemanKurtis : System.Web.UI.Page
             DropDownListSuppliers.AppendDataBoundItems = true;
             DropDownListSuppliers.AutoPostBack = true;
 
-            DropDownListSuppliers.DataSource = NorthwindAccess.GetSuppliersSDS("").;
-            DropDownListSuppliers.DataTextField = "CompanyName";
-            DropDownListSuppliers.DataValueField = "SupplierID";
-            
-            DropDownListSuppliers.Items.Clear();
-            DropDownListSuppliers.Items.Add(new ListItem("Select a Company from {0}", ""));
-            DropDownListSuppliers.DataBind();
+            FillDropList(txBxFilter.Text);
         }
+    }
+
+    protected void btnFilter_Click(object sender, EventArgs e)
+    {
+        FillDropList(txBxFilter.Text);
+    }
+
+    protected void FillDropList(string filt)
+    {
+        DropDownListSuppliers.DataSource = NorthwindAccess.GetSuppliersSDS(filt);
+        DropDownListSuppliers.DataTextField = "CompanyName";
+        DropDownListSuppliers.DataValueField = "SupplierID";
+
+        DropDownListSuppliers.Items.Clear();
+        DropDownListSuppliers.DataBind();
+        DropDownListSuppliers.Items.Insert(0, new ListItem(String.Format("Select a Company from {0}", DropDownListSuppliers.Items.Count), "-1"));
     }
 }

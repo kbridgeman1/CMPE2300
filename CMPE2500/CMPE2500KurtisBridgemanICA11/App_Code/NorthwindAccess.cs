@@ -16,9 +16,10 @@ public static class NorthwindAccess
         string sQuery = "SELECT * FROM Suppliers";
 
         if (filter != null && filter != "")
-            sQuery += " WHERE CompanyName like '" + filter + "'";
+            sQuery += " WHERE CompanyName like '%" + filter + "%'";
 
         return new SqlDataSource(sConnection, sQuery);
     }
 
+  //  public static void 
 }

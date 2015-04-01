@@ -4,11 +4,11 @@
     <title>CMPE2500 - ICA12</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
-
+    <h2>ICA12 - ADO Basic Queries</h2>
     <asp:Label ID="lblPickSupplier" runat="server" Text="Pick a Supplier:"></asp:Label>
     <asp:DropDownList ID="DropDownListSuppliers" runat="server"></asp:DropDownList>
-    <asp:TextBox ID="txBx" runat="server"></asp:TextBox>
-    <asp:Button ID="btnFilter" runat="server" Text="Filter" />
+    <asp:TextBox ID="txBxFilter" runat="server"></asp:TextBox>
+    <asp:Button ID="btnFilter" runat="server" Text="Filter" OnClick="btnFilter_Click" />
 
 </asp:Content>
 
