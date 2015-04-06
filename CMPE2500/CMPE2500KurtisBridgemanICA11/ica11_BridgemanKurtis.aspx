@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ica11_BridgemanKurtis.aspx.cs" Inherits="ica11_BridgemanKurtis" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+    <title>CMPE2500 - ICA11</title>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomersConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers]"></asp:SqlDataSource>

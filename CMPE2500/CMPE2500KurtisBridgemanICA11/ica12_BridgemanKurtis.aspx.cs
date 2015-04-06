@@ -33,4 +33,9 @@ public partial class ica12_BridgemanKurtis : System.Web.UI.Page
         DropDownListSuppliers.DataBind();
         DropDownListSuppliers.Items.Insert(0, new ListItem(String.Format("Select a Company from {0}", DropDownListSuppliers.Items.Count), "-1"));
     }
+
+    protected void DropDownListSuppliers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        NorthwindAccess.GetProducts(DropDownListSuppliers.SelectedValue);
+    }
 }
