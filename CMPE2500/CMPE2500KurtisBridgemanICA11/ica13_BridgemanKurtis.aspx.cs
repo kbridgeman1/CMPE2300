@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Drawing;
 
 public partial class ica13_BridgemanKurtis : System.Web.UI.Page
 {
@@ -38,7 +39,10 @@ public partial class ica13_BridgemanKurtis : System.Web.UI.Page
             e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
             
     //        e.Row.Cells[2].Text = e.Row.Cells[2].Text.ToString("c");
-    //        e.Row.Cells[2].Text = String.Format("c", e.Row.Cells[2].Text);
+            e.Row.Cells[2].Text = String.Format("{0:F10}", e.Row.Cells[2].Text);
+
+            foreach (DataControlFieldCell cell in e.Row.Cells)
+                cell.BorderColor = Color.White;
         }
     }
 }

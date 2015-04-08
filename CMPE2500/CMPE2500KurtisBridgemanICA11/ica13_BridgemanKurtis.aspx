@@ -9,6 +9,6 @@
     <asp:DropDownList ID="ddlCustomers" runat="server" OnSelectedIndexChanged="ddlCustomers_SelectedIndexChanged"></asp:DropDownList>
     <asp:TextBox ID="txbxFilter" runat="server"></asp:TextBox>
     <asp:Button ID="btnFilter" runat="server" Text="Filter" OnClick="btnFilter_Click" /><br />
-    <asp:GridView ID="gridViewCategories" runat="server" HeaderStyle-ForeColor="White" HeaderStyle-BackColor="Black" HeaderStyle-BorderColor="Black" CellPadding="5" OnRowDataBound="gridViewCategories_RowDataBound" ></asp:GridView>
+    <asp:GridView ID="gridViewCategories" runat="server" HeaderStyle-ForeColor="White" HeaderStyle-BackColor="Black" HeaderStyle-BorderColor="Black" ForeColor="SlateBlue" BorderColor="Black" BorderStyle="Solid" BorderWidth="1" CellPadding="5" OnRowDataBound="gridViewCategories_RowDataBound" ></asp:GridView>
 </asp:Content>
 

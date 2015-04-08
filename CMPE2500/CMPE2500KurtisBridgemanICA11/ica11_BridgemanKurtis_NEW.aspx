@@ -1,11 +1,13 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ica11_BridgemanKurtis.aspx.cs" Inherits="ica11_BridgemanKurtis" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterPage.master" AutoEventWireup="true" CodeFile="ica11_BridgemanKurtis_NEW.aspx.cs" Inherits="ica11_BridgemanKurtis_NEW" %>
 
-<asp:Content ID="Content1" ContentPlaceHolderID="head" runat="Server">
+<asp:Content ID="Content1" ContentPlaceHolderID="head" Runat="Server">
     <title>CMPE2500 - ICA11</title>
 </asp:Content>
-<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
-    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomersConnectionString %>" SelectCommand="SELECT [CustomerID], [ContactName], [CompanyName] FROM [Customers]"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindOrdersConnectionString %>" SelectCommand="SELECT [OrderID], [CustomerID], [OrderDate] FROM [Orders] WHERE ([CustomerID] = @CustomerID) ORDER BY [OrderID]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Orders] WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))" InsertCommand="INSERT INTO [Orders] ([CustomerID], [OrderDate]) VALUES (@CustomerID, @OrderDate)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Orders] SET [CustomerID] = @CustomerID, [OrderDate] = @OrderDate WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))">
+<asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
+
+    <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName] FROM [Customers] ORDER BY [CompanyName]"></asp:SqlDataSource>
+    <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="CompanyName" DataValueField="CustomerID"></asp:DropDownList>
+    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindConnectionString2 %>" SelectCommand="SELECT [OrderID], [CustomerID], [OrderDate] FROM [Orders] WHERE ([CustomerID] = @CustomerID) ORDER BY [OrderID]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Orders] WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))" InsertCommand="INSERT INTO [Orders] ([CustomerID], [OrderDate]) VALUES (@CustomerID, @OrderDate)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Orders] SET [CustomerID] = @CustomerID, [OrderDate] = @OrderDate WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))">
         <DeleteParameters>
             <asp:Parameter Name="original_OrderID" Type="Int32" />
             <asp:Parameter Name="original_CustomerID" Type="String" />
@@ -16,7 +18,7 @@
             <asp:Parameter Name="OrderDate" Type="DateTime" />
         </InsertParameters>
         <SelectParameters>
-            <asp:ControlParameter ControlID="dropDownListCustomers" Name="CustomerID" PropertyName="SelectedValue" Type="String" />
+            <asp:ControlParameter ControlID="DropDownList1" Name="CustomerID" PropertyName="SelectedValue" Type="String" />
         </SelectParameters>
         <UpdateParameters>
             <asp:Parameter Name="CustomerID" Type="String" />
@@ -25,26 +27,10 @@
             <asp:Parameter Name="original_CustomerID" Type="String" />
             <asp:Parameter Name="original_OrderDate" Type="DateTime" />
         </UpdateParameters>
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomerConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers]">
-    </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCategorySumConnectionString %>" SelectCommand="SELECT odd.OrderID,cat.CategoryID, cat.CategoryName, SUM(odd.UnitPrice * odd.Quantity) as 'Category Sum'
-FROM kbridgeman1_Northwind.dbo.Categories as cat
-	inner join kbridgeman1_Northwind.dbo.Products as prd on cat.CategoryID = prd.CategoryID
-	inner join kbridgeman1_Northwind.dbo.[Order Details] as odd on prd.ProductID = odd.ProductID
-WHERE odd.OrderID = @OrderID
-GROUP BY odd.OrderID,cat.CategoryID, cat.CategoryName
-ORDER BY cat.CategoryID">
-        <SelectParameters>
-            <asp:ControlParameter ControlID="listViewOrders" Name="OrderID" PropertyName="SelectedValue" />
-        </SelectParameters>
-    </asp:SqlDataSource>
-    <asp:Label ID="Label1" runat="server" Text="Customer:"></asp:Label>
-    <asp:DropDownList ID="dropDownListCustomers" runat="server" AutoPostBack="True" DataSourceID="SqlDataSource1" DataTextField="CompanyName" DataValueField="CustomerID" OnSelectedIndexChanged="dropDownListCustomers_SelectedIndexChanged">
-    </asp:DropDownList>
-    <asp:ListView ID="listViewOrders" runat="server" DataKeyNames="OrderID" DataSourceID="SqlDataSource2" Style="width: 100%" InsertItemPosition="LastItem" >
+</asp:SqlDataSource>
+    <asp:ListView ID="ListView1" runat="server" DataKeyNames="OrderID" DataSourceID="SqlDataSource2" InsertItemPosition="LastItem">
         <AlternatingItemTemplate>
-            <tr style="background-color: #FFF8DC;">
+            <tr style="background-color:#FFF8DC;">
                 <td>
                     <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
@@ -61,7 +47,7 @@ ORDER BY cat.CategoryID">
             </tr>
         </AlternatingItemTemplate>
         <EditItemTemplate>
-            <tr style="background-color: #008A8C; color: #FFFFFF;">
+            <tr style="background-color:#008A8C;color: #FFFFFF;">
                 <td>
                     <asp:Button ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />
                     <asp:Button ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
@@ -78,7 +64,7 @@ ORDER BY cat.CategoryID">
             </tr>
         </EditItemTemplate>
         <EmptyDataTemplate>
-            <table runat="server" style="background-color: #FFFFFF; border-collapse: collapse; border-color: #999999; border-style: none; border-width: 1px;">
+            <table runat="server" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;">
                 <tr>
                     <td>No data was returned.</td>
                 </tr>
@@ -100,7 +86,7 @@ ORDER BY cat.CategoryID">
             </tr>
         </InsertItemTemplate>
         <ItemTemplate>
-            <tr style="background-color: #DCDCDC; color: #000000;">
+            <tr style="background-color:#DCDCDC;color: #000000;">
                 <td>
                     <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
@@ -120,8 +106,8 @@ ORDER BY cat.CategoryID">
             <table runat="server">
                 <tr runat="server">
                     <td runat="server">
-                        <table id="itemPlaceholderContainer" runat="server" border="1" style="background-color: #FFFFFF; border-collapse: collapse; border-color: #999999; border-style: none; border-width: 1px; font-family: Verdana, Arial, Helvetica, sans-serif;">
-                            <tr runat="server" style="background-color: #DCDCDC; color: #000000;">
+                        <table id="itemPlaceholderContainer" runat="server" border="1" style="background-color: #FFFFFF;border-collapse: collapse;border-color: #999999;border-style:none;border-width:1px;font-family: Verdana, Arial, Helvetica, sans-serif;">
+                            <tr runat="server" style="background-color:#DCDCDC;color: #000000;">
                                 <th runat="server"></th>
                                 <th runat="server">OrderID</th>
                                 <th runat="server">CustomerID</th>
@@ -133,7 +119,7 @@ ORDER BY cat.CategoryID">
                     </td>
                 </tr>
                 <tr runat="server">
-                    <td runat="server" style="text-align: center; background-color: #CCCCCC; font-family: Verdana, Arial, Helvetica, sans-serif; color: #000000;">
+                    <td runat="server" style="text-align: center;background-color: #CCCCCC;font-family: Verdana, Arial, Helvetica, sans-serif;color: #000000;">
                         <asp:DataPager ID="DataPager1" runat="server">
                             <Fields>
                                 <asp:NextPreviousPagerField ButtonType="Button" ShowFirstPageButton="True" ShowLastPageButton="True" />
@@ -144,7 +130,7 @@ ORDER BY cat.CategoryID">
             </table>
         </LayoutTemplate>
         <SelectedItemTemplate>
-            <tr style="background-color: #008A8C; font-weight: bold; color: #FFFFFF;">
+            <tr style="background-color:#008A8C;font-weight: bold;color: #FFFFFF;">
                 <td>
                     <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
@@ -161,24 +147,7 @@ ORDER BY cat.CategoryID">
             </tr>
         </SelectedItemTemplate>
     </asp:ListView>
-    <br /><br />
-    <asp:DetailsView ID="DetailsView1" runat="server" Height="50px" Width="125px" AllowPaging="True" AutoGenerateRows="False" BackColor="White" BorderColor="#999999" BorderStyle="Solid" BorderWidth="1px" CellPadding="3" DataKeyNames="CategoryID" DataSourceID="SqlDataSource4" ForeColor="Black" GridLines="Vertical" HeaderText="Summary Category Detials View">
-        <AlternatingRowStyle BackColor="#CCCCCC"/>
-        <EditRowStyle BackColor="#000099" Font-Bold="True" ForeColor="White" />
-        <Fields>
-            <asp:BoundField DataField="OrderID" HeaderText="OrderID" SortExpression="OrderID" />
-            <asp:BoundField DataField="CategoryID" HeaderText="CategoryID" SortExpression="CategoryID" InsertVisible="False" ReadOnly="True">
-            <ItemStyle HorizontalAlign="Right" />
-            </asp:BoundField>
-            <asp:BoundField DataField="CategoryName" HeaderText="CategoryName" SortExpression="CategoryName" />
-            <asp:BoundField DataField="Category Sum" HeaderText="Category Sum" ReadOnly="True" SortExpression="Category Sum" DataFormatString="{0:C}" >
-            <ItemStyle HorizontalAlign="Right" />
-            </asp:BoundField>
-        </Fields>
-        <FooterStyle BackColor="#CCCCCC" />
-        <HeaderStyle BackColor="Black" Font-Bold="True" ForeColor="White" Wrap="false"/>
-        <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
-    </asp:DetailsView>
-    
+
+
 </asp:Content>
 
