@@ -74,7 +74,12 @@ public static class NorthwindAccess
             sqlComm.CommandText = "GetCustomers";
 
             SqlParameter sqlParam = new SqlParameter("@filter", SqlDbType.VarChar, 25);
-            sqlParam.Value = companyName;
+
+            if (companyName != null || companyName != "")
+                sqlParam.Value = companyName;
+            else
+                sqlParam.Value = "";
+
             sqlParam.Direction = ParameterDirection.Input;
 
             sqlComm.Parameters.Add(sqlParam);
@@ -82,8 +87,21 @@ public static class NorthwindAccess
             sqlReader = sqlComm.ExecuteReader(CommandBehavior.CloseConnection);
         }
 
-     //   return sqlReader;
+        ddl.DataSource = sqlReader;
+        ddl.DataTextField = "Company Name";
+        ddl.DataValueField = "Customer ID";
+
+        ddl.Items.Clear();
+        ddl.DataBind();
+        ddl.Items.Insert(0, new ListItem(String.Format("Select a Customer from [{0}]", ddl.Items.Count), "-1"));
     }
 
+    public static SqlDataReader CustomerCategorySummary(string CustomerID)
+    {
+        SqlDataReader sqlReader;
+
+
+        return sqlReader;
+    }
   
 }
