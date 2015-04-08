@@ -21,4 +21,24 @@ public partial class ica13_BridgemanKurtis : System.Web.UI.Page
     {
         NorthwindAccess.FillCustomersDDL(txbxFilter.Text, ddlCustomers);
     }
+    protected void ddlCustomers_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        if (ddlCustomers.SelectedIndex == 0) return;
+
+        string CustomerID = ddlCustomers.SelectedValue;
+
+        gridViewCategories.DataSource = NorthwindAccess.CustomerCategorySummary(CustomerID);
+        gridViewCategories.DataBind();
+    }
+    protected void gridViewCategories_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType != DataControlRowType.Header)
+        {
+            e.Row.Cells[1].HorizontalAlign = HorizontalAlign.Center;
+            e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
+            
+    //        e.Row.Cells[2].Text = e.Row.Cells[2].Text.ToString("c");
+    //        e.Row.Cells[2].Text = String.Format("c", e.Row.Cells[2].Text);
+        }
+    }
 }

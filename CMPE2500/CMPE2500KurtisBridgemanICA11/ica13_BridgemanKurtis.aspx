@@ -6,9 +6,9 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" Runat="Server">
     <h2>ICA13 - Stored Procedures & ASP.NET</h2><hr />
     <asp:Label ID="lblpickCust" runat="server" Text="Pick a Customer:"></asp:Label>
-    <asp:DropDownList ID="ddlCustomers" runat="server"></asp:DropDownList>
+    <asp:DropDownList ID="ddlCustomers" runat="server" OnSelectedIndexChanged="ddlCustomers_SelectedIndexChanged"></asp:DropDownList>
     <asp:TextBox ID="txbxFilter" runat="server"></asp:TextBox>
-    <asp:Button ID="btnFilter" runat="server" Text="Filter" OnClick="btnFilter_Click" />
-
+    <asp:Button ID="btnFilter" runat="server" Text="Filter" OnClick="btnFilter_Click" /><br />
+    <asp:GridView ID="gridViewCategories" runat="server" HeaderStyle-ForeColor="White" HeaderStyle-BackColor="Black" HeaderStyle-BorderColor="Black" CellPadding="5" OnRowDataBound="gridViewCategories_RowDataBound" ></asp:GridView>
 </asp:Content>
 
