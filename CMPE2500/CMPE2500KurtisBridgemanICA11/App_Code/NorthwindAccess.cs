@@ -57,9 +57,33 @@ public static class NorthwindAccess
                 }
             }
         }
-
-
         return retData;
     }
+
+    public static void FillCustomersDDL(string companyName, DropDownList ddl)
+    {
+        SqlDataReader sqlReader;
+
+        SqlConnection sqlConn = new SqlConnection(sConnection);
+        sqlConn.Open();
+
+        using(SqlCommand sqlComm = new SqlCommand())
+        {
+            sqlComm.Connection = sqlConn;
+            sqlComm.CommandType = CommandType.StoredProcedure;
+            sqlComm.CommandText = "GetCustomers";
+
+            SqlParameter sqlParam = new SqlParameter("@filter", SqlDbType.VarChar, 25);
+            sqlParam.Value = companyName;
+            sqlParam.Direction = ParameterDirection.Input;
+
+            sqlComm.Parameters.Add(sqlParam);
+
+            sqlReader = sqlComm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
+     //   return sqlReader;
+    }
+
   
 }
