@@ -14,7 +14,7 @@ public partial class ica11_BridgemanKurtis : System.Web.UI.Page
             dropDownListCustomers.AppendDataBoundItems = true;
             dropDownListCustomers.Items.Add(new ListItem("Select a customer...", "0"));
         }
-
+        
 
     }
     protected void dropDownListCustomers_SelectedIndexChanged(object sender, EventArgs e)
@@ -22,4 +22,5 @@ public partial class ica11_BridgemanKurtis : System.Web.UI.Page
         listViewOrders.EditIndex = -1;
         listViewOrders.SelectedIndex = -1;
     }
+
 }

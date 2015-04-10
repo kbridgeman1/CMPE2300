@@ -5,7 +5,7 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
     <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomersConnectionString %>" SelectCommand="SELECT [CustomerID], [ContactName], [CompanyName] FROM [Customers]"></asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindOrdersConnectionString %>" SelectCommand="SELECT [OrderID], [CustomerID], [OrderDate] FROM [Orders] WHERE ([CustomerID] = @CustomerID) ORDER BY [OrderID]" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Orders] WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))" InsertCommand="INSERT INTO [Orders] ([CustomerID], [OrderDate]) VALUES (@CustomerID, @OrderDate)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Orders] SET [CustomerID] = @CustomerID, [OrderDate] = @OrderDate WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))">
+    <asp:SqlDataSource ID="SqlDataSource2" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindOrdersConnectionString %>" SelectCommand="SELECT [OrderID], [CustomerID], [OrderDate] FROM [Orders] WHERE ([CustomerID] = @CustomerID)" ConflictDetection="CompareAllValues" DeleteCommand="DELETE FROM [Orders] WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))" InsertCommand="INSERT INTO [Orders] ([CustomerID], [OrderDate]) VALUES (@CustomerID, @OrderDate)" OldValuesParameterFormatString="original_{0}" UpdateCommand="UPDATE [Orders] SET [CustomerID] = @CustomerID, [OrderDate] = @OrderDate WHERE [OrderID] = @original_OrderID AND (([CustomerID] = @original_CustomerID) OR ([CustomerID] IS NULL AND @original_CustomerID IS NULL)) AND (([OrderDate] = @original_OrderDate) OR ([OrderDate] IS NULL AND @original_OrderDate IS NULL))">
         <DeleteParameters>
             <asp:Parameter Name="original_OrderID" Type="Int32" />
             <asp:Parameter Name="original_CustomerID" Type="String" />
@@ -26,7 +26,7 @@
             <asp:Parameter Name="original_OrderDate" Type="DateTime" />
         </UpdateParameters>
     </asp:SqlDataSource>
-    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomerConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers]">
+    <asp:SqlDataSource ID="SqlDataSource3" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCustomerConnectionString %>" SelectCommand="SELECT [CustomerID], [CompanyName], [ContactName] FROM [Customers] ORDER BY [CompanyName]">
     </asp:SqlDataSource>
     <asp:SqlDataSource ID="SqlDataSource4" runat="server" ConnectionString="<%$ ConnectionStrings:kbridgeman1_NorthwindCategorySumConnectionString %>" SelectCommand="SELECT odd.OrderID,cat.CategoryID, cat.CategoryName, SUM(odd.UnitPrice * odd.Quantity) as 'Category Sum'
 FROM kbridgeman1_Northwind.dbo.Categories as cat
@@ -48,15 +48,16 @@ ORDER BY cat.CategoryID">
                 <td>
                     <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
+                    <asp:Button ID="SelectButton" runat="server" CommandName="Select" Text ="Select" />
                 </td>
                 <td>
                     <asp:Label ID="OrderIDLabel" runat="server" Text='<%# Eval("OrderID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Eval("CustomerID") %>' />
+                    <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Bind("CustomerID") %>' />
                 </td>
-                <td>
-                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate") %>' />
+                <td>                   
+                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Bind("OrderDate") %>' />
                 </td>
             </tr>
         </AlternatingItemTemplate>
@@ -70,10 +71,20 @@ ORDER BY cat.CategoryID">
                     <asp:Label ID="OrderIDLabel1" runat="server" Text='<%# Eval("OrderID") %>' />
                 </td>
                 <td>
-                    <asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />
+                    <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="False" DataSourceID="SqlDataSource3" DataTextField="ContactID" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>'></asp:DropDownList>
+                    <%--<asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />--%>
                 </td>
                 <td>
-                    <asp:TextBox ID="OrderDateTextBox" runat="server" Text='<%# Bind("OrderDate") %>' />
+                    <asp:Calendar ID="Calendar1" runat="server" SelectedDate='<%# Bind("OrderDate") %>' BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px">
+                        <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
+                        <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
+                        <OtherMonthDayStyle ForeColor="#CC9966" />
+                        <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
+                        <SelectorStyle BackColor="#FFCC66" />
+                        <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
+                        <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
+                    </asp:Calendar>
+                    <%--<asp:TextBox ID="OrderDateTextBox" runat="server" Text='<%# Bind("OrderDate") %>' />--%>
                 </td>
             </tr>
         </EditItemTemplate>
@@ -92,10 +103,20 @@ ORDER BY cat.CategoryID">
                 </td>
                 <td>&nbsp;</td>
                 <td>
-                    <asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />
+                    <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="False" DataSourceID="SqlDataSource3" DataTextField="CompanyName" DataValueField="CustomerID" SelectedValue='<%# Bind("CustomerID") %>'></asp:DropDownList>
+                    <%--<asp:TextBox ID="CustomerIDTextBox" runat="server" Text='<%# Bind("CustomerID") %>' />--%>
                 </td>
                 <td>
-                    <asp:TextBox ID="OrderDateTextBox" runat="server" Text='<%# Bind("OrderDate") %>' />
+                    <asp:Calendar ID="Calendar1" runat="server" SelectedDate='<%# Bind("OrderDate") %>' BackColor="#FFFFCC" BorderColor="#FFCC66" BorderWidth="1px" DayNameFormat="Shortest" Font-Names="Verdana" Font-Size="8pt" ForeColor="#663399" Height="200px" ShowGridLines="True" Width="220px">
+                        <DayHeaderStyle BackColor="#FFCC66" Font-Bold="True" Height="1px" />
+                        <NextPrevStyle Font-Size="9pt" ForeColor="#FFFFCC" />
+                        <OtherMonthDayStyle ForeColor="#CC9966" />
+                        <SelectedDayStyle BackColor="#CCCCFF" Font-Bold="True" />
+                        <SelectorStyle BackColor="#FFCC66" />
+                        <TitleStyle BackColor="#990000" Font-Bold="True" Font-Size="9pt" ForeColor="#FFFFCC" />
+                        <TodayDayStyle BackColor="#FFCC66" ForeColor="White" />
+                    </asp:Calendar>
+                    <%--<asp:TextBox ID="OrderDateTextBox" runat="server" Text='<%# Bind("OrderDate") %>' />--%>
                 </td>
             </tr>
         </InsertItemTemplate>
@@ -104,15 +125,16 @@ ORDER BY cat.CategoryID">
                 <td>
                     <asp:Button ID="DeleteButton" runat="server" CommandName="Delete" Text="Delete" />
                     <asp:Button ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
+                    <asp:Button ID="SelectButton" runat="server" CommandName="Select" Text ="Select" />
                 </td>
                 <td>
                     <asp:Label ID="OrderIDLabel" runat="server" Text='<%# Eval("OrderID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Eval("CustomerID") %>' />
+                    <asp:Label ID="CustomerIDLabel" runat="server" Text='<%# Bind("CustomerID") %>' />
                 </td>
                 <td>
-                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Eval("OrderDate") %>' />
+                    <asp:Label ID="OrderDateLabel" runat="server" Text='<%# Bind("OrderDate") %>' />
                 </td>
             </tr>
         </ItemTemplate>
@@ -168,11 +190,9 @@ ORDER BY cat.CategoryID">
         <Fields>
             <asp:BoundField DataField="OrderID" HeaderText="OrderID" SortExpression="OrderID" />
             <asp:BoundField DataField="CategoryID" HeaderText="CategoryID" SortExpression="CategoryID" InsertVisible="False" ReadOnly="True">
-            <ItemStyle HorizontalAlign="Right" />
             </asp:BoundField>
             <asp:BoundField DataField="CategoryName" HeaderText="CategoryName" SortExpression="CategoryName" />
-            <asp:BoundField DataField="Category Sum" HeaderText="Category Sum" ReadOnly="True" SortExpression="Category Sum" DataFormatString="{0:C}" >
-            <ItemStyle HorizontalAlign="Right" />
+            <asp:BoundField DataField="Category Sum" HeaderText="Category Sum" ReadOnly="True" SortExpression="Category Sum" DataFormatString="{0:c}" >
             </asp:BoundField>
         </Fields>
         <FooterStyle BackColor="#CCCCCC" />
@@ -180,5 +200,5 @@ ORDER BY cat.CategoryID">
         <PagerStyle BackColor="#999999" ForeColor="Black" HorizontalAlign="Center" />
     </asp:DetailsView>
     
-</asp:Content>
+    </asp:Content>
 

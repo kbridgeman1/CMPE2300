@@ -38,9 +38,11 @@ public partial class ica13_BridgemanKurtis : System.Web.UI.Page
             e.Row.Cells[1].HorizontalAlign = HorizontalAlign.Center;
             e.Row.Cells[2].HorizontalAlign = HorizontalAlign.Right;
             
-    //        e.Row.Cells[2].Text = e.Row.Cells[2].Text.ToString("c");
-            e.Row.Cells[2].Text = String.Format("{0:F10}", e.Row.Cells[2].Text);
+            double d = 0;
 
+            if(double.TryParse(e.Row.Cells[2].Text, out d))
+                e.Row.Cells[2].Text = String.Format("{0:C}", d);
+                                  
             foreach (DataControlFieldCell cell in e.Row.Cells)
                 cell.BorderColor = Color.White;
         }
