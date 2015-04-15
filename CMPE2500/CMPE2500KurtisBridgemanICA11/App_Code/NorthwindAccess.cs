@@ -142,9 +142,28 @@ public static class NorthwindAccess
         }
 
         return sqlReader;
+    }
 
+    public static int GetProductID(string ProductName)
+    {
+        string sQuery = "select odd.ProductID from [Order Details] as odd inner join Products as prd on odd.ProductID = prd.ProductID";
+        sQuery += " where prd.ProductName like '" + ProductName + "'";
 
+        using (SqlConnection conn = new SqlConnection(sConnection))
+        {
+            conn.Open();
+            using (SqlCommand comm = new SqlCommand(sQuery,conn))
+            {
+                SqlDataReader sqlReader = comm.ExecuteReader(CommandBehavior.CloseConnection);
 
+                if (!sqlReader.HasRows) return -1;
+
+                if (sqlReader.Read())
+                    return int.Parse(sqlReader["ProductID"].ToString());
+            }
+        }
+
+        return -1;
     }
 
     public static string DeleteOrderDetails(int OrderID, int ProductID)
@@ -168,7 +187,7 @@ public static class NorthwindAccess
                 sqlPar.Direction = ParameterDirection.Input;
                 comm.Parameters.Add(sqlPar);
 
-                sqlPar = new SqlParameter("@Status", SqlDbType.Int);
+                sqlPar = new SqlParameter("@Output", SqlDbType.VarChar, 80);
                 sqlPar.Value = "";
                 sqlPar.Direction = ParameterDirection.Output;
                 comm.Parameters.Add(sqlPar);
@@ -180,8 +199,8 @@ public static class NorthwindAccess
 
                 comm.ExecuteNonQuery();
 
-                int rowsAffects = (int)comm.Parameters["Return"].Value;
-                return (string)comm.Parameters["@Status"].Value;
+                int rowsAffects = (int)comm.Parameters["@Return"].Value;
+                return (string)comm.Parameters["@Output"].Value;
             }
         }
     }

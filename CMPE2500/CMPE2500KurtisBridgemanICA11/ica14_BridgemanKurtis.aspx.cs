@@ -20,4 +20,9 @@ public partial class ica14_BridgemanKurtis : System.Web.UI.Page
             GridViewOrderDetails.DataBind();
         }
     }
+    protected void btnDeleteSelected_Click(object sender, EventArgs e)
+    {
+        int prodID = NorthwindAccess.GetProductID(GridViewOrderDetails.SelectedRow.Cells[2].Text);
+        lblStatusPartI.Text = NorthwindAccess.DeleteOrderDetails(int.Parse(GridViewOrderDetails.SelectedRow.Cells[1].Text), prodID);
+    }
 }

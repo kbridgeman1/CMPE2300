@@ -11,6 +11,9 @@
     <asp:Button ID="btnGetOrderDetails" runat="server" Text="Get Order Details" OnClick="btnGetOrderDetails_Click" /><hr />
     <asp:GridView ID="GridViewOrderDetails" runat="server" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
         <AlternatingRowStyle BackColor="White" />
+        <Columns>
+            <asp:ButtonField ButtonType="Button" CommandName="Select" Text="Select" />
+        </Columns>
         <FooterStyle BackColor="#CCCC99" />
         <HeaderStyle BackColor="#6B696B" Font-Bold="True" ForeColor="White" />
         <PagerStyle BackColor="#F7F7DE" ForeColor="Black" HorizontalAlign="Right" />
@@ -20,6 +23,8 @@
         <SortedAscendingHeaderStyle BackColor="#848384" />
         <SortedDescendingCellStyle BackColor="#EAEAD3" />
         <SortedDescendingHeaderStyle BackColor="#575357" />
-    </asp:GridView>
+    </asp:GridView><br />
+    <asp:Button ID="btnDeleteSelected" runat="server" Text="btnDelete" OnClick="btnDeleteSelected_Click" />
+    <asp:Label ID="lblStatusPartI" runat="server" Text="Status: delete an order"></asp:Label>
 </asp:Content>
 
