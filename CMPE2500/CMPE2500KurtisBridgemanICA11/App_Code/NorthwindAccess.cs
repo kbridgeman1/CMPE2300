@@ -27,14 +27,14 @@ public static class NorthwindAccess
         string sQuery = "SELECT ProductName as 'Name', QuantityPerUnit as 'Qty', UnitsInStock as 'Units in Stock'";
         sQuery += " FROM Products";
         sQuery += " WHERE SupplierID LIKE '%" + supplierID + "%'";
-        
+
         if (supplierID == null || supplierID == "")
             return retData;
 
         using (SqlConnection conn = new SqlConnection(sConnection))
         {
             conn.Open();
-            using(SqlCommand comm = new SqlCommand(sQuery, conn))
+            using (SqlCommand comm = new SqlCommand(sQuery, conn))
             {
                 SqlDataReader sdr = comm.ExecuteReader(CommandBehavior.CloseConnection);
 
@@ -42,9 +42,9 @@ public static class NorthwindAccess
 
                 List<string> tList = new List<string>();
 
-                for(int i =0;i<sdr.FieldCount;i++)
+                for (int i = 0; i < sdr.FieldCount; i++)
                     tList.Add(sdr.GetName(i));
-                    
+
                 retData.Add(tList);
 
                 while (sdr.Read())
@@ -67,7 +67,7 @@ public static class NorthwindAccess
         SqlConnection sqlConn = new SqlConnection(sConnection);
         sqlConn.Open();
 
-        using(SqlCommand sqlComm = new SqlCommand())
+        using (SqlCommand sqlComm = new SqlCommand())
         {
             sqlComm.Connection = sqlConn;
             sqlComm.CommandType = CommandType.StoredProcedure;
@@ -103,7 +103,7 @@ public static class NorthwindAccess
         SqlConnection sqlConn = new SqlConnection(sConnection);
         sqlConn.Open();
 
-        using(SqlCommand sqlComm = new SqlCommand())
+        using (SqlCommand sqlComm = new SqlCommand())
         {
             sqlComm.Connection = sqlConn;
             sqlComm.CommandType = CommandType.StoredProcedure;
@@ -119,5 +119,71 @@ public static class NorthwindAccess
 
         return sqlReader;
     }
-  
+
+    public static SqlDataReader GetOrderDetails(int OrderID)
+    {
+        SqlDataReader sqlReader;
+
+        SqlConnection conn = new SqlConnection(sConnection);
+
+        conn.Open();
+        using (SqlCommand comm = new SqlCommand())
+        {
+            comm.Connection = conn;
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.CommandText = "GetOrderDetails";
+
+            SqlParameter sqlPar = new SqlParameter("@OrderID", SqlDbType.Int);
+            sqlPar.Value = OrderID;
+            sqlPar.Direction = ParameterDirection.Input;
+
+            comm.Parameters.Add(sqlPar);
+            sqlReader = comm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+
+        return sqlReader;
+
+
+
+    }
+
+    public static string DeleteOrderDetails(int OrderID, int ProductID)
+    {
+
+        using (SqlConnection conn = new SqlConnection(sConnection))
+        {
+            conn.Open();
+
+            using (SqlCommand comm = new SqlCommand("DeleteOrderDetails", conn))
+            {
+                comm.CommandType = CommandType.StoredProcedure;
+
+                SqlParameter sqlPar = new SqlParameter("@OrderID", SqlDbType.Int);
+                sqlPar.Value = OrderID;
+                sqlPar.Direction = ParameterDirection.Input;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@ProductID", SqlDbType.Int);
+                sqlPar.Value = ProductID;
+                sqlPar.Direction = ParameterDirection.Input;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@Status", SqlDbType.Int);
+                sqlPar.Value = "";
+                sqlPar.Direction = ParameterDirection.Output;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@Return", SqlDbType.Int);
+                sqlPar.Value = 0;
+                sqlPar.Direction = ParameterDirection.ReturnValue;
+                comm.Parameters.Add(sqlPar);
+
+                comm.ExecuteNonQuery();
+
+                int rowsAffects = (int)comm.Parameters["Return"].Value;
+                return (string)comm.Parameters["@Status"].Value;
+            }
+        }
+    }
+
 }
