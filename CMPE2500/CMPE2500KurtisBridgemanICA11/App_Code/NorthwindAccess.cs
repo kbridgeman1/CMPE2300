@@ -147,7 +147,7 @@ public static class NorthwindAccess
     public static int GetProductID(string ProductName)
     {
         string sQuery = "select odd.ProductID from [Order Details] as odd inner join Products as prd on odd.ProductID = prd.ProductID";
-        sQuery += " where prd.ProductName like '" + ProductName + "'";
+        sQuery += " where prd.ProductName like '%" + ProductName + "%'";
 
         using (SqlConnection conn = new SqlConnection(sConnection))
         {
