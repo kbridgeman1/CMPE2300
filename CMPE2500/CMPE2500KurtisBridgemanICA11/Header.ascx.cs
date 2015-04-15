@@ -13,6 +13,7 @@ public partial class Header : System.Web.UI.UserControl
             string absPath = MapPath("~/");
             try
             {
+                int i = 0;
                 foreach (string s in Directory.GetFiles(absPath))
                 {
                     FileInfo fi = new FileInfo(s);
@@ -29,6 +30,14 @@ public partial class Header : System.Web.UI.UserControl
                         PlaceHolderHypLinks.Controls.Add(hl);
                         PlaceHolderHypLinks.Controls.Add(lbl);
                         
+                        i++;
+                        if (i == 4)
+                        {
+                            Label lb = new Label();
+                            lb.Text = "<br />";
+                            PlaceHolderHypLinks.Controls.Add(lb);
+                            i = 0;
+                        }
                     }
                 }
             }

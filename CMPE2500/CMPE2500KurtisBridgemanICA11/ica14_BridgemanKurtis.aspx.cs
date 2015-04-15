@@ -24,5 +24,9 @@ public partial class ica14_BridgemanKurtis : System.Web.UI.Page
     {
         int prodID = NorthwindAccess.GetProductID(GridViewOrderDetails.SelectedRow.Cells[2].Text);
         lblStatusPartI.Text = NorthwindAccess.DeleteOrderDetails(int.Parse(GridViewOrderDetails.SelectedRow.Cells[1].Text), prodID);
+
+        GridViewOrderDetails.DataSource = NorthwindAccess.GetOrderDetails(int.Parse(GridViewOrderDetails.SelectedRow.Cells[1].Text));
+        GridViewOrderDetails.DataBind();
+        GridViewOrderDetails.SelectedIndex = -1;
     }
 }

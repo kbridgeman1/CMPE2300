@@ -24,7 +24,7 @@
         <SortedDescendingCellStyle BackColor="#EAEAD3" />
         <SortedDescendingHeaderStyle BackColor="#575357" />
     </asp:GridView><br />
-    <asp:Button ID="btnDeleteSelected" runat="server" Text="btnDelete" OnClick="btnDeleteSelected_Click" />
+    <asp:Button ID="btnDeleteSelected" runat="server" Text="Delete Order Detail" OnClick="btnDeleteSelected_Click" />
     <asp:Label ID="lblStatusPartI" runat="server" Text="Status: delete an order"></asp:Label>
 </asp:Content>
 
