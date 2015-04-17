@@ -24,7 +24,13 @@
         <SortedDescendingCellStyle BackColor="#EAEAD3" />
         <SortedDescendingHeaderStyle BackColor="#575357" />
     </asp:GridView><br />
-    <asp:Button ID="btnDeleteSelected" runat="server" Text="Delete Order Detail" OnClick="btnDeleteSelected_Click" />
-    <asp:Label ID="lblStatusPartI" runat="server" Text="Status: delete an order"></asp:Label>
+    <asp:Button ID="btnDeleteSelected" runat="server" Text="Delete Order Detail" OnClick="btnDeleteSelected_Click" /><br />
+    <asp:Label ID="lblStatusPartI" runat="server" Text="Status: delete an order"></asp:Label><hr />
+    <h1>PartII - Insert Order Details</h1><hr />
+    <asp:Label ID="lblInsEntOrdID" runat="server" Text="Enter OrderID:"></asp:Label>
+    <asp:TextBox ID="txbxInsOrderID" runat="server"></asp:TextBox><br />
+    <asp:Label ID="lblInsEntProdID" runat="server" Text="Select Product"></asp:Label>
+    <asp:DropDownList ID="ddlSelectProdID" runat="server"></asp:DropDownList><br />
+
 </asp:Content>
 
