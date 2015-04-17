@@ -9,7 +9,7 @@
     <asp:Label ID="lblOrderID" runat="server" Text="OrderID:"></asp:Label>
     <asp:TextBox ID="txbxOrderID" runat="server"></asp:TextBox>
     <asp:Button ID="btnGetOrderDetails" runat="server" Text="Get Order Details" OnClick="btnGetOrderDetails_Click" /><hr />
-    <asp:GridView ID="GridViewOrderDetails" runat="server" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical">
+    <asp:GridView ID="GridViewOrderDetails" runat="server" BackColor="White" BorderColor="#DEDFDE" BorderStyle="None" BorderWidth="1px" CellPadding="4" ForeColor="Black" GridLines="Vertical" OnRowDataBound="GridViewOrderDetails_RowDataBound">
         <AlternatingRowStyle BackColor="White" />
         <Columns>
             <asp:ButtonField ButtonType="Button" CommandName="Select" Text="Select" />
@@ -29,8 +29,12 @@
     <h1>PartII - Insert Order Details</h1><hr />
     <asp:Label ID="lblInsEntOrdID" runat="server" Text="Enter OrderID:"></asp:Label>
     <asp:TextBox ID="txbxInsOrderID" runat="server"></asp:TextBox><br />
-    <asp:Label ID="lblInsEntProdID" runat="server" Text="Select Product"></asp:Label>
-    <asp:DropDownList ID="ddlSelectProdID" runat="server"></asp:DropDownList><br />
+    <asp:Label ID="lblInsEntProdID" runat="server" Text="Select Product:"></asp:Label>
+    <asp:DropDownList ID="ddlInseSelectProdID" runat="server"></asp:DropDownList><br />
+    <asp:Label ID="lblInsEntQuantity" runat="server" Text="Enter Quantity:"></asp:Label>
+    <asp:TextBox ID="txbxInsEntQuantity" runat="server"></asp:TextBox><br />
+    <asp:Button ID="btnInsRecord" runat="server" Text="Insert Record" OnClick="btnInsRecord_Click" />
+    <asp:Label ID="lblStatusPartII" runat="server" Text="Label"></asp:Label>
 
 </asp:Content>
 

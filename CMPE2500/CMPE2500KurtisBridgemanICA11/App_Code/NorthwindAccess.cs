@@ -148,7 +148,7 @@ public static class NorthwindAccess
     {
         string sQuery = "select odd.ProductID from [Order Details] as odd inner join Products as prd on odd.ProductID = prd.ProductID";
         sQuery += " where prd.ProductName like '%" + ProductName + "%'";
-
+        //replace(prd.ProductName, '''', 'a')
         using (SqlConnection conn = new SqlConnection(sConnection))
         {
             conn.Open();
@@ -164,6 +164,22 @@ public static class NorthwindAccess
         }
 
         return -1;
+    }
+
+    public static SqlDataReader GetProducts()
+    {
+        SqlDataReader sqlReader;
+        SqlConnection conn = new SqlConnection(sConnection);
+        conn.Open();
+        using(SqlCommand comm = new SqlCommand())
+        {
+            comm.Connection = conn;
+            comm.CommandType = CommandType.StoredProcedure;
+            comm.CommandText = "GetProducts";
+
+            sqlReader = comm.ExecuteReader(CommandBehavior.CloseConnection);
+        }
+        return sqlReader;
     }
 
     public static string DeleteOrderDetails(int OrderID, int ProductID)
@@ -204,5 +220,42 @@ public static class NorthwindAccess
             }
         }
     }
+
+    public static string InsertOrderDetails(int OrderID, int ProdcutID, short Quantity)
+    {
+        using (SqlConnection conn = new SqlConnection(sConnection))
+        {
+            conn.Open();
+            using(SqlCommand comm = new SqlCommand("InsertOrderDetails", conn))
+            {
+                comm.CommandType = CommandType.StoredProcedure;
+                SqlParameter sqlPar = new SqlParameter("@OrderID", SqlDbType.Int);
+                sqlPar.Value = OrderID;
+                sqlPar.Direction = ParameterDirection.Input;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@ProductID", SqlDbType.Int);
+                sqlPar.Value = ProdcutID;
+                sqlPar.Direction = ParameterDirection.Input;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@Quantity", SqlDbType.Int);
+                sqlPar.Value = Quantity;
+                sqlPar.Direction = ParameterDirection.Input;
+                comm.Parameters.Add(sqlPar);
+
+                sqlPar = new SqlParameter("@Return", SqlDbType.Int);
+                sqlPar.Value = 0;
+                sqlPar.Direction = ParameterDirection.ReturnValue;
+                comm.Parameters.Add(sqlPar);
+
+                comm.ExecuteNonQuery();
+
+                int rowsAffected = (int)comm.Parameters["@Return"].Value;
+                return String.Format("Inserted: {0} rows.", rowsAffected);
+            }
+        }
+    }
+
 
 }
